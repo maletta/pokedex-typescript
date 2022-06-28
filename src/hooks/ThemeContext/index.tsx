@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { ThemeProvider as ThemeProviderStyledComponent } from "styled-components";
 
 export type ColorName =
   | "BUG"
@@ -126,7 +127,7 @@ type IThemeColors = {
   weight: ColorWeightGenerics;
 };
 
-type ITheme = {
+export type ITheme = {
   colors: IThemeColors;
 };
 
@@ -144,11 +145,13 @@ const ThemeContext = createContext<ITheme>({
 });
 
 const ThemeContextProvider = ({ children }: IThemeProps) => {
-  const [colors, setColors] = useState<IThemeColors>({
-    type: ColorType,
-    background: ColorTypeBackground,
-    height: ColorHeight,
-    weight: ColorWeight,
+  const [theme, setTheme] = useState<ITheme>({
+    colors: {
+      type: ColorType,
+      background: ColorTypeBackground,
+      height: ColorHeight,
+      weight: ColorWeight,
+    },
   });
 
   function iterateColors<T>(array: T, label: string) {
@@ -159,11 +162,15 @@ const ThemeContextProvider = ({ children }: IThemeProps) => {
   }
 
   useEffect(() => {
-    iterateColors(colors.height, "colors.height");
-    iterateColors(colors.weight, "colors.weight");
+    iterateColors(theme.colors.height, "colors.height");
+    iterateColors(theme.colors.weight, "colors.weight");
   }, []);
 
-  return <ThemeContext.Provider value={{ colors: colors }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={theme}>
+      <ThemeProviderStyledComponent theme={theme}>{children}</ThemeProviderStyledComponent>
+    </ThemeContext.Provider>
+  );
 };
 
 export const useThemeContext = () => useContext(ThemeContext);
