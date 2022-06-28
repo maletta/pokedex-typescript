@@ -6,6 +6,8 @@ import Button from "components/Button";
 import TextInput from "components/TextInput";
 import RangeInput from "components/RangeInput";
 
+import { IconBasePokemonTypes } from "components/IconBase";
+
 const Wrapper = styled.div`
   display: flex;
   margin-top: 10px;
@@ -31,6 +33,10 @@ const App: React.FC = () => {
 
       <Wrapper2>
         <RangeInput min={0} max={50} />
+      </Wrapper2>
+
+      <Wrapper2>
+        <IconBasePokemonTypes color type="BUG" />
       </Wrapper2>
     </>
   );

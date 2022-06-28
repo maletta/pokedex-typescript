@@ -1,70 +1,17 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { ThemeProvider as ThemeProviderStyledComponent } from "styled-components";
-
-export type ColorName =
-  | "BUG"
-  | "DARK"
-  | "DRAGON"
-  | "ELECTRIC"
-  | "FAIRY"
-  | "FIGHTING"
-  | "FIRE"
-  | "FLYING"
-  | "GHOST"
-  | "GRASS"
-  | "GROUND"
-  | "ICE"
-  | "NORMAL"
-  | "POISON"
-  | "PSYCHIC"
-  | "ROCK"
-  | "STEEL"
-  | "WATER";
-
-export enum PokemonTypes {
-  BUG = "BUG",
-  DARK = "DARK",
-  DRAGON = "DRAGON",
-  ELECTRIC = "ELECTRIC",
-  FAIRY = "FAIRY",
-  FIGHTING = "FIGHTING",
-  FIRE = "FIRE",
-  FLYING = "FLYING",
-  GHOST = "GHOST",
-  GRASS = "GRASS",
-  GROUND = "GROUND",
-  ICE = "ICE",
-  NORMAL = "NORMAL",
-  POISON = "POISON",
-  PSYCHIC = "PSYCHIC",
-  ROCK = "ROCK",
-  STEEL = "STEEL",
-  WATER = "WATER",
-}
-
-export enum PokemonHeight {
-  SHORT = "SHORT",
-  MEDIUM = "MEDIUM",
-  TALL = "TALL",
-}
-
-export enum PokemonWeight {
-  LIGHT = "LIGHT",
-  NORMAL = "NORMAL",
-  HEAVY = "HEAVY",
-}
-
-export type ColorTypesGenerics = {
-  [key in PokemonTypes]: string;
-};
-
-export type ColorHeightGenerics = {
-  [key in PokemonHeight]: string;
-};
-
-export type ColorWeightGenerics = {
-  [key in PokemonWeight]: string;
-};
+import {
+  ColorHeightGenerics,
+  // ColorName,
+  ColorTypesGenerics,
+  ColorWeightGenerics,
+  ColorDefaultGenerics,
+  ITheme,
+  // IThemeColors,
+  // PokemonHeight,
+  // PokemonTypes,
+  // PokemonWeight,
+} from "types/theme-types";
 
 const ColorType: ColorTypesGenerics = {
   BUG: "#8CB230",
@@ -120,15 +67,8 @@ const ColorWeight: ColorWeightGenerics = {
   HEAVY: "#5A92A5",
 };
 
-type IThemeColors = {
-  type: ColorTypesGenerics;
-  background: ColorTypesGenerics;
-  height: ColorHeightGenerics;
-  weight: ColorWeightGenerics;
-};
-
-export type ITheme = {
-  colors: IThemeColors;
+const ColorDefault: ColorDefaultGenerics = {
+  WHITE: "#FFF",
 };
 
 type IThemeProps = {
@@ -141,6 +81,7 @@ const ThemeContext = createContext<ITheme>({
     background: ColorTypeBackground,
     height: ColorHeight,
     weight: ColorWeight,
+    default: ColorDefault,
   },
 });
 
@@ -151,6 +92,7 @@ const ThemeContextProvider = ({ children }: IThemeProps) => {
       background: ColorTypeBackground,
       height: ColorHeight,
       weight: ColorWeight,
+      default: ColorDefault,
     },
   });
 
@@ -162,8 +104,8 @@ const ThemeContextProvider = ({ children }: IThemeProps) => {
   }
 
   useEffect(() => {
-    iterateColors(theme.colors.height, "colors.height");
-    iterateColors(theme.colors.weight, "colors.weight");
+    // iterateColors(theme.colors.height, "colors.height");
+    // iterateColors(theme.colors.weight, "colors.weight");
   }, []);
 
   return (
