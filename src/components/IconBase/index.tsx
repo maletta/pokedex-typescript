@@ -22,7 +22,7 @@ import { IconBaseGenerics, PokemonTypes, PokemonTypesKeyOf } from "types/theme-t
 import { Container, GenericSVG } from "./styles";
 
 interface IIconBaseProps {
-  color?: boolean;
+  variant?: "primary" | "secondary";
 }
 interface IGetPokemonTypeProps extends IIconBaseProps {
   type: PokemonTypesKeyOf;
@@ -75,9 +75,9 @@ function teste<T, K extends keyof T>(type: T, chave: K) {
   console.log("teste ", type);
 }
 
-const IconBasePokemonTypes: React.FC<IGetPokemonTypeProps> = ({ type, color }) => {
+const IconBasePokemonTypes: React.FC<IGetPokemonTypeProps> = ({ type, variant = "primary" }) => {
   return (
-    <Container>
+    <Container type={type} variant={variant}>
       <GetPokemonType type={type} />
     </Container>
   );

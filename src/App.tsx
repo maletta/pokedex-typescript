@@ -36,7 +36,7 @@ const App: React.FC = () => {
       </Wrapper2>
 
       <Wrapper2>
-        <IconBasePokemonTypes color type="BUG" />
+        <IconBasePokemonTypes type="WATER" variant="primary" />
       </Wrapper2>
     </>
   );

@@ -1,20 +1,30 @@
-import styled from "styled-components";
+import React from "react";
+import styled, { css } from "styled-components";
 import { PokemonTypes, PokemonTypesKeyOf } from "types/theme-types";
 
 interface IIconBaseProps {
-  color?: boolean;
+  variant: "primary" | "secondary";
 }
 interface IGetPokemonTypeProps extends IIconBaseProps {
   type: PokemonTypesKeyOf;
 }
 
-const Container = styled.div`
+const Container = styled.div<IGetPokemonTypeProps>`
   background-color: black;
   display: flex;
   width: 25px;
   height: 25px;
   svg path {
-    fill: white;
+    ${({ type, variant, theme }) => {
+      if (variant === "primary")
+        return css`
+          fill: ${theme.colors.type[type]};
+        `;
+      else
+        return css`
+          fill: ${theme.colors.default.WHITE};
+        `;
+    }};
   }
 `;
 
