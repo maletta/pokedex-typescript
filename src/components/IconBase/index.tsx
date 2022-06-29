@@ -17,15 +17,30 @@ import { ReactComponent as PsychicSVG } from "assets/icons/types/psychic.svg";
 import { ReactComponent as RockSVG } from "assets/icons/types/rock.svg";
 import { ReactComponent as SteelSVG } from "assets/icons/types/steel.svg";
 import { ReactComponent as WaterSVG } from "assets/icons/types/water.svg";
-import { IconBaseGenerics, PokemonTypes, PokemonTypesKeyOf } from "types/theme-types";
+import { ReactComponent as MediumSVG } from "assets/icons/heights/medium.svg";
+import { ReactComponent as ShortSVG } from "assets/icons/heights/short.svg";
+import { ReactComponent as TallSVG } from "assets/icons/heights/tall.svg";
+import { ReactComponent as HeavySVG } from "assets/icons/weights/heavy.svg";
+import { ReactComponent as LightSVG } from "assets/icons/weights/light.svg";
+import { ReactComponent as NormalWeightSVG } from "assets/icons/weights/normal.svg";
 
-import { Container, GenericSVG } from "./styles";
+import { PokemonTypes, PokemonHeight, PokemonWeight, PokemonTypesKeyOf, PokemonHeightKeyOf, PokemonWeightKeyOf } from "types/theme-types";
+
+import { ContainerHeight, ContainerType, ContainerWeight, GenericSVG } from "./styles";
 
 interface IIconBaseProps {
   variant?: "primary" | "secondary";
 }
 interface IGetPokemonTypeProps extends IIconBaseProps {
   type: PokemonTypesKeyOf;
+}
+
+interface IGetPokemonHeightProps extends IIconBaseProps {
+  height: PokemonHeightKeyOf;
+}
+
+interface IGetPokemonWeightProps extends IIconBaseProps {
+  weight: PokemonWeightKeyOf;
 }
 
 function GetPokemonType({ type }: IGetPokemonTypeProps) {
@@ -71,42 +86,57 @@ function GetPokemonType({ type }: IGetPokemonTypeProps) {
   }
 }
 
+function GetPokemonHeight({ height }: IGetPokemonHeightProps) {
+  switch (height) {
+    case PokemonHeight.MEDIUM:
+      return <MediumSVG />;
+    case PokemonHeight.SHORT:
+      return <ShortSVG />;
+    case PokemonHeight.TALL:
+      return <TallSVG />;
+    default:
+      return <GenericSVG />;
+  }
+}
+
+function GetPokemonWeight({ weight }: IGetPokemonWeightProps) {
+  switch (weight) {
+    case PokemonWeight.HEAVY:
+      return <HeavySVG />;
+    case PokemonWeight.LIGHT:
+      return <ShortSVG />;
+    case PokemonWeight.NORMAL:
+      return <TallSVG />;
+    default:
+      return <GenericSVG />;
+  }
+}
+
 function teste<T, K extends keyof T>(type: T, chave: K) {
   console.log("teste ", type);
 }
 
 const IconBasePokemonTypes: React.FC<IGetPokemonTypeProps> = ({ type, variant = "primary" }) => {
   return (
-    <Container type={type} variant={variant}>
+    <ContainerType color={type} variant={variant}>
       <GetPokemonType type={type} />
-    </Container>
+    </ContainerType>
   );
 };
 
-export { IconBasePokemonTypes };
-
-const icons: IconBaseGenerics = {
-  BUG: "asd",
-  DARK: "",
-  DRAGON: "",
-  ELECTRIC: "",
-  FAIRY: "",
-  FIGHTING: "",
-  FIRE: "",
-  FLYING: "",
-  GHOST: "",
-  GRASS: "",
-  GROUND: "",
-  ICE: "",
-  NORMAL: "",
-  POISON: "",
-  PSYCHIC: "",
-  ROCK: "",
-  STEEL: "",
-  WATER: "",
-  LIGHT: "",
-  HEAVY: "",
-  SHORT: "",
-  MEDIUM: "",
-  TALL: "",
+const IconBasePokemonHeights: React.FC<IGetPokemonHeightProps> = ({ height, variant = "primary" }) => {
+  return (
+    <ContainerHeight color={height} variant={variant}>
+      <GetPokemonHeight height={height} />
+    </ContainerHeight>
+  );
 };
+
+const IconBasePokemonWeights: React.FC<IGetPokemonWeightProps> = ({ weight, variant = "primary" }) => {
+  return (
+    <ContainerWeight color={weight} variant={variant}>
+      <GetPokemonWeight weight={weight} />
+    </ContainerWeight>
+  );
+};
+export { IconBasePokemonTypes, IconBasePokemonHeights, IconBasePokemonWeights };

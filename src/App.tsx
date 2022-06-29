@@ -6,7 +6,7 @@ import Button from "components/Button";
 import TextInput from "components/TextInput";
 import RangeInput from "components/RangeInput";
 
-import { IconBasePokemonTypes } from "components/IconBase";
+import { IconBasePokemonTypes, IconBasePokemonHeights, IconBasePokemonWeights } from "components/IconBase";
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,6 +37,14 @@ const App: React.FC = () => {
 
       <Wrapper2>
         <IconBasePokemonTypes type="WATER" variant="primary" />
+      </Wrapper2>
+
+      <Wrapper2>
+        <IconBasePokemonHeights height="MEDIUM" variant="primary" />
+      </Wrapper2>
+
+      <Wrapper2>
+        <IconBasePokemonWeights weight="HEAVY" variant="primary" />
       </Wrapper2>
     </>
   );

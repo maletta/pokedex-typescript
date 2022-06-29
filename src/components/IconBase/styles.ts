@@ -1,38 +1,66 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { PokemonTypes, PokemonTypesKeyOf } from "types/theme-types";
+import { PokemonTypesKeyOf, PokemonHeightKeyOf, PokemonWeightKeyOf } from "types/theme-types";
 
 interface IIconBaseProps {
   variant: "primary" | "secondary";
 }
 interface IGetPokemonTypeProps extends IIconBaseProps {
-  type: PokemonTypesKeyOf;
+  color: PokemonTypesKeyOf;
 }
 
-const Container = styled.div<IGetPokemonTypeProps>`
+interface IGetPokemonHeightProps extends IIconBaseProps {
+  color: PokemonHeightKeyOf;
+}
+
+interface IGetPokemonWeightProps extends IIconBaseProps {
+  color: PokemonWeightKeyOf;
+}
+
+const GenericSVG = styled.div`
   background-color: black;
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 25px;
   height: 25px;
+
   svg path {
-    ${({ type, variant, theme }) => {
+    fill: ${({ theme }) => theme.colors.default.WHITE};
+  }
+`;
+
+const ContainerType = styled(GenericSVG)<IGetPokemonTypeProps>`
+  svg path {
+    ${({ color, variant, theme }) => {
       if (variant === "primary")
         return css`
-          fill: ${theme.colors.type[type]};
-        `;
-      else
-        return css`
-          fill: ${theme.colors.default.WHITE};
+          fill: ${theme.colors.type[color]};
         `;
     }};
   }
 `;
 
-const GenericSVG = styled.div`
-  background-color: black;
-  display: flex;
-  width: 25px;
-  height: 25px;
+const ContainerHeight = styled(GenericSVG)<IGetPokemonHeightProps>`
+  svg path {
+    ${({ color, variant, theme }) => {
+      if (variant === "primary")
+        return css`
+          fill: ${theme.colors.height[color]};
+        `;
+    }};
+  }
 `;
 
-export { Container, GenericSVG };
+const ContainerWeight = styled(GenericSVG)<IGetPokemonWeightProps>`
+  svg path {
+    ${({ color, variant, theme }) => {
+      if (variant === "primary")
+        return css`
+          fill: ${theme.colors.weight[color]};
+        `;
+    }};
+  }
+`;
+
+export { ContainerType, ContainerHeight, ContainerWeight, GenericSVG };

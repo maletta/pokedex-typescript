@@ -88,6 +88,3 @@ export type IThemeColors = {
 export type ITheme = {
   colors: IThemeColors;
 };
-
-export type IconBaseGenerics = ColorTypesGenerics & ColorHeightGenerics & ColorWeightGenerics;
-export type IconBaseColors = ColorTypesGenerics & ColorHeightGenerics & ColorWeightGenerics & ColorDefaultGenerics;

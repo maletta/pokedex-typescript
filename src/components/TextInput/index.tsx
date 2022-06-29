@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { Container, Input, Image } from "./styles";
 
+import { ReactComponent as SearchSVG } from "assets/icons/menu/search-icon.svg";
+
 interface Props {
   placeholder: string;
 }
@@ -11,7 +13,7 @@ const TextInput: React.FC<Props> = ({ placeholder }) => {
 
   return (
     <Container focus={focus}>
-      <Image src="./assets/icons/menu/search-icon.svg" />
+      <SearchSVG />
       <Input placeholder={placeholder} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
     </Container>
   );
