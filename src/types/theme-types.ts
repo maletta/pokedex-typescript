@@ -79,6 +79,7 @@ export type ColorDefaultGenerics = {
 
 export type IThemeColors = {
   type: ColorTypesGenerics;
+  typeOpacity: ColorTypesGenerics;
   background: ColorTypesGenerics;
   height: ColorHeightGenerics;
   weight: ColorWeightGenerics;

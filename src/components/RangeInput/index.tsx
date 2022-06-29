@@ -21,8 +21,8 @@ const RangeInput: React.FC<RangeInputProps> = ({ min, max }) => {
   const spaceBetweenInput = Math.round(max * 0.05);
   const inputLeft = useRef<HTMLInputElement>(null);
   const inputRight = useRef<HTMLInputElement>(null);
-  const thumbLeft = useRef<HTMLLabelElement>(null);
-  const thumbRight = useRef<HTMLLabelElement>(null);
+  // const thumbLeft = useRef<HTMLLabelElement>(null); // usado para estilização
+  // const thumbRight = useRef<HTMLLabelElement>(null); // usado para estilização
   const [percent, setPercent] = useState<Percent>({
     left: 0,
     right: 0,
@@ -40,11 +40,11 @@ const RangeInput: React.FC<RangeInputProps> = ({ min, max }) => {
     const inputRightValue = inputRight.current?.value || "0";
 
     if (inputLeft.current?.value && inputRight.current?.value) {
-      const result = `${Math.min(parseInt(inputLeftValue), parseInt(inputRightValue) - spaceBetweenInput)}`;
+      const result = `${Math.min(parseInt(inputLeftValue, 10), parseInt(inputRightValue, 10) - spaceBetweenInput)}`;
       // console.log("result ", result);
       // inputLeft.current.value = `${parseInt(inputLeftValue) + 1}`;
 
-      const percentLeft = ((parseInt(result) - parseInt(minLeft)) / (parseInt(maxLeft) - parseInt(minLeft))) * 100;
+      const percentLeft = ((parseInt(result, 10) - parseInt(minLeft, 10)) / (parseInt(maxLeft, 10) - parseInt(minLeft, 10))) * 100;
       // console.log("result, min, max ", parseInt(result), parseInt(min), parseInt(max));
       // console.log("(parseInt(result) - parseInt(min))", parseInt(result) - parseInt(min));
       // console.log("(parseInt(max) - parseInt(min))", parseInt(max) - parseInt(min));
@@ -53,7 +53,7 @@ const RangeInput: React.FC<RangeInputProps> = ({ min, max }) => {
       // console.log("percent left = ", percentLeft);
 
       setPercent(({ right }) => ({ left: percentLeft, right }));
-      setThumb(({ right }) => ({ left: parseInt(result), right }));
+      setThumb(({ right }) => ({ left: parseInt(result, 10), right }));
       // inputLeft.current.value = `${result}`;
     }
 
@@ -67,8 +67,8 @@ const RangeInput: React.FC<RangeInputProps> = ({ min, max }) => {
     const inputLeftValue = inputLeft.current?.value || "0";
 
     if (inputRight.current?.value && inputLeft.current?.value) {
-      const result = `${Math.max(parseInt(inputRightValue), parseInt(inputLeftValue) + spaceBetweenInput)}`;
-      const percentRight = ((parseInt(result) - parseInt(minRight)) / (parseInt(maxRight) - parseInt(minRight))) * 100;
+      const result = `${Math.max(parseInt(inputRightValue, 10), parseInt(inputLeftValue, 10) + spaceBetweenInput)}`;
+      const percentRight = ((parseInt(result, 10) - parseInt(minRight, 10)) / (parseInt(maxRight, 10) - parseInt(minRight, 10))) * 100;
 
       // console.log("result, min, max ", parseInt(result), parseInt(min), parseInt(max));
       // console.log("(parseInt(result) - parseInt(min))", parseInt(result) - parseInt(min));
@@ -80,7 +80,7 @@ const RangeInput: React.FC<RangeInputProps> = ({ min, max }) => {
       // console.log(" thumb right ", parseInt(result));
 
       setPercent(({ left }) => ({ left, right: 100 - percentRight }));
-      setThumb(({ left }) => ({ left, right: parseInt(result) }));
+      setThumb(({ left }) => ({ left, right: parseInt(result, 10) }));
       // inputRight.current.value = `${parseInt(result)}`;
     }
   }
@@ -158,8 +158,20 @@ const RangeInput: React.FC<RangeInputProps> = ({ min, max }) => {
       <Slider>
         <Track />
         <Range left={percent.left} right={percent.right} />
-        <Thumb ref={thumbLeft} htmlFor={"inputLeft"} direction={"left"} percent={percent.left} value={thumb.left} />
-        <Thumb ref={thumbRight} htmlFor={"inputRight"} direction={"right"} percent={percent.right} value={thumb.right} />
+        <Thumb
+          // ref={thumbLeft}
+          htmlFor={"inputLeft"}
+          direction={"left"}
+          percent={percent.left}
+          value={thumb.left}
+        />
+        <Thumb
+          // ref={thumbRight}
+          htmlFor={"inputRight"}
+          direction={"right"}
+          percent={percent.right}
+          value={thumb.right}
+        />
       </Slider>
     </Container>
   );

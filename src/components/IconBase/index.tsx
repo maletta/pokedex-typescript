@@ -30,6 +30,7 @@ import { ContainerHeight, ContainerType, ContainerWeight, GenericSVG } from "./s
 
 interface IIconBaseProps {
   variant?: "primary" | "secondary";
+  size?: number;
 }
 interface IGetPokemonTypeProps extends IIconBaseProps {
   type: PokemonTypesKeyOf;
@@ -104,9 +105,9 @@ function GetPokemonWeight({ weight }: IGetPokemonWeightProps) {
     case PokemonWeight.HEAVY:
       return <HeavySVG />;
     case PokemonWeight.LIGHT:
-      return <ShortSVG />;
+      return <LightSVG />;
     case PokemonWeight.NORMAL:
-      return <TallSVG />;
+      return <NormalWeightSVG />;
     default:
       return <GenericSVG />;
   }
@@ -116,25 +117,25 @@ function teste<T, K extends keyof T>(type: T, chave: K) {
   console.log("teste ", type);
 }
 
-const IconBasePokemonTypes: React.FC<IGetPokemonTypeProps> = ({ type, variant = "primary" }) => {
+const IconBasePokemonTypes: React.FC<IGetPokemonTypeProps> = ({ type, size = 25, variant = "primary" }) => {
   return (
-    <ContainerType color={type} variant={variant}>
+    <ContainerType color={type} size={size} variant={variant}>
       <GetPokemonType type={type} />
     </ContainerType>
   );
 };
 
-const IconBasePokemonHeights: React.FC<IGetPokemonHeightProps> = ({ height, variant = "primary" }) => {
+const IconBasePokemonHeights: React.FC<IGetPokemonHeightProps> = ({ height, size = 25, variant = "primary" }) => {
   return (
-    <ContainerHeight color={height} variant={variant}>
+    <ContainerHeight color={height} size={size} variant={variant}>
       <GetPokemonHeight height={height} />
     </ContainerHeight>
   );
 };
 
-const IconBasePokemonWeights: React.FC<IGetPokemonWeightProps> = ({ weight, variant = "primary" }) => {
+const IconBasePokemonWeights: React.FC<IGetPokemonWeightProps> = ({ weight, size = 25, variant = "primary" }) => {
   return (
-    <ContainerWeight color={weight} variant={variant}>
+    <ContainerWeight color={weight} size={size} variant={variant}>
       <GetPokemonWeight weight={weight} />
     </ContainerWeight>
   );

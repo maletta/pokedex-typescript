@@ -17,49 +17,67 @@ interface IGetPokemonWeightProps extends IIconBaseProps {
   color: PokemonWeightKeyOf;
 }
 
-const GenericSVG = styled.div`
-  background-color: black;
+interface IGenericSVG {
+  size?: number;
+}
+
+const GenericSVG = styled.div<IGenericSVG>`
+  /* background-color: black; */
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 25px;
-  height: 25px;
+  width: ${({ size }) => `${size}px`};
+  height: ${({ size }) => `${size}px`};
 
-  svg path {
-    fill: ${({ theme }) => theme.colors.default.WHITE};
+  svg {
+    path {
+      fill: ${({ theme }) => theme.colors.default.WHITE};
+    }
   }
 `;
 
 const ContainerType = styled(GenericSVG)<IGetPokemonTypeProps>`
-  svg path {
-    ${({ color, variant, theme }) => {
-      if (variant === "primary")
-        return css`
-          fill: ${theme.colors.type[color]};
-        `;
-    }};
+  svg {
+    width: 100%;
+    height: 100%;
+    path {
+      ${({ color, variant, theme }) => {
+        if (variant === "primary")
+          return css`
+            fill: ${theme.colors.type[color]};
+          `;
+      }};
+    }
   }
 `;
 
 const ContainerHeight = styled(GenericSVG)<IGetPokemonHeightProps>`
-  svg path {
-    ${({ color, variant, theme }) => {
-      if (variant === "primary")
-        return css`
-          fill: ${theme.colors.height[color]};
-        `;
-    }};
+  svg {
+    width: 100%;
+    height: 100%;
+    path {
+      ${({ color, variant, theme }) => {
+        if (variant === "primary")
+          return css`
+            fill: ${theme.colors.height[color]};
+          `;
+      }};
+    }
   }
 `;
 
 const ContainerWeight = styled(GenericSVG)<IGetPokemonWeightProps>`
-  svg path {
-    ${({ color, variant, theme }) => {
-      if (variant === "primary")
-        return css`
-          fill: ${theme.colors.weight[color]};
-        `;
-    }};
+  svg {
+    width: 100%;
+    height: 100%;
+    path {
+      ${({ color, variant, theme }) => {
+        if (variant === "primary")
+          return css`
+            fill: ${theme.colors.weight[color]};
+          `;
+      }};
+    }
   }
 `;
 

@@ -55,6 +55,27 @@ const ColorTypeBackground: ColorTypesGenerics = {
   WATER: "#58ABF6",
 };
 
+const ColorTypeOpacity: ColorTypesGenerics = {
+  BUG: "rgba(140, 178, 48, 0.3)",
+  DARK: "rgba(88, 87, 95, 0.3)",
+  DRAGON: "rgba(15, 106, 192, 0.3)",
+  ELECTRIC: "rgba(238, 213, 53, 0.3)",
+  FAIRY: "rgba(237, 110, 199, 0.3)",
+  FIGHTING: "rgba(208, 65, 100, 0.3)",
+  FIRE: "rgba(253, 125, 36, 0.3)",
+  FLYING: "rgba(116, 143, 201, 0.3)",
+  GHOST: "rgba(85, 106, 174, 0.3)",
+  GRASS: "rgba(98, 185, 87, 0.3)",
+  GROUND: "rgba(186, 171, 130, 0.3)",
+  ICE: "rgba(97, 206, 192, 0.3)",
+  NORMAL: "rgba(157, 160, 170, 0.3)",
+  POISON: "rgba(165, 82, 204, 0.3)",
+  PSYCHIC: "rgba(234, 93, 96, 0.3)",
+  ROCK: "rgba(186, 171, 130, 0.3)",
+  STEEL: "rgba(65, 125, 154, 0.3)",
+  WATER: "rgba(74, 144, 218, 0.3)",
+};
+
 const ColorHeight: ColorHeightGenerics = {
   SHORT: "#FFC5E6",
   MEDIUM: "#AEBFD7",
@@ -78,6 +99,7 @@ type IThemeProps = {
 const ThemeContext = createContext<ITheme>({
   colors: {
     type: ColorType,
+    typeOpacity: ColorTypeOpacity,
     background: ColorTypeBackground,
     height: ColorHeight,
     weight: ColorWeight,
@@ -89,6 +111,7 @@ const ThemeContextProvider = ({ children }: IThemeProps) => {
   const [theme, setTheme] = useState<ITheme>({
     colors: {
       type: ColorType,
+      typeOpacity: ColorTypeOpacity,
       background: ColorTypeBackground,
       height: ColorHeight,
       weight: ColorWeight,
