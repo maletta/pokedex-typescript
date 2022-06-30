@@ -16,4 +16,4 @@ const Icon: React.FC<Props> = ({ type, variant = "primary" }) => {
   );
 };
 
-export default Icon;
+export { Icon };

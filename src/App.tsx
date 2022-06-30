@@ -7,12 +7,17 @@ import TextInput from "components/TextInput";
 import RangeInput from "components/RangeInput";
 import { IconBasePokemonTypes, IconBasePokemonHeights, IconBasePokemonWeights } from "components/IconBase";
 import Badge from "components/Badge";
-import Icon from "components/Icon";
+import { Icon } from "components/Icon";
+import { GenerationCard } from "components/GenerationCard";
 
 const Wrapper = styled.div`
   display: flex;
   margin-top: 10px;
   padding-inline: 10px;
+
+  &.vermelho {
+    background-color: red;
+  }
 `;
 
 const Wrapper2 = styled.div`
@@ -73,7 +78,7 @@ const App: React.FC = () => {
         <Icon type={"FLYING"} variant={"primary"} />
       </Wrapper2>
 
-      <Wrapper2>
+      <Wrapper2 className="vermelho">
         <Icon type={"BUG"} variant={"secondary"} />
         <Icon type={"DARK"} variant={"secondary"} />
         <Icon type={"DRAGON"} variant={"secondary"} />
@@ -83,6 +88,18 @@ const App: React.FC = () => {
         <Icon type={"FIRE"} variant={"secondary"} />
         <Icon type={"FLYING"} variant={"secondary"} />
       </Wrapper2>
+
+      <Wrapper
+      // className="vermelho"
+      >
+        {/* <GenerationCard generation={"GENERATION1"} variant={"primary"} />
+        <GenerationCard generation={"GENERATION1"} variant={"primary"} />
+        <GenerationCard generation={"GENERATION2"} variant={"secondary"} /> */}
+        <GenerationCard generation={1} variant={"primary"} />
+        <GenerationCard generation={2} variant={"secondary"} />
+        <GenerationCard generation={3} variant={"primary"} />
+        <GenerationCard generation={4} variant={"secondary"} />
+      </Wrapper>
     </>
   );
 };
