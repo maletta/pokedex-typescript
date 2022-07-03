@@ -9,6 +9,7 @@ import { IconBasePokemonTypes, IconBasePokemonHeights, IconBasePokemonWeights } 
 import Badge from "components/Badge";
 import { Icon } from "components/Icon";
 import { GenerationCard } from "components/GenerationCard";
+import PokemonCard from "components/PokemonCard";
 
 const Wrapper = styled.div`
   display: flex;
@@ -89,17 +90,18 @@ const App: React.FC = () => {
         <Icon type={"FLYING"} variant={"secondary"} />
       </Wrapper2>
 
-      <Wrapper
+      {/* <Wrapper
       // className="vermelho"
       >
-        {/* <GenerationCard generation={"GENERATION1"} variant={"primary"} />
-        <GenerationCard generation={"GENERATION1"} variant={"primary"} />
-        <GenerationCard generation={"GENERATION2"} variant={"secondary"} /> */}
         <GenerationCard generation={1} variant={"primary"} />
         <GenerationCard generation={2} variant={"secondary"} />
         <GenerationCard generation={3} variant={"primary"} />
         <GenerationCard generation={4} variant={"secondary"} />
-      </Wrapper>
+      </Wrapper> */}
+
+      <Wrapper2>
+        <PokemonCard name="Bulbassaur" number={1} types={["BUG", "POISON"]} />
+      </Wrapper2>
     </>
   );
 };

@@ -12,6 +12,7 @@ import {
 
 interface Props {
   children: React.ReactNode;
+  variant?: "primary" | "secondary";
 }
 
 const Title: React.FC<Props> = ({ children }) => {
@@ -22,8 +23,8 @@ const ApplicationTitle: React.FC<Props> = ({ children }) => {
   return <ApplicationTitleStyle>{children}</ApplicationTitleStyle>;
 };
 
-const PokemonName: React.FC<Props> = ({ children }) => {
-  return <PokemonNameStyle>{children}</PokemonNameStyle>;
+const PokemonName: React.FC<Props> = ({ children, variant }) => {
+  return <PokemonNameStyle variant={variant}>{children}</PokemonNameStyle>;
 };
 
 const FilterTitle: React.FC<Props> = ({ children }) => {

@@ -1,4 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+interface ITitleStyle {
+  variant?: "primary" | "secondary";
+}
+
+const commomStyle = css<ITitleStyle>`
+  color: ${({ theme, variant }) => (variant === "primary" ? "#17171b" : theme.colors.default.WHITE)};
+`;
 
 const TitleStyle = styled.h1`
   font-size: 10rem;
@@ -14,11 +21,13 @@ const ApplicationTitleStyle = styled.h2`
   color: #17171b;
 `;
 
-const PokemonNameStyle = styled.h3`
+const PokemonNameStyle = styled.h3<ITitleStyle>`
   font-size: 3.2rem;
   font-weight: 700;
   line-height: 3.8rem;
   color: #17171b;
+
+  ${commomStyle}
 `;
 
 const FilterTitleStyle = styled.p`

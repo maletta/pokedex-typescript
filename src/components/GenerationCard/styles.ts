@@ -92,19 +92,4 @@ const Container = styled.div<IContainerProps>`
   }
 `;
 
-const GenericSVG = styled.div`
-  /* background-color: black; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 45px;
-  width: 45px;
-
-  svg {
-    path {
-      fill: black;
-    }
-  }
-`;
-
-export { Container, GenericSVG };
+export { Container };
