@@ -16,7 +16,7 @@ const PokemonCard: React.FC<IPokemonCard> = ({ name, number, types }) => {
     <Container>
       <ContainerBackground type={types[0]}>
         <PokemonInfo>
-          <PokemonNumber>#{`${number}`}</PokemonNumber>
+          <PokemonNumber customCss={{ opacity: "0.6" }}>#{`${number}`}</PokemonNumber>
           <PokemonName variant="secondary">{name}</PokemonName>
           <BadgeContainer>
             {types.map(typeItem => (

@@ -9,10 +9,8 @@ const Container = styled.div`
   display: flex;
   align-items: flex-end;
 
-  width: 100%;
+  width: 334px;
   height: 130px;
-
-  background-color: aqua;
 `;
 
 const ContainerBackground = styled.div<IContainerBackground>`
@@ -25,9 +23,10 @@ const ContainerBackground = styled.div<IContainerBackground>`
 
   border-radius: 10px;
 
-  background-image: url("assets/patterns/6x3-gradient.svg");
-  background-position-x: center;
-  background-position-y: -10px;
+  background-image: url("assets/patterns/6x3-gradient.svg"), url("assets/patterns/pokeball-gradient-pokemon-card.svg");
+  background-position-x: 90px, right;
+  background-position-y: -10px, center;
+  background-size: 74px 32px, 145px 145px;
   background-repeat: no-repeat;
 
   background-color: ${({ theme, type }) => theme.colors.background[type]};
@@ -44,7 +43,6 @@ const PokemonInfo = styled.div`
   flex-direction: column;
 `;
 const PokemonImage = styled.div`
-  background-color: red;
   width: 130px;
   height: 100%;
   position: relative;
@@ -52,6 +50,7 @@ const PokemonImage = styled.div`
   img {
     position: absolute;
     top: -45px;
+    right: -5px;
 
     width: 130px;
     height: 130px;

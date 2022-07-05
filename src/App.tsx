@@ -100,7 +100,7 @@ const App: React.FC = () => {
       </Wrapper> */}
 
       <Wrapper2>
-        <PokemonCard name="Bulbassaur" number={1} types={["BUG", "POISON"]} />
+        <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} />
       </Wrapper2>
     </>
   );
