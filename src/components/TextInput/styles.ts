@@ -1,8 +1,13 @@
-import styled, { css } from "styled-components";
+import styled, { css, CSSObject } from "styled-components";
 
 interface Props {
-  focus: boolean;
+  focus?: boolean;
+  customCss?: CSSObject;
 }
+
+const customCss = css<Props>`
+  ${({ customCss }) => customCss}
+`;
 
 const Container = styled.div<Props>`
   display: flex;
@@ -27,6 +32,8 @@ const Container = styled.div<Props>`
     css`
       background-color: #e2e2e2;
     `}
+
+  ${customCss}
 `;
 
 const Input = styled.input`
