@@ -1,5 +1,5 @@
 import React from "react";
-import { CSSObject } from "styled-components";
+import { CSSObject } from "styled-components/macro";
 
 import {
   TitleStyle,

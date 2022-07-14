@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { PokemonTypesKeyOf } from "types/theme-types";
 
 interface Props {

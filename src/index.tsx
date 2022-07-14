@@ -4,13 +4,16 @@ import App from "./App";
 import GlobalStyles from "./styles/global";
 import reportWebVitals from "./reportWebVitals";
 import ThemeContext from "hooks/ThemeContext";
+import MenuContext from "hooks/MenuContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
+    <GlobalStyles />
     <ThemeContext>
-      <GlobalStyles />
-      <App />
+      <MenuContext>
+        <App />
+      </MenuContext>
     </ThemeContext>
   </React.StrictMode>,
 );

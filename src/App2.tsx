@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { ApplicationTitle } from "components/Titles";
 import Button from "components/Button";

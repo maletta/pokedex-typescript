@@ -1,15 +1,20 @@
 import React from "react";
 
-// import { Container } from './styles';
+import { SliderContainer, SliderContent, SliderContentOverFlow } from "./styles";
 
-// https://www.youtube.com/watch?v=2_E5uoiLCLY
-// https://www.youtube.com/watch?v=5bxFSOA5JYo
-// https://www.youtube.com/watch?v=3yfswsnD2sw
+interface SliderProps {
+  children: React.ReactNode;
+  isOpen: boolean;
+}
 
-//https://www.youtube.com/watch?v=C9EWifQ5xqA
-
-const Slider: React.FC = () => {
-  return <div />;
+const Slider: React.FC<SliderProps> = ({ children, isOpen }) => {
+  return (
+    <SliderContainer isOpen={isOpen}>
+      <SliderContent>
+        <SliderContentOverFlow>{children}</SliderContentOverFlow>
+      </SliderContent>
+    </SliderContainer>
+  );
 };
 
 export default Slider;

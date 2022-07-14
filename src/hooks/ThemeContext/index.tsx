@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { ThemeProvider as ThemeProviderStyledComponent } from "styled-components";
+import { ThemeProvider as ThemeProviderStyledComponent } from "styled-components/macro";
 import {
   ColorHeightGenerics,
   // ColorName,

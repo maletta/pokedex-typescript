@@ -1,4 +1,4 @@
-import styled, { css, CSSObject } from "styled-components";
+import styled, { css, CSSObject } from "styled-components/macro";
 
 interface Props {
   focus?: boolean;

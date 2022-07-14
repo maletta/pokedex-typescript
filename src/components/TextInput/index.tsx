@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CSSObject } from "styled-components";
+import { CSSObject } from "styled-components/macro";
 
 import { Container, Input, Image } from "./styles";
 
