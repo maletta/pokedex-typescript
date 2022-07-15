@@ -31,24 +31,6 @@ const SliderContent = styled.div`
   background-color: #fff;
 
   border-radius: 30px 30px 0px 0px;
-
-  &::after {
-    content: "";
-
-    position: absolute;
-
-    top: -15px;
-    right: 50%;
-    left: calc(50% - 40px);
-
-    width: 80px;
-    height: 6px;
-
-    border-radius: 3px;
-    background-color: white;
-
-    cursor: grab;
-  }
 `;
 
 const SliderContentOverFlow = styled.div`
@@ -58,6 +40,24 @@ const SliderContentOverFlow = styled.div`
   padding: 0 40px 50px 40px;
 
   overflow-y: scroll;
+
+  /* pointer-events: none; */
 `;
 
-export { SliderContainer, SliderContent, SliderContentOverFlow };
+const DragBar = styled.div`
+  position: absolute;
+
+  top: -15px;
+  right: 50%;
+  left: calc(50% - 40px);
+
+  width: 80px;
+  height: 6px;
+
+  border-radius: 3px;
+  background-color: white;
+
+  cursor: grab;
+`;
+
+export { SliderContainer, SliderContent, SliderContentOverFlow, DragBar };
