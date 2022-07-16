@@ -1,11 +1,25 @@
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 
 interface ISliderContainer {
   isOpen: boolean;
 }
 
+interface ISliderContent {
+  bottomOffset: number;
+}
+
 const SliderContainer = styled.div<ISliderContainer>`
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  ${({ isOpen }) => {
+    if (isOpen)
+      return css`
+        display: flex;
+      `;
+    else
+      return css`
+        display: none;
+      `;
+  }};
+  /* display: block; */
   position: absolute;
 
   width: 100vw;
@@ -16,12 +30,21 @@ const SliderContainer = styled.div<ISliderContainer>`
   z-index: 100;
 `;
 
-const SliderContent = styled.div`
+// define styles inline to avoid generate styled component classes
+const SliderContent = styled.div.attrs<ISliderContent>(({ bottomOffset }) => {
+  const transition = bottomOffset === 0 ? "bottom 200ms ease 0s" : "none";
+
+  return {
+    style: {
+      bottom: `${bottomOffset}px`,
+      transition,
+    },
+  };
+})<ISliderContent>`
   display: flex;
   flex-direction: column;
 
   position: absolute;
-  bottom: 0;
 
   width: 100vw;
   max-height: calc(100vh - 60px); /** tamanho max - espaço no top */

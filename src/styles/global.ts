@@ -102,8 +102,10 @@ const GlobalStyles = createGlobalStyle`
     /* button primary-color */
     --button-primary-color: #EA5D60;
     --button-secondary-color: #F2F2F2;
+  }
 
-
+  .overflow-hidden {
+    overflow: hidden;
   }
 
 `;

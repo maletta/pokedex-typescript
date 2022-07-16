@@ -7,15 +7,18 @@ import { ReactComponent as FilterSVG } from "assets/icons/menu/filter-icon.svg";
 import TextInput from "components/TextInput";
 import PokemonCard from "components/PokemonCard";
 import Slider from "components/Slider";
+import { useMenuContext } from "hooks/MenuContext";
 
 import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from "./styles";
 
 const Home: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { isGeneration, setIsGeneration } = useMenuContext();
+  console.log("isGeneration ", isGeneration);
 
   return (
     <>
-      <Slider isOpen={true}>
+      <Slider isOpen={isGeneration} closeModal={() => setIsGeneration(false)}>
         <ApplicationTitle>Pokédex</ApplicationTitle>
         <br />
         <ApplicationTitle>Teste</ApplicationTitle>
@@ -47,7 +50,7 @@ const Home: React.FC = () => {
       </Slider>
       <HomeContainer>
         <MenuFilter>
-          <IconButton onClick={() => setIsOpen(true)}>
+          <IconButton onClick={() => setIsGeneration(true)}>
             <GenerationSVG />
           </IconButton>
           <IconButton>

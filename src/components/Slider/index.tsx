@@ -5,58 +5,85 @@ import { SliderContainer, SliderContent, SliderContentOverFlow, DragBar } from "
 interface SliderProps {
   children: React.ReactNode;
   isOpen: boolean;
+  closeModal: () => void;
 }
 
-const Slider: React.FC<SliderProps> = ({ children, isOpen }) => {
-  const dragBar = useRef<HTMLDivElement>(null);
-  const sliderContent = useRef<HTMLDivElement>(null);
+const Slider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) => {
   const sliderContainer = useRef<HTMLDivElement>(null);
   const [isGrabbed, setIsGrabbed] = useState<boolean>(false);
-  const [initialTopOffset, setInitialTopOffset] = useState<number>(sliderContent.current?.getClientRects()[0].top || 0);
-  const [currentTopOffset, setCurrentTopOffset] = useState<number>(sliderContent.current?.getClientRects()[0].top || 0);
+  const [currentTopOffset, setCurrentTopOffset] = useState<number>(0);
   const [cursorY, setCursorY] = useState<number>(0);
+  const [bottom, setBottom] = useState<number>(0);
+  const maxOffset = 0;
+  const [minOffset, setMinOffset] = useState<number>(0);
 
   function onDragBarMouseDown(e: React.MouseEvent) {
-    const sliderContentTop = sliderContent.current?.getClientRects()[0].top || 0;
-
-    setCurrentTopOffset(sliderContentTop);
+    setCurrentTopOffset(bottom);
     setCursorY(e.clientY);
     setIsGrabbed(true);
   }
 
   function onSliderContainerMouseMove(e: React.MouseEvent) {
-    if (isGrabbed && sliderContent.current && sliderContainer.current) {
+    if (isGrabbed) {
       const offsetCursor = e.clientY - cursorY;
-      const offsetTop = currentTopOffset + offsetCursor;
+      const offsetTop = currentTopOffset - offsetCursor;
 
-      if (offsetTop < initialTopOffset) {
-        sliderContent.current.style.top = `${initialTopOffset}px`;
-      } else if (offsetTop > sliderContainer.current.getClientRects()[0].height - initialTopOffset) {
-        sliderContent.current.style.top = `${sliderContainer.current.getClientRects()[0].height - initialTopOffset}px`;
+      if (offsetTop > maxOffset) {
+        setBottom(0);
+      } else if (offsetTop < -minOffset) {
+        setBottom(-minOffset);
       } else {
-        sliderContent.current.style.top = `${offsetTop}px`;
+        setBottom(offsetTop);
       }
     }
   }
 
   function onMouseUp() {
     setIsGrabbed(false);
-    setCurrentTopOffset(sliderContent.current?.getClientRects()[0].top || 0);
+    // setCurrentTopOffset(sliderContent.current?.getClientRects()[0].top || 0);
+    setCurrentTopOffset(bottom);
   }
 
   useEffect(() => {
+    // if offset is too small, so return to initial offset
+    if (!isGrabbed && sliderContainer.current && isOpen) {
+      const widthToBackToZero = -Math.floor(sliderContainer.current?.getClientRects()[0].height / 2);
+      if (bottom > widthToBackToZero) {
+        setBottom(0);
+      } else {
+        closeModal();
+        setCurrentTopOffset(0);
+        setBottom(0);
+      }
+    }
+  }, [isGrabbed, isOpen]);
+
+  // add overflow hidden to body, content behind the slider dont scroll
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (isOpen && body) {
+      body?.classList.add("overflow-hidden");
+    } else {
+      body?.classList.remove("overflow-hidden");
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     window.addEventListener("mouseup", onMouseUp);
-    setInitialTopOffset(sliderContent.current?.getClientRects()[0].top || 0);
+    if (isOpen) {
+      setCurrentTopOffset(0);
+      setMinOffset((sliderContainer.current?.getClientRects()[0].height || 0) - 100);
+    }
 
     return () => {
       window.removeEventListener("mouseup", onMouseUp);
     };
-  }, []);
+  }, [isOpen]);
 
   return (
     <SliderContainer ref={sliderContainer} isOpen={isOpen} onMouseMove={onSliderContainerMouseMove}>
-      <SliderContent ref={sliderContent}>
-        <DragBar ref={dragBar} onMouseDown={onDragBarMouseDown} />
+      <SliderContent bottomOffset={bottom}>
+        <DragBar onMouseDown={onDragBarMouseDown} />
         <SliderContentOverFlow>{children}</SliderContentOverFlow>
       </SliderContent>
     </SliderContainer>
