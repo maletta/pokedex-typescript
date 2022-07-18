@@ -8,7 +8,7 @@ interface SliderProps {
   closeModal: () => void;
 }
 
-const Slider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) => {
+const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) => {
   const sliderContainer = useRef<HTMLDivElement>(null);
   const [isGrabbed, setIsGrabbed] = useState<boolean>(false);
   const [currentTopOffset, setCurrentTopOffset] = useState<number>(0);
@@ -90,4 +90,4 @@ const Slider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) => {
   );
 };
 
-export default Slider;
+export default ModalSlider;

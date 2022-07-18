@@ -60,8 +60,6 @@ const SliderContentOverFlow = styled.div`
   width: 100%;
   height: 100%;
 
-  padding: 0 40px 50px 40px;
-
   overflow-y: scroll;
 
   /* pointer-events: none; */

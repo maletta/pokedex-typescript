@@ -11,6 +11,8 @@ interface Props {
 
 interface IGenerationCard extends Props {
   variant?: "primary" | "secondary";
+  handleClick?: () => void;
+  selected: boolean;
 }
 
 function convertGenerationNumber({ generation }: Props): string {
@@ -59,9 +61,9 @@ function getImg({ generation }: Props): string {
   }
 }
 
-const GenerationCard: React.FC<IGenerationCard> = ({ generation, variant = "primary" }) => {
+const GenerationCard: React.FC<IGenerationCard> = ({ generation, selected, variant = "primary", handleClick }) => {
   return (
-    <Container variant={variant}>
+    <Container variant={selected ? "secondary" : "primary"} onClick={handleClick}>
       <Pattern6x3Gradient />
       {/* <GetGen generation={generation} /> */}
       <img src={getImg({ generation })} />

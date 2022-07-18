@@ -73,7 +73,7 @@ const Container = styled.div<IContainerProps>`
     width: 80px;
 
     top: 10px;
-    left: 10px;
+    left: 15px;
   }
 
   svg:nth-child(2) {
@@ -88,7 +88,7 @@ const Container = styled.div<IContainerProps>`
     width: 110px;
     height: 110px;
     left: 60px;
-    top: 70px;
+    top: 45px;
   }
 `;
 

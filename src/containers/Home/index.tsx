@@ -6,7 +6,7 @@ import { ReactComponent as SortSVG } from "assets/icons/menu/sort-icon.svg";
 import { ReactComponent as FilterSVG } from "assets/icons/menu/filter-icon.svg";
 import TextInput from "components/TextInput";
 import PokemonCard from "components/PokemonCard";
-import Slider from "components/Slider";
+import ModalGeneration from "components/ModalGeneration";
 import { useMenuContext } from "hooks/MenuContext";
 
 import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from "./styles";
@@ -18,36 +18,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Slider isOpen={isGeneration} closeModal={() => setIsGeneration(false)}>
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Teste</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-        <ApplicationTitle>Pokédex</ApplicationTitle>
-        <br />
-      </Slider>
+      <ModalGeneration isOpen={isGeneration} closeModal={() => setIsGeneration(false)} />
       <HomeContainer>
         <MenuFilter>
           <IconButton onClick={() => setIsGeneration(true)}>

@@ -59,6 +59,8 @@ export type PokemonWeightKeyOf = keyof PokemonWeightTypeOf; // obtem as chaves d
 
 enum DefaultColors {
   WHITE = "WHITE",
+  GREY = "GREY",
+  BLACK = "BLACK",
 }
 
 export type ColorTypesGenerics = {

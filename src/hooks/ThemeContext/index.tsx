@@ -90,6 +90,8 @@ const ColorWeight: ColorWeightGenerics = {
 
 const ColorDefault: ColorDefaultGenerics = {
   WHITE: "#FFF",
+  GREY: "#747476",
+  BLACK: "#17171B",
 };
 
 type IThemeProps = {
