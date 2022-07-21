@@ -7,11 +7,14 @@ import {
   ColorWeightGenerics,
   ColorDefaultGenerics,
   ITheme,
+  PokemonTypes,
   // IThemeColors,
   // PokemonHeight,
   // PokemonTypes,
   // PokemonWeight,
 } from "types/theme-types";
+
+const pokemonTypesArray = Object.values(PokemonTypes);
 
 const ColorType: ColorTypesGenerics = {
   BUG: "#8CB230",
@@ -107,6 +110,7 @@ const ThemeContext = createContext<ITheme>({
     weight: ColorWeight,
     default: ColorDefault,
   },
+  types: pokemonTypesArray,
 });
 
 const ThemeContextProvider = ({ children }: IThemeProps) => {
@@ -119,6 +123,7 @@ const ThemeContextProvider = ({ children }: IThemeProps) => {
       weight: ColorWeight,
       default: ColorDefault,
     },
+    types: pokemonTypesArray,
   });
 
   function iterateColors<T>(array: T, label: string) {

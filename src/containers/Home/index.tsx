@@ -7,18 +7,20 @@ import { ReactComponent as FilterSVG } from "assets/icons/menu/filter-icon.svg";
 import TextInput from "components/TextInput";
 import PokemonCard from "components/PokemonCard";
 import ModalGeneration from "components/ModalGeneration";
+import ModalFilter from "components/ModalFilter";
 import { useMenuContext } from "hooks/MenuContext";
 
 import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from "./styles";
 
 const Home: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { isGeneration, setIsGeneration } = useMenuContext();
+  const { isGeneration, setIsGeneration, isFilter, setIsFilter } = useMenuContext();
   console.log("isGeneration ", isGeneration);
 
   return (
     <>
       <ModalGeneration isOpen={isGeneration} closeModal={() => setIsGeneration(false)} />
+      <ModalFilter isOpen={isFilter} closeModal={() => setIsFilter(false)} />
       <HomeContainer>
         <MenuFilter>
           <IconButton onClick={() => setIsGeneration(true)}>

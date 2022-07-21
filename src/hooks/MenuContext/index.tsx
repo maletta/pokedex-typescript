@@ -32,9 +32,9 @@ const MenuContext = createContext<IMenuContext>(initialValues);
 
 const MenuContextProvider = ({ children }: IMenuContextProps) => {
   const [menu, setMenu] = useState<IMenuContext>(initialValues);
-  const [isGeneration, setIsGeneration] = useState<boolean>(true);
+  const [isGeneration, setIsGeneration] = useState<boolean>(false);
   const [isSort, setIsSort] = useState<boolean>(false);
-  const [isFilter, setIsFilter] = useState<boolean>(false);
+  const [isFilter, setIsFilter] = useState<boolean>(true);
 
   return (
     <MenuContext.Provider

@@ -90,4 +90,5 @@ export type IThemeColors = {
 
 export type ITheme = {
   colors: IThemeColors;
+  types: Array<PokemonTypes>;
 };

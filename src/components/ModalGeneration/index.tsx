@@ -20,7 +20,7 @@ const ModalGeneration: React.FC<IModalGeneration> = ({ isOpen, closeModal }) => 
   return (
     <ModalSlider isOpen={isOpen} closeModal={closeModal}>
       <ModalGenerationContainer>
-        <ApplicationTitle>Pokédex</ApplicationTitle>
+        <ApplicationTitle>Generations</ApplicationTitle>
         <Description customCss={{ color: colors.default.GREY }}>Use search for generations to explore your Pokémon!</Description>
 
         <GridGeneration>
