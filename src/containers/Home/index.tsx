@@ -13,9 +13,7 @@ import { useMenuContext } from "hooks/MenuContext";
 import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from "./styles";
 
 const Home: React.FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isGeneration, setIsGeneration, isFilter, setIsFilter } = useMenuContext();
-  console.log("isGeneration ", isGeneration);
 
   return (
     <>
@@ -29,7 +27,7 @@ const Home: React.FC = () => {
           <IconButton>
             <SortSVG />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => setIsFilter(true)}>
             <FilterSVG />
           </IconButton>
         </MenuFilter>

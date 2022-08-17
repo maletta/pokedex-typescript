@@ -48,9 +48,12 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
     // if offset is too small, so return to initial offset
     if (!isGrabbed && sliderContainer.current && isOpen) {
       const widthToBackToZero = -Math.floor(sliderContainer.current?.getClientRects()[0].height / 2);
+      console.log("sliderContainer height ", sliderContainer.current?.getClientRects()[0].height);
       if (bottom > widthToBackToZero) {
+        console.log("bottom - widthTObackToZero - validation ", bottom, widthToBackToZero, bottom > widthToBackToZero);
         setBottom(0);
       } else {
+        console.log("fechar modal");
         closeModal();
         setCurrentTopOffset(0);
         setBottom(0);

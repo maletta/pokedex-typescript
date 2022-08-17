@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTheme } from "styled-components";
 
 import ModalSlider from "components/ModalSlider";
@@ -25,7 +25,7 @@ const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
         </Description>
 
         <FilterTitle customCss={{ marginTop: "35px" }}>Types</FilterTitle>
-        <DragSlider>
+        <DragSlider totalChildrens={types.length} isVisible={isOpen}>
           {types.map(currentType => (
             <IconBasePokemonTypes type={currentType} key={currentType} />
           ))}
