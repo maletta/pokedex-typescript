@@ -69,8 +69,8 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
     if (dragSliderCotainer.current && isVisible) {
       const dragSliderWidthDeafult = dragSliderCotainer.current.getClientRects()[0].right;
       // o tamanho máximo para o deslocamento da direita será
-      // a soma da largura de todos os items + espaço entre os itens + largura de um item
-      const dragSliderWidthCalculed = itemsWidth * totalChildrens + itemsGap * totalChildrens + itemsWidth;
+      // a soma da largura de todos os items + espaço entre os itens + largura de um item + um gap de item
+      const dragSliderWidthCalculed = itemsWidth * totalChildrens + itemsGap * totalChildrens + itemsWidth + itemsGap;
       setMaxLimitRight(Math.abs(dragSliderWidthCalculed - dragSliderWidthDeafult));
     }
   }, [dragSliderCotainer.current, isVisible]);
@@ -93,6 +93,7 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
         maxLimitLeft={maxLimitLeft}
         maxLimitRight={maxLimitRight}
         isGrabbed={isGrabbed}
+        totalChildrens={totalChildrens}
       >
         {children}
       </DragSliderOverflow>

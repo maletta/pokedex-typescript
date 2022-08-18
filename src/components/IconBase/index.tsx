@@ -34,6 +34,7 @@ interface IIconBaseProps {
 }
 interface IGetPokemonTypeProps extends IIconBaseProps {
   type: PokemonTypesKeyOf;
+  handleClick?: (type: PokemonTypesKeyOf) => void;
 }
 
 interface IGetPokemonHeightProps extends IIconBaseProps {
@@ -117,9 +118,9 @@ function teste<T, K extends keyof T>(type: T, chave: K) {
   console.log("teste ", type);
 }
 
-const IconBasePokemonTypes: React.FC<IGetPokemonTypeProps> = ({ type, size = 25, variant = "primary" }) => {
+const IconBasePokemonTypes: React.FC<IGetPokemonTypeProps> = ({ handleClick, type, size = 25, variant = "primary" }) => {
   return (
-    <ContainerType color={type} size={size} variant={variant}>
+    <ContainerType color={type} size={size} variant={variant} onClick={() => (handleClick ? handleClick(type) : null)}>
       <GetPokemonType type={type} />
     </ContainerType>
   );

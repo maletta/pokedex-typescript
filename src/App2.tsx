@@ -7,7 +7,7 @@ import TextInput from "components/TextInput";
 import RangeInput from "components/RangeInput";
 import { IconBasePokemonTypes, IconBasePokemonHeights, IconBasePokemonWeights } from "components/IconBase";
 import Badge from "components/Badge";
-import { Icon } from "components/Icon";
+import { PokemonTypesIcon } from "components/Icon";
 import { GenerationCard } from "components/GenerationCard";
 import PokemonCard from "components/PokemonCard";
 
@@ -69,25 +69,25 @@ const App: React.FC = () => {
       </Wrapper2>
 
       <Wrapper2>
-        <Icon type={"BUG"} variant={"primary"} />
-        <Icon type={"DARK"} variant={"primary"} />
-        <Icon type={"DRAGON"} variant={"primary"} />
-        <Icon type={"ELECTRIC"} variant={"primary"} />
-        <Icon type={"FAIRY"} variant={"primary"} />
-        <Icon type={"FIGHTING"} variant={"primary"} />
-        <Icon type={"FIRE"} variant={"primary"} />
-        <Icon type={"FLYING"} variant={"primary"} />
+        <PokemonTypesIcon type={"BUG"} variant={"primary"} />
+        <PokemonTypesIcon type={"DARK"} variant={"primary"} />
+        <PokemonTypesIcon type={"DRAGON"} variant={"primary"} />
+        <PokemonTypesIcon type={"ELECTRIC"} variant={"primary"} />
+        <PokemonTypesIcon type={"FAIRY"} variant={"primary"} />
+        <PokemonTypesIcon type={"FIGHTING"} variant={"primary"} />
+        <PokemonTypesIcon type={"FIRE"} variant={"primary"} />
+        <PokemonTypesIcon type={"FLYING"} variant={"primary"} />
       </Wrapper2>
 
       <Wrapper2 className="vermelho">
-        <Icon type={"BUG"} variant={"secondary"} />
-        <Icon type={"DARK"} variant={"secondary"} />
-        <Icon type={"DRAGON"} variant={"secondary"} />
-        <Icon type={"ELECTRIC"} variant={"secondary"} />
-        <Icon type={"FAIRY"} variant={"secondary"} />
-        <Icon type={"FIGHTING"} variant={"secondary"} />
-        <Icon type={"FIRE"} variant={"secondary"} />
-        <Icon type={"FLYING"} variant={"secondary"} />
+        <PokemonTypesIcon type={"BUG"} variant={"secondary"} />
+        <PokemonTypesIcon type={"DARK"} variant={"secondary"} />
+        <PokemonTypesIcon type={"DRAGON"} variant={"secondary"} />
+        <PokemonTypesIcon type={"ELECTRIC"} variant={"secondary"} />
+        <PokemonTypesIcon type={"FAIRY"} variant={"secondary"} />
+        <PokemonTypesIcon type={"FIGHTING"} variant={"secondary"} />
+        <PokemonTypesIcon type={"FIRE"} variant={"secondary"} />
+        <PokemonTypesIcon type={"FLYING"} variant={"secondary"} />
       </Wrapper2>
 
       {/* <Wrapper

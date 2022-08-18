@@ -6,14 +6,15 @@ import { Container } from "./styles";
 interface Props {
   variant: "primary" | "secondary";
   type: PokemonTypesKeyOf;
+  handleClick?: (type: PokemonTypesKeyOf) => void;
 }
 
-const Icon: React.FC<Props> = ({ type, variant = "primary" }) => {
+const PokemonTypesIcon: React.FC<Props> = ({ handleClick, type, variant = "primary" }) => {
   return (
-    <Container type={type} variant={variant}>
+    <Container type={type} variant={variant} onClick={() => (handleClick ? handleClick(type) : null)}>
       <IconBasePokemonTypes type={type} size={25} variant={variant} />
     </Container>
   );
 };
 
-export { Icon };
+export { PokemonTypesIcon };

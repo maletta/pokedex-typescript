@@ -83,7 +83,7 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
 
   return (
     <SliderContainer ref={sliderContainer} isOpen={isOpen} onMouseMove={onSliderContainerMouseMove}>
-      <SliderContent ref={sliderContent} bottomOffset={bottom}>
+      <SliderContent ref={sliderContent} isOpen={isOpen} bottomOffset={bottom}>
         <DragBar onMouseDown={onDragBarMouseDown} />
         <SliderContentOverFlow>{children}</SliderContentOverFlow>
       </SliderContent>

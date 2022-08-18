@@ -6,6 +6,7 @@ interface ISliderContainer {
 
 interface ISliderContent {
   bottomOffset: number;
+  isOpen: boolean;
 }
 
 const SliderContainer = styled.div<ISliderContainer>`
@@ -54,6 +55,21 @@ const SliderContent = styled.div.attrs<ISliderContent>(({ bottomOffset }) => {
   background-color: #fff;
 
   border-radius: 30px 30px 0px 0px;
+
+  transition: transform 300ms;
+
+  ${({ isOpen }) => {
+    if (isOpen)
+      return css`
+        transform: translateY(0%);
+        display: flex;
+      `;
+    else
+      return css`
+        transform: translateY(0%);
+        display: none;
+      `;
+  }};
 `;
 
 const SliderContentOverFlow = styled.div`

@@ -7,6 +7,7 @@ interface IDragSliderOverflow {
   maxLimitRight: number;
   leftOffsetWithoutBoundary: number;
   isGrabbed: boolean;
+  totalChildrens: number;
 }
 
 const DragSliderContainer = styled.div`
@@ -15,7 +16,7 @@ const DragSliderContainer = styled.div`
   position: relative;
 
   width: auto;
-  height: 40px;
+  height: 60px;
 
   overflow-x: hidden;
 
@@ -44,9 +45,12 @@ const DragSliderOverflow = styled.div.attrs<IDragSliderOverflow>(
   },
 )<IDragSliderOverflow>`
   position: absolute;
-  display: inline-flexbox;
+  display: grid;
+  grid-template-columns: ${({ totalChildrens }) => `repeat(${totalChildrens}, 1fr)`};
+  align-items: center;
   gap: ${({ gap }) => `${gap}px`};
   width: 100%;
+  height: 100%;
 `;
 
 export { DragSliderContainer, DragSliderOverflow };

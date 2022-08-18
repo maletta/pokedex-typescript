@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "styled-components";
 
 import ModalSlider from "components/ModalSlider";
@@ -7,6 +7,8 @@ import { IconBasePokemonTypes } from "components/IconBase";
 import DragSlider from "components/DragSlider";
 
 import { ModalFilterContainer, GridFilter } from "./styles";
+import { PokemonTypesKeyOf } from "types/theme-types";
+import { PokemonTypesIcon } from "components/Icon";
 
 interface IModalFilter {
   isOpen: boolean;
@@ -15,6 +17,11 @@ interface IModalFilter {
 
 const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
   const { colors, types } = useTheme();
+  const [typeSelected, setTypeSelected] = useState<PokemonTypesKeyOf | null>(null);
+
+  function onIconBaseClick(type: PokemonTypesKeyOf) {
+    setTypeSelected(type);
+  }
 
   return (
     <ModalSlider isOpen={isOpen} closeModal={closeModal}>
@@ -27,7 +34,12 @@ const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
         <FilterTitle customCss={{ marginTop: "35px" }}>Types</FilterTitle>
         <DragSlider totalChildrens={types.length} isVisible={isOpen}>
           {types.map(currentType => (
-            <IconBasePokemonTypes type={currentType} key={currentType} />
+            <PokemonTypesIcon
+              key={currentType}
+              type={currentType}
+              variant={currentType === typeSelected ? "secondary" : "primary"}
+              handleClick={onIconBaseClick}
+            />
           ))}
         </DragSlider>
       </ModalFilterContainer>
