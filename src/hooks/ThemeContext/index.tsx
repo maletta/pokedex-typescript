@@ -7,14 +7,15 @@ import {
   ColorWeightGenerics,
   ColorDefaultGenerics,
   ITheme,
-  PokemonTypes,
   // IThemeColors,
-  // PokemonHeight,
-  // PokemonTypes,
-  // PokemonWeight,
+  PokemonTypes,
+  PokemonHeight,
+  PokemonWeight,
 } from "types/theme-types";
 
 const pokemonTypesArray = Object.values(PokemonTypes);
+const pokemonHeightsArray = Object.values(PokemonHeight);
+const pokemonWeightsArray = Object.values(PokemonWeight);
 
 const ColorType: ColorTypesGenerics = {
   BUG: "#8CB230",
@@ -85,10 +86,22 @@ const ColorHeight: ColorHeightGenerics = {
   TALL: "#AAACB8",
 };
 
+const ColorHeightOpacity: ColorHeightGenerics = {
+  SHORT: "rgba(255, 197, 230, 0.3)",
+  MEDIUM: "rgba(174, 191, 215, 0.3)",
+  TALL: "rgba(170, 172, 184, 0.3)",
+};
+
 const ColorWeight: ColorWeightGenerics = {
   LIGHT: "#99CD7C",
   NORMAL: "#57B2DC",
   HEAVY: "#5A92A5",
+};
+
+const ColorWeightOpacity: ColorWeightGenerics = {
+  LIGHT: "rgba(153, 205, 124, 0.3)",
+  NORMAL: "rgba(87, 178, 220, 0.3)",
+  HEAVY: "rgba(90, 146, 165, 0.3)",
 };
 
 const ColorDefault: ColorDefaultGenerics = {
@@ -107,10 +120,14 @@ const ThemeContext = createContext<ITheme>({
     typeOpacity: ColorTypeOpacity,
     background: ColorTypeBackground,
     height: ColorHeight,
+    heightOpacity: ColorHeightOpacity,
     weight: ColorWeight,
+    weightOpacity: ColorWeightOpacity,
     default: ColorDefault,
   },
   types: pokemonTypesArray,
+  heights: pokemonHeightsArray,
+  weights: pokemonWeightsArray,
 });
 
 const ThemeContextProvider = ({ children }: IThemeProps) => {
@@ -120,10 +137,14 @@ const ThemeContextProvider = ({ children }: IThemeProps) => {
       typeOpacity: ColorTypeOpacity,
       background: ColorTypeBackground,
       height: ColorHeight,
+      heightOpacity: ColorHeightOpacity,
       weight: ColorWeight,
+      weightOpacity: ColorWeightOpacity,
       default: ColorDefault,
     },
     types: pokemonTypesArray,
+    heights: pokemonHeightsArray,
+    weights: pokemonWeightsArray,
   });
 
   function iterateColors<T>(array: T, label: string) {

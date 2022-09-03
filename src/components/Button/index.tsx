@@ -5,10 +5,15 @@ import StyledButton from "./styles";
 interface Props {
   children: React.ReactNode;
   variant?: "primary" | "secondary";
+  handleClick?: () => void;
 }
 
-const Button: React.FC<Props> = ({ children, variant = "primary" }) => {
-  return <StyledButton variant={variant}>{children}</StyledButton>;
+const Button: React.FC<Props> = ({ children, variant = "primary", handleClick }) => {
+  return (
+    <StyledButton variant={variant} onClick={handleClick}>
+      {children}
+    </StyledButton>
+  );
 };
 
 export default Button;

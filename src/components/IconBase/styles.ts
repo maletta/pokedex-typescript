@@ -6,15 +6,15 @@ interface IIconBaseProps {
   variant: "primary" | "secondary";
 }
 interface IGetPokemonTypeProps extends IIconBaseProps {
-  color: PokemonTypesKeyOf;
+  pokemonType: PokemonTypesKeyOf;
 }
 
 interface IGetPokemonHeightProps extends IIconBaseProps {
-  color: PokemonHeightKeyOf;
+  pokemonHeight: PokemonHeightKeyOf;
 }
 
 interface IGetPokemonWeightProps extends IIconBaseProps {
-  color: PokemonWeightKeyOf;
+  pokemonWeight: PokemonWeightKeyOf;
 }
 
 interface IGenericSVG {
@@ -41,10 +41,10 @@ const ContainerType = styled(GenericSVG)<IGetPokemonTypeProps>`
     width: 100%;
     height: 100%;
     path {
-      ${({ color, variant, theme }) => {
+      ${({ pokemonType, variant, theme }) => {
         if (variant === "primary")
           return css`
-            fill: ${theme.colors.type[color]};
+            fill: ${theme.colors.type[pokemonType]};
           `;
       }};
     }
@@ -56,10 +56,10 @@ const ContainerHeight = styled(GenericSVG)<IGetPokemonHeightProps>`
     width: 100%;
     height: 100%;
     path {
-      ${({ color, variant, theme }) => {
+      ${({ pokemonHeight, variant, theme }) => {
         if (variant === "primary")
           return css`
-            fill: ${theme.colors.height[color]};
+            fill: ${theme.colors.height[pokemonHeight]};
           `;
       }};
     }
@@ -71,10 +71,10 @@ const ContainerWeight = styled(GenericSVG)<IGetPokemonWeightProps>`
     width: 100%;
     height: 100%;
     path {
-      ${({ color, variant, theme }) => {
+      ${({ pokemonWeight, variant, theme }) => {
         if (variant === "primary")
           return css`
-            fill: ${theme.colors.weight[color]};
+            fill: ${theme.colors.weight[pokemonWeight]};
           `;
       }};
     }

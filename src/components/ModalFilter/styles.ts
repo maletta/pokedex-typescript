@@ -5,12 +5,17 @@ const ModalFilterContainer = styled.div`
 `;
 
 const GridFilter = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 14px;
-  grid-row-gap: 14px;
-
-  margin-top: 35px;
+  margin-top: 28px;
+  padding-right: 40px;
+  width: 100%;
 `;
 
-export { ModalFilterContainer, GridFilter };
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 60px;
+  padding-right: 40px;
+`;
+
+export { ModalFilterContainer, GridFilter, ButtonGroup };

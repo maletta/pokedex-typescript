@@ -8,23 +8,25 @@ import TextInput from "components/TextInput";
 import PokemonCard from "components/PokemonCard";
 import ModalGeneration from "components/ModalGeneration";
 import ModalFilter from "components/ModalFilter";
+import ModalSort from "components/ModalSort";
 import { useMenuContext } from "hooks/MenuContext";
 
 import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from "./styles";
 
 const Home: React.FC = () => {
-  const { isGeneration, setIsGeneration, isFilter, setIsFilter } = useMenuContext();
+  const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter } = useMenuContext();
 
   return (
     <>
       <ModalGeneration isOpen={isGeneration} closeModal={() => setIsGeneration(false)} />
+      <ModalSort isOpen={isSort} closeModal={() => setIsSort(false)} />
       <ModalFilter isOpen={isFilter} closeModal={() => setIsFilter(false)} />
       <HomeContainer>
         <MenuFilter>
           <IconButton onClick={() => setIsGeneration(true)}>
             <GenerationSVG />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => setIsSort(true)}>
             <SortSVG />
           </IconButton>
           <IconButton onClick={() => setIsFilter(true)}>

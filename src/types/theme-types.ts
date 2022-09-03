@@ -84,11 +84,15 @@ export type IThemeColors = {
   typeOpacity: ColorTypesGenerics;
   background: ColorTypesGenerics;
   height: ColorHeightGenerics;
+  heightOpacity: ColorHeightGenerics;
   weight: ColorWeightGenerics;
+  weightOpacity: ColorWeightGenerics;
   default: ColorDefaultGenerics;
 };
 
 export type ITheme = {
   colors: IThemeColors;
   types: Array<PokemonTypes>;
+  heights: Array<PokemonHeight>;
+  weights: Array<PokemonWeight>;
 };

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 interface IDragSliderOverflow {
   gap: number;
@@ -16,7 +16,7 @@ const DragSliderContainer = styled.div`
   position: relative;
 
   width: auto;
-  height: 60px;
+  height: 70px;
 
   overflow-x: hidden;
 
@@ -47,6 +47,17 @@ const DragSliderOverflow = styled.div.attrs<IDragSliderOverflow>(
   position: absolute;
   display: grid;
   grid-template-columns: ${({ totalChildrens }) => `repeat(${totalChildrens}, 1fr)`};
+  ${({ totalChildrens }) => {
+    if (totalChildrens > 3)
+      return css`
+        grid-template-columns: ${() => `repeat(${totalChildrens}, 1fr)`};
+      `;
+    else
+      return css`
+        grid-template-columns: ${() => `repeat(${totalChildrens}, 50px)`};
+      `;
+  }}
+
   align-items: center;
   gap: ${({ gap }) => `${gap}px`};
   width: 100%;
