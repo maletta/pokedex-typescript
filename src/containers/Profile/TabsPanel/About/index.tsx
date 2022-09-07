@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 
 import { Description, FilterTitle } from "components/Titles";
+import { IconBasePokemonTypes } from "components/IconBase";
+import { PokemonTypesKeyOf } from "types/theme-types";
 
-import { AboutContainer, GridInfo, GridInfoItem } from "./styles";
+import { AboutContainer, GridInfo, GridInfoItem, WeaknessBadge } from "./styles";
 
 const About: React.FC = () => {
   const pokemonDescription =
     "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.";
+  const weaknesses: Array<PokemonTypesKeyOf> = ["FIRE", "FLYING", "ICE", "PSYCHIC"];
+
   return (
     <AboutContainer>
       <Description customCss={{ color: "#747476" }}>{pokemonDescription}</Description>
@@ -32,7 +36,13 @@ const About: React.FC = () => {
         </GridInfoItem>
 
         <GridInfoItem>Weaknesses</GridInfoItem>
-        <GridInfoItem>type type type</GridInfoItem>
+        <GridInfoItem className="weaknesses">
+          {weaknesses.map(weakness => (
+            <WeaknessBadge key={weakness} type={weakness}>
+              <IconBasePokemonTypes type={weakness} variant={"secondary"} size={15} />
+            </WeaknessBadge>
+          ))}
+        </GridInfoItem>
       </GridInfo>
 
       <FilterTitle>Training</FilterTitle>

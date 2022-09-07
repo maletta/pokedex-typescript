@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+import { PokemonTypesKeyOf } from "types/theme-types";
+
+interface WeaknessProps {
+  type: PokemonTypesKeyOf;
+}
+
 const AboutContainer = styled.div`
   padding-top: 15px;
 `;
@@ -44,6 +50,11 @@ const GridInfoItem = styled.div`
     flex-direction: column;
   }
 
+  &&.weaknesses {
+    display: flex;
+    gap: 10px;
+  }
+
   &&.gender {
     & span:first-child {
       color: ${({ theme }) => theme.colors.type.FLYING};
@@ -55,4 +66,10 @@ const GridInfoItem = styled.div`
   }
 `;
 
-export { AboutContainer, GridInfo, GridInfoItem };
+const WeaknessBadge = styled.span<WeaknessProps>`
+  padding: 5px;
+  background-color: ${({ theme, type }) => theme.colors.type[type]};
+  border-radius: 3px;
+`;
+
+export { AboutContainer, GridInfo, GridInfoItem, WeaknessBadge };

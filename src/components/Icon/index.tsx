@@ -3,44 +3,45 @@ import { IconBasePokemonTypes, IconBasePokemonHeights, IconBasePokemonWeights } 
 import { PokemonTypesKeyOf, PokemonHeightKeyOf, PokemonWeightKeyOf } from "types/theme-types";
 import { ContainerPokemonTypes, ContainerPokemonHeights, ContainerPokemonWeights } from "./styles";
 
-interface PropsPokemonTypes {
+interface IconProps {
   variant: "primary" | "secondary";
+  size?: number;
+}
+interface PropsPokemonTypes extends IconProps {
   type: PokemonTypesKeyOf;
   handleClick?: (type: PokemonTypesKeyOf) => void;
 }
 
-interface PropsPokemonHeights {
-  variant: "primary" | "secondary";
+interface PropsPokemonHeights extends IconProps {
   height: PokemonHeightKeyOf;
   handleClick?: (type: PokemonHeightKeyOf) => void;
 }
 
-interface PropsPokemonWeights {
-  variant: "primary" | "secondary";
+interface PropsPokemonWeights extends IconProps {
   weight: PokemonWeightKeyOf;
   handleClick?: (type: PokemonWeightKeyOf) => void;
 }
 
-const PokemonTypesIcon: React.FC<PropsPokemonTypes> = ({ handleClick, type, variant = "primary" }) => {
+const PokemonTypesIcon: React.FC<PropsPokemonTypes> = ({ handleClick, type, variant = "primary", size = 25 }) => {
   return (
     <ContainerPokemonTypes type={type} variant={variant} onClick={() => (handleClick ? handleClick(type) : null)}>
-      <IconBasePokemonTypes type={type} size={25} variant={variant} />
+      <IconBasePokemonTypes type={type} size={size} variant={variant} />
     </ContainerPokemonTypes>
   );
 };
 
-const PokemonHeightsIcon: React.FC<PropsPokemonHeights> = ({ handleClick, height, variant = "primary" }) => {
+const PokemonHeightsIcon: React.FC<PropsPokemonHeights> = ({ handleClick, height, variant = "primary", size = 25 }) => {
   return (
     <ContainerPokemonHeights height={height} variant={variant} onClick={() => (handleClick ? handleClick(height) : null)}>
-      <IconBasePokemonHeights height={height} size={25} variant={variant} />
+      <IconBasePokemonHeights height={height} size={size} variant={variant} />
     </ContainerPokemonHeights>
   );
 };
 
-const PokemonWeightsIcon: React.FC<PropsPokemonWeights> = ({ handleClick, weight, variant = "primary" }) => {
+const PokemonWeightsIcon: React.FC<PropsPokemonWeights> = ({ handleClick, weight, variant = "primary", size = 25 }) => {
   return (
     <ContainerPokemonWeights weight={weight} variant={variant} onClick={() => (handleClick ? handleClick(weight) : null)}>
-      <IconBasePokemonWeights weight={weight} size={25} variant={variant} />
+      <IconBasePokemonWeights weight={weight} size={size} variant={variant} />
     </ContainerPokemonWeights>
   );
 };

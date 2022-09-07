@@ -45,6 +45,7 @@ const Profile: React.FC = () => {
   return (
     <ProfileWrapper>
       <Banner className={scrollY ? "scrolled" : ""}>
+        <BackIcon src="assets/back-icon.svg" />
         <PokemonNameBackground className={scrollY ? "scrolled" : ""}>{name.toUpperCase()}</PokemonNameBackground>
         <PokemonInfo className={scrollY ? "scrolled" : ""}>
           <PokemonImage>
@@ -66,7 +67,6 @@ const Profile: React.FC = () => {
           </PokemonDescription>
         </PokemonInfo>
         <PokemonInfoScrolled>
-          <BackIcon src="assets/back-icon.svg" />
           <PokemonName variant="secondary" customCss={{ fontSize: "2.6rem" }}>
             {name}
           </PokemonName>

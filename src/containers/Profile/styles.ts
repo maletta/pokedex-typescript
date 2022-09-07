@@ -91,8 +91,10 @@ const BackIcon = styled.img`
   height: 20px;
 
   left: 42px;
+  top: 42px;
 
   cursor: pointer;
+  z-index: 2;
 `;
 
 const PokemonImage = styled.div`
@@ -176,6 +178,7 @@ const Content = styled.div`
   min-height: calc(100vh - 265px - 50px + (110px + 250px));
   width: 100%;
   padding-inline: 40px;
+  padding-bottom: 50px;
 
   background-color: bisque;
 
