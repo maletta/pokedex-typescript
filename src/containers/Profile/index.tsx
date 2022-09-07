@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { PokemonNumber, PokemonName } from "components/Titles";
 import Badge from "components/Badge";
 
 import { PokemonTypesKeyOf } from "types/theme-types";
 
+import { About, Stats, Evolution } from "./TabsPanel";
 import {
   ProfileWrapper,
   Banner,
@@ -13,19 +14,39 @@ import {
   PokemonImage,
   PokemonDescription,
   BadgeGroup,
+  PokemonInfoScrolled,
+  BackIcon,
   Content,
+  TabsContainer,
+  TabsGroup,
+  Tab,
 } from "./styles";
 
 const Profile: React.FC = () => {
   const name = "Bulbasaur";
   const number = "#001";
   const types: Array<PokemonTypesKeyOf> = ["GRASS", "POISON"];
+  const [scrollY, setScrollY] = useState<boolean>(false);
+
+  /** função para add classe scroll */
+  const onScrollPage = () => {
+    if (window.scrollY > 100) setScrollY(true);
+    else setScrollY(false);
+
+    console.log("window.scrollY > 105", window.scrollY, window.scrollY > 105);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScrollPage);
+
+    return () => window.removeEventListener("scroll", onScrollPage);
+  }, []);
 
   return (
     <ProfileWrapper>
-      <Banner>
-        <PokemonNameBackground>{name.toUpperCase()}</PokemonNameBackground>
-        <PokemonInfo>
+      <Banner className={scrollY ? "scrolled" : ""}>
+        <PokemonNameBackground className={scrollY ? "scrolled" : ""}>{name.toUpperCase()}</PokemonNameBackground>
+        <PokemonInfo className={scrollY ? "scrolled" : ""}>
           <PokemonImage>
             <img src="assets/pokemon-example.png" alt="pokemon illustrate" />
           </PokemonImage>
@@ -44,8 +65,23 @@ const Profile: React.FC = () => {
             </BadgeGroup>
           </PokemonDescription>
         </PokemonInfo>
+        <PokemonInfoScrolled>
+          <BackIcon src="assets/back-icon.svg" />
+          <PokemonName variant="secondary" customCss={{ fontSize: "2.6rem" }}>
+            {name}
+          </PokemonName>
+        </PokemonInfoScrolled>
       </Banner>
-      <Content>1 2 3</Content>
+      <TabsContainer className={scrollY ? "scrolled" : ""}>
+        <TabsGroup>
+          <Tab>About</Tab>
+          <Tab>Stats</Tab>
+          <Tab className="active">Evolution</Tab>
+        </TabsGroup>
+      </TabsContainer>
+      <Content className={scrollY ? "scrolled" : ""}>
+        <About />
+      </Content>
     </ProfileWrapper>
   );
 };
