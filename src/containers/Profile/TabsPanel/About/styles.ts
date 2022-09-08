@@ -7,7 +7,12 @@ interface WeaknessProps {
 }
 
 const AboutContainer = styled.div`
+  display: none;
   padding-top: 15px;
+
+  &.isOpen {
+    display: block;
+  }
 `;
 
 const GridInfo = styled.div`

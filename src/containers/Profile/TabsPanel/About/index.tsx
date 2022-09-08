@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTheme } from "styled-components";
 
 import { Description, FilterTitle } from "components/Titles";
 import { IconBasePokemonTypes } from "components/IconBase";
@@ -6,14 +7,19 @@ import { PokemonTypesKeyOf } from "types/theme-types";
 
 import { AboutContainer, GridInfo, GridInfoItem, WeaknessBadge } from "./styles";
 
-const About: React.FC = () => {
+interface AboutProps {
+  isOpen: boolean;
+}
+
+const About: React.FC<AboutProps> = ({ isOpen }) => {
+  const { colors } = useTheme();
   const pokemonDescription =
     "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.";
   const weaknesses: Array<PokemonTypesKeyOf> = ["FIRE", "FLYING", "ICE", "PSYCHIC"];
 
   return (
-    <AboutContainer>
-      <Description customCss={{ color: "#747476" }}>{pokemonDescription}</Description>
+    <AboutContainer className={isOpen ? "isOpen" : ""}>
+      <Description customCss={{ color: colors.default.GREY }}>{pokemonDescription}</Description>
 
       <FilterTitle customCss={{ marginTop: "30px" }}>Pokédex Data</FilterTitle>
       <GridInfo>

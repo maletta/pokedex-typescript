@@ -80,7 +80,8 @@ const Profile: React.FC = () => {
         </TabsGroup>
       </TabsContainer>
       <Content className={scrollY ? "scrolled" : ""}>
-        <About />
+        <About isOpen={false} />
+        <Stats isOpen={true} />
       </Content>
     </ProfileWrapper>
   );
