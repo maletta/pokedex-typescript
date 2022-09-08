@@ -169,6 +169,8 @@ const Tab = styled.div`
   line-height: 1.9rem;
   color: white;
 
+  cursor: pointer;
+
   &.active {
     background-image: url("assets/patterns/pokeball-gradient-tab.svg");
     background-size: cover;

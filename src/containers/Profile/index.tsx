@@ -23,18 +23,23 @@ import {
 
 import { ReactComponent as BackIconSVG } from "assets/back-icon.svg";
 
+enum TabsENUM {
+  ABOUT = "ABOUT",
+  STATS = "STATS",
+  EVOLUTION = "EVOLUTION",
+}
+
 const Profile: React.FC = () => {
   const name = "Bulbasaur";
   const number = "#001";
   const types: Array<PokemonTypesKeyOf> = ["GRASS", "POISON"];
   const [scrollY, setScrollY] = useState<boolean>(false);
+  const [selectedTab, setSelectedTab] = useState<TabsENUM>(TabsENUM.ABOUT);
 
   /** função para add classe scroll */
   const onScrollPage = () => {
     if (window.scrollY > 100) setScrollY(true);
     else setScrollY(false);
-
-    console.log("window.scrollY > 105", window.scrollY, window.scrollY > 105);
   };
 
   useEffect(() => {
@@ -55,7 +60,7 @@ const Profile: React.FC = () => {
 
           <PokemonDescription>
             <PokemonNumber variant="primary" customCss={{ fontSize: "1.6rem", opacity: 0.6 }}>
-              #001
+              {number}
             </PokemonNumber>
             <PokemonName variant="secondary" customCss={{ fontSize: "3.2rem" }}>
               {name}
@@ -75,15 +80,21 @@ const Profile: React.FC = () => {
       </Banner>
       <TabsContainer className={scrollY ? "scrolled" : ""}>
         <TabsGroup>
-          <Tab>About</Tab>
-          <Tab>Stats</Tab>
-          <Tab className="active">Evolution</Tab>
+          <Tab onClick={() => setSelectedTab(TabsENUM.ABOUT)} className={selectedTab === TabsENUM.ABOUT ? "active" : ""}>
+            About
+          </Tab>
+          <Tab onClick={() => setSelectedTab(TabsENUM.STATS)} className={selectedTab === TabsENUM.STATS ? "active" : ""}>
+            Stats
+          </Tab>
+          <Tab onClick={() => setSelectedTab(TabsENUM.EVOLUTION)} className={selectedTab === TabsENUM.EVOLUTION ? "active" : ""}>
+            Evolution
+          </Tab>
         </TabsGroup>
       </TabsContainer>
       <Content className={scrollY ? "scrolled" : ""}>
-        <About isOpen={false} />
-        <Stats isOpen={false} />
-        <Evolution isOpen={true} />
+        <About isOpen={selectedTab === TabsENUM.ABOUT} />
+        <Stats isOpen={selectedTab === TabsENUM.STATS} />
+        <Evolution isOpen={selectedTab === TabsENUM.EVOLUTION} />
       </Content>
     </ProfileWrapper>
   );
