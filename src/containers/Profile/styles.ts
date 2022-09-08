@@ -13,6 +13,7 @@ const Banner = styled.div`
   overflow-x: hidden;
 
   background-color: cadetblue;
+  z-index: 1;
 
   /* transition: height 0.5s cubic-bezier(0, 1, 0, 1); */
 
@@ -20,6 +21,18 @@ const Banner = styled.div`
     position: sticky;
     top: 0;
     height: 105px;
+  }
+
+  svg.backIcon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+
+    left: 42px;
+    top: 42px;
+
+    cursor: pointer;
+    z-index: 2;
   }
 `;
 
@@ -85,18 +98,6 @@ const PokemonInfoScrolled = styled.div`
   height: 100%;
 `;
 
-const BackIcon = styled.img`
-  position: absolute;
-  width: 20px;
-  height: 20px;
-
-  left: 42px;
-  top: 42px;
-
-  cursor: pointer;
-  z-index: 2;
-`;
-
 const PokemonImage = styled.div`
   /* stored in public folder */
   background-image: url("assets/patterns/circle-gradient.svg");
@@ -129,6 +130,7 @@ const TabsContainer = styled.div`
   height: 75px; /** before + TabsGroup height */
 
   background-color: cadetblue;
+  z-index: 1;
 
   &::before {
     content: "";
@@ -138,7 +140,7 @@ const TabsContainer = styled.div`
     height: 25px;
     width: 100%;
 
-    background-color: bisque;
+    background-color: ${({ theme }) => theme.colors.default.WHITE};
     border-radius: 30px 30px 0px 0px;
   }
 
@@ -180,7 +182,7 @@ const Content = styled.div`
   padding-inline: 40px;
   padding-bottom: 50px;
 
-  background-color: bisque;
+  background-color: ${({ theme }) => theme.colors.default.WHITE};
 
   &.scrolled {
     /** margin-top is bigger then TabsContainer height*/
@@ -194,7 +196,6 @@ export {
   PokemonNameBackground,
   PokemonInfo,
   PokemonInfoScrolled,
-  BackIcon,
   PokemonImage,
   PokemonDescription,
   BadgeGroup,

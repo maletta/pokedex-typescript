@@ -15,12 +15,13 @@ import {
   PokemonDescription,
   BadgeGroup,
   PokemonInfoScrolled,
-  BackIcon,
   Content,
   TabsContainer,
   TabsGroup,
   Tab,
 } from "./styles";
+
+import { ReactComponent as BackIconSVG } from "assets/back-icon.svg";
 
 const Profile: React.FC = () => {
   const name = "Bulbasaur";
@@ -45,7 +46,7 @@ const Profile: React.FC = () => {
   return (
     <ProfileWrapper>
       <Banner className={scrollY ? "scrolled" : ""}>
-        <BackIcon src="assets/back-icon.svg" />
+        <BackIconSVG className="backIcon" />
         <PokemonNameBackground className={scrollY ? "scrolled" : ""}>{name.toUpperCase()}</PokemonNameBackground>
         <PokemonInfo className={scrollY ? "scrolled" : ""}>
           <PokemonImage>
@@ -81,7 +82,8 @@ const Profile: React.FC = () => {
       </TabsContainer>
       <Content className={scrollY ? "scrolled" : ""}>
         <About isOpen={false} />
-        <Stats isOpen={true} />
+        <Stats isOpen={false} />
+        <Evolution isOpen={true} />
       </Content>
     </ProfileWrapper>
   );
