@@ -5,6 +5,7 @@ import { PokemonNumber, PokemonName } from "components/Titles";
 import Badge from "components/Badge";
 
 import { PokemonTypesKeyOf } from "types/theme-types";
+import { useTypeWeaknesses } from "hooks/TypeCalculatorHook";
 
 import { About, Stats, Evolution } from "./TabsPanel";
 import {
@@ -37,6 +38,9 @@ const Profile: React.FC = () => {
   const [scrollY, setScrollY] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<TabsENUM>(TabsENUM.ABOUT);
   const navigate = useNavigate();
+  const typeWeaknesses = useTypeWeaknesses(types);
+
+  console.log("typeWeaknesses ", typeWeaknesses);
 
   /** função para add classe scroll */
   const onScrollPage = () => {
