@@ -31,6 +31,8 @@ const ContainerBackground = styled.div<IContainerBackground>`
 
   background-color: ${({ theme, type }) => theme.colors.background[type]};
   box-shadow: 0px 10px 20px rgba(139, 190, 138, 0.4);
+
+  cursor: pointer;
 `;
 
 const BadgeContainer = styled.div`

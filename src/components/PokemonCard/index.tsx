@@ -9,11 +9,12 @@ interface IPokemonCard {
   name: string;
   number: number;
   types: Array<PokemonTypesKeyOf>;
+  onClick?: (args: any) => void;
 }
 
-const PokemonCard: React.FC<IPokemonCard> = ({ name, number, types }) => {
+const PokemonCard: React.FC<IPokemonCard> = ({ name, number, types, onClick }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <ContainerBackground type={types[0]}>
         <PokemonInfo>
           <PokemonNumber customCss={{ opacity: "0.6" }}>#{`${number}`}</PokemonNumber>

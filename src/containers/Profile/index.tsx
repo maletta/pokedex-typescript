@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { PokemonNumber, PokemonName } from "components/Titles";
 import Badge from "components/Badge";
@@ -35,6 +36,7 @@ const Profile: React.FC = () => {
   const types: Array<PokemonTypesKeyOf> = ["GRASS", "POISON"];
   const [scrollY, setScrollY] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<TabsENUM>(TabsENUM.ABOUT);
+  const navigate = useNavigate();
 
   /** função para add classe scroll */
   const onScrollPage = () => {
@@ -51,7 +53,7 @@ const Profile: React.FC = () => {
   return (
     <ProfileWrapper>
       <Banner className={scrollY ? "scrolled" : ""}>
-        <BackIconSVG className="backIcon" />
+        <BackIconSVG className="backIcon" onClick={() => navigate("/")} />
         <PokemonNameBackground className={scrollY ? "scrolled" : ""}>{name.toUpperCase()}</PokemonNameBackground>
         <PokemonInfo className={scrollY ? "scrolled" : ""}>
           <PokemonImage>

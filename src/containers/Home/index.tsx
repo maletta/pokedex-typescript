@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { ApplicationTitle, FilterTitle } from "components/Titles";
 import { ReactComponent as GenerationSVG } from "assets/icons/menu/generation-icon.svg";
@@ -15,6 +16,11 @@ import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } fro
 
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter } = useMenuContext();
+  const navigate = useNavigate();
+
+  function onClickNavigate(pokemonNumber: number) {
+    navigate(`/${pokemonNumber}`);
+  }
 
   return (
     <>
@@ -42,10 +48,10 @@ const Home: React.FC = () => {
           <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: "25px" }} />
 
           <PokemonCardContainer>
-            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} />
-            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} />
-            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} />
-            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} />
+            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
+            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
+            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
+            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
           </PokemonCardContainer>
         </Main>
       </HomeContainer>
