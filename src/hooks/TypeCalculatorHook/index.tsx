@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 
-import { PokemonTypesKeyOf } from "types/theme-types";
+import { PokemonTypesKeyOf, PokemonTypes } from "types/theme-types";
 
-type TypeTypeWeaknessesHook = (types: Array<PokemonTypesKeyOf>) => void;
+type TypeWeaknessesHook = (types: Array<PokemonTypesKeyOf>) => Array<PokemonTypesKeyOf>;
 
 type TypeColumnType = Array<PokemonTypesKeyOf>;
 type TypeColumValue = number[][];
 
-const columnType: Array<PokemonTypesKeyOf> = [
+type TypeEffectiveness = {
+  [key in PokemonTypes]: number;
+};
+
+type TypeEffectivenessArray = [Array<PokemonTypesKeyOf>, Array<number>];
+
+type TypeEffectivenessHook = (types: Array<PokemonTypesKeyOf>) => TypeEffectivenessArray;
+
+const columnType: TypeColumnType = [
   "NORMAL",
   "FIRE",
   "WATER",
@@ -28,26 +36,28 @@ const columnType: Array<PokemonTypesKeyOf> = [
   "FAIRY",
 ];
 
-// ATK x DEF
+// array[ATK][DEF]
+// resource: https://c02.co/apps/pokemon/
+// coluna invertida / transposta
 const columnValue: TypeColumValue = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 / 2, 0, 1, 1, 1 / 2, 1],
-  [1, 1 / 2, 1 / 2, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1 / 2, 1, 1 / 2, 1, 2, 1],
-  [1, 2, 1 / 2, 1, 1 / 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1 / 2, 1, 1, 1],
-  [1, 1, 2, 1 / 2, 1 / 2, 1, 1, 1, 0, 2, 1, 1, 1, 1, 1 / 2, 1, 1, 1],
-  [1, 1 / 2, 2, 1, 1 / 2, 1, 1, 1 / 2, 2, 1 / 2, 1, 1 / 2, 2, 1, 1 / 2, 1, 1 / 2, 1],
-  [1, 1 / 2, 1 / 2, 1, 2, 1 / 2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 1 / 2, 1],
-  [2, 1, 1, 1, 1, 2, 1, 1 / 2, 1, 1 / 2, 1 / 2, 1 / 2, 2, 0, 1, 2, 2, 1 / 2],
-  [1, 1, 1, 1, 2, 1, 1, 1 / 2, 1 / 2, 1, 1, 1, 1 / 2, 1 / 2, 1, 1, 0, 2],
-  [1, 2, 1, 2, 1 / 2, 1, 1, 2, 1, 0, 1, 1 / 2, 2, 1, 1, 1, 2, 1],
-  [1, 1, 1, 1 / 2, 2, 1, 2, 1, 1, 1, 1, 2, 1 / 2, 1, 1, 1, 1 / 2, 1],
-  [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1 / 2, 1, 1, 1, 1, 0, 1 / 2, 1],
-  [1, 1 / 2, 1, 1, 2, 1, 1 / 2, 1 / 2, 1, 1 / 2, 2, 1, 1, 1 / 2, 1, 2, 1 / 2, 1 / 2],
-  [1, 2, 1, 1, 1, 2, 1 / 2, 1, 1 / 2, 2, 1, 2, 1, 1, 1, 1, 1 / 2, 1],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1 / 2, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1 / 2, 1 / 2, 0],
-  [1, 1, 1, 1, 1, 1, 1 / 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1 / 2],
-  [1, 1 / 2, 1 / 2, 1 / 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1 / 2, 2],
-  [1, 1 / 2, 1, 1, 1, 1, 2, 1 / 2, 1, 1, 1, 1, 1, 1, 2, 2, 1 / 2, 1],
+  /*0 NORMAL */ [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 / 2, 0, 1, 1, 1 / 2, 1],
+  /*1 FIRE */ [1, 1 / 2, 1 / 2, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1 / 2, 1, 1 / 2, 1, 2, 1],
+  /*2 WATER */ [1, 2, 1 / 2, 1, 1 / 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1 / 2, 1, 1, 1],
+  /*3 ELECTRIC */ [1, 1, 2, 1 / 2, 1 / 2, 1, 1, 1, 0, 2, 1, 1, 1, 1, 1 / 2, 1, 1, 1],
+  /*4 GRASS */ [1, 1 / 2, 2, 1, 1 / 2, 1, 1, 1 / 2, 2, 1 / 2, 1, 1 / 2, 2, 1, 1 / 2, 1, 1 / 2, 1],
+  /*5 ICE */ [1, 1 / 2, 1 / 2, 1, 2, 1 / 2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 1 / 2, 1],
+  /*6 FUGHTING */ [2, 1, 1, 1, 1, 2, 1, 1 / 2, 1, 1 / 2, 1 / 2, 1 / 2, 2, 0, 1, 2, 2, 1 / 2],
+  /*7 POISON */ [1, 1, 1, 1, 2, 1, 1, 1 / 2, 1 / 2, 1, 1, 1, 1 / 2, 1 / 2, 1, 1, 0, 2],
+  /*8 GROUND */ [1, 2, 1, 2, 1 / 2, 1, 1, 2, 1, 0, 1, 1 / 2, 2, 1, 1, 1, 2, 1],
+  /*9 FLYING */ [1, 1, 1, 1 / 2, 2, 1, 2, 1, 1, 1, 1, 2, 1 / 2, 1, 1, 1, 1 / 2, 1],
+  /*10 PSYCHIC */ [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1 / 2, 1, 1, 1, 1, 0, 1 / 2, 1],
+  /*11 BUG */ [1, 1 / 2, 1, 1, 2, 1, 1 / 2, 1 / 2, 1, 1 / 2, 2, 1, 1, 1 / 2, 1, 2, 1 / 2, 1 / 2],
+  /*12 ROCK */ [1, 2, 1, 1, 1, 2, 1 / 2, 1, 1 / 2, 2, 1, 2, 1, 1, 1, 1, 1 / 2, 1],
+  /*13 GHOST */ [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1 / 2, 1, 1],
+  /*14 DRAGON */ [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1 / 2, 1 / 2, 0],
+  /*15 DARK */ [1, 1, 1, 1, 1, 1, 1 / 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1 / 2],
+  /*16 STELL */ [1, 1 / 2, 1 / 2, 1 / 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1 / 2, 2],
+  /*17 FAIRY */ [1, 1 / 2, 1, 1, 1, 1, 2, 1 / 2, 1, 1, 1, 1, 1, 1, 2, 2, 1 / 2, 1],
 ];
 
 function iteratePokemonTypes<T, K extends keyof T>(type: T, chave: K) {
@@ -61,17 +71,52 @@ function iteratePokemonTypes2<T>(array: T, selectedType: PokemonTypesKeyOf) {
   }
 }
 
-const useTypeWeaknesses: TypeTypeWeaknessesHook = params => {
+const useTypeWeaknesses: TypeWeaknessesHook = params => {
   const type1: PokemonTypesKeyOf = params[0];
   const type2: PokemonTypesKeyOf = params[1];
 
-  const pokemonAtkColumn = columnValue[columnType.indexOf(type1)];
+  const indexType1: number = columnType.indexOf(type1);
+  const indexType2: number = type2 ? columnType.indexOf(type2) : -1;
 
-  console.log(" pokemonAtkColumn ", pokemonAtkColumn);
+  // console.log(" pokemonAtkColumn ", pokemonAtkColumn);
 
-  // iteratePokemonTypes2(pokemonAtkColumn, type1);
+  const atkAgainstType1 = columnType.map((type, index) => columnValue[index][indexType1]);
+  const atkAgainstType2 =
+    indexType2 > -1 ? columnType.map((type, index) => columnValue[index][indexType2]) : new Array(columnValue.length).fill(1);
 
-  // return pokemonAtkColumn;
+  const weaknessesSuperEffective = columnType.filter((value, index) => {
+    const effectiveness = atkAgainstType1[index] * atkAgainstType2[index];
+    return effectiveness >= 2;
+  });
+
+  console.log("atkAgainstType1", atkAgainstType1);
+  console.log("atkAgainstType2", atkAgainstType2);
+  console.log("weaknessesSuperEffective", weaknessesSuperEffective);
+
+  return weaknessesSuperEffective;
 };
 
-export { useTypeWeaknesses };
+const useTypeEffectiveness: TypeEffectivenessHook = params => {
+  const type1: PokemonTypesKeyOf = params[0];
+  const type2: PokemonTypesKeyOf = params[1];
+
+  console.log(type1, type2);
+
+  const indexType1: number = columnType.indexOf(type1);
+  const indexType2: number = type2 ? columnType.indexOf(type2) : -1;
+
+  const atkAgainstType1 = columnType.map((type, index) => columnValue[index][indexType1]);
+  const atkAgainstType2 =
+    indexType2 > -1 ? columnType.map((type, index) => columnValue[index][indexType2]) : new Array(columnValue.length).fill(1);
+
+  console.log("index type1 ", indexType1, " index type2 ", indexType2);
+  const weaknessesSuperEffective = columnType.map((value, index) => {
+    const effectiveness = atkAgainstType1[index] * atkAgainstType2[index];
+    console.log("indice ", index, " value ", value, " | ", " GRASS ", atkAgainstType1[index], " POISON ", atkAgainstType2[index]);
+    return effectiveness;
+  });
+
+  return [columnType, weaknessesSuperEffective];
+};
+
+export { useTypeWeaknesses, useTypeEffectiveness };

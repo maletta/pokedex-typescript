@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "styled-components";
+import { useTypeWeaknesses } from "hooks/TypeCalculatorHook";
 
 import { Description, FilterTitle } from "components/Titles";
 import { IconBasePokemonTypes } from "components/IconBase";
@@ -15,7 +16,8 @@ const About: React.FC<AboutProps> = ({ isOpen }) => {
   const { colors } = useTheme();
   const pokemonDescription =
     "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.";
-  const weaknesses: Array<PokemonTypesKeyOf> = ["FIRE", "FLYING", "ICE", "PSYCHIC"];
+  const types: Array<PokemonTypesKeyOf> = ["GRASS", "POISON"];
+  const typeWeaknesses = useTypeWeaknesses(types);
 
   return (
     <AboutContainer className={isOpen ? "isOpen" : ""}>
@@ -43,7 +45,7 @@ const About: React.FC<AboutProps> = ({ isOpen }) => {
 
         <GridInfoItem>Weaknesses</GridInfoItem>
         <GridInfoItem className="weaknesses">
-          {weaknesses.map(weakness => (
+          {typeWeaknesses.map(weakness => (
             <WeaknessBadge key={weakness} type={weakness}>
               <IconBasePokemonTypes type={weakness} variant={"secondary"} size={15} />
             </WeaknessBadge>

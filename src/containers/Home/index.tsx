@@ -10,12 +10,14 @@ import PokemonCard from "components/PokemonCard";
 import ModalGeneration from "components/ModalGeneration";
 import ModalFilter from "components/ModalFilter";
 import ModalSort from "components/ModalSort";
+import Loading from "components/Loading";
 import { useMenuContext } from "hooks/MenuContext";
 
 import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from "./styles";
 
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter } = useMenuContext();
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   function onClickNavigate(pokemonNumber: number) {
@@ -50,11 +52,10 @@ const Home: React.FC = () => {
           <PokemonCardContainer>
             <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
             <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
-            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
-            <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
           </PokemonCardContainer>
         </Main>
       </HomeContainer>
+      <Loading isLoading={isLoading} />
     </>
   );
 };

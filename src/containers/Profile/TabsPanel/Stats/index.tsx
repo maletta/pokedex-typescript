@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "styled-components";
+import { useTypeEffectiveness } from "hooks/TypeCalculatorHook";
 
 import { Description, FilterTitle } from "components/Titles";
 import { IconBasePokemonTypes } from "components/IconBase";
@@ -43,6 +44,20 @@ const Stats: React.FC<StatsProps> = ({ isOpen }) => {
     "STEEL",
     "FAIRY",
   ];
+  const [effectivenessType, effectivenessValue] = useTypeEffectiveness(["GRASS", "POISON"]);
+  console.log("effectiveness ", effectivenessValue);
+
+  function getEffectivenessString(percent: number): string {
+    switch (percent) {
+      case 1 / 2:
+        return `½`;
+      case 1 / 4:
+        return `¼`;
+      default:
+        return `${percent}`;
+    }
+  }
+
   return (
     <StatsContainer className={isOpen ? "isOpen" : ""}>
       <FilterTitle customCss={{ color: colors.type[mainType] }}>Base Stats</FilterTitle>
@@ -114,12 +129,12 @@ const Stats: React.FC<StatsProps> = ({ isOpen }) => {
       </Description>
 
       <GridEffectiveness>
-        {typesSorted.map(type => (
+        {effectivenessType.map((type, index) => (
           <GridEffectivenessItem key={type}>
             <EffectivenessBadge type={type}>
               <IconBasePokemonTypes type={type} variant={"secondary"} size={15} />
             </EffectivenessBadge>
-            <span>1</span>
+            <span>{getEffectivenessString(effectivenessValue[index])}</span>
           </GridEffectivenessItem>
         ))}
       </GridEffectiveness>
