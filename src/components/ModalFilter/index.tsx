@@ -36,7 +36,6 @@ const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
   }
 
   function onWeightClick(weight: PokemonWeightKeyOf) {
-    console.log("wieght clicked  ", weight);
     setWeightSelected(weight);
   }
 

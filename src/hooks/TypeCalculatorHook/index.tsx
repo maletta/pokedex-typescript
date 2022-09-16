@@ -89,18 +89,12 @@ const useTypeWeaknesses: TypeWeaknessesHook = params => {
     return effectiveness >= 2;
   });
 
-  console.log("atkAgainstType1", atkAgainstType1);
-  console.log("atkAgainstType2", atkAgainstType2);
-  console.log("weaknessesSuperEffective", weaknessesSuperEffective);
-
   return weaknessesSuperEffective;
 };
 
 const useTypeEffectiveness: TypeEffectivenessHook = params => {
   const type1: PokemonTypesKeyOf = params[0];
   const type2: PokemonTypesKeyOf = params[1];
-
-  console.log(type1, type2);
 
   const indexType1: number = columnType.indexOf(type1);
   const indexType2: number = type2 ? columnType.indexOf(type2) : -1;
@@ -109,10 +103,8 @@ const useTypeEffectiveness: TypeEffectivenessHook = params => {
   const atkAgainstType2 =
     indexType2 > -1 ? columnType.map((type, index) => columnValue[index][indexType2]) : new Array(columnValue.length).fill(1);
 
-  console.log("index type1 ", indexType1, " index type2 ", indexType2);
   const weaknessesSuperEffective = columnType.map((value, index) => {
     const effectiveness = atkAgainstType1[index] * atkAgainstType2[index];
-    console.log("indice ", index, " value ", value, " | ", " GRASS ", atkAgainstType1[index], " POISON ", atkAgainstType2[index]);
     return effectiveness;
   });
 

@@ -1,6 +1,7 @@
 import styled from "styled-components/macro";
 
 const HomeContainer = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 40px auto;
@@ -17,6 +18,7 @@ const HomeContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.default.WHITE};
 
   overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const MenuFilter = styled.nav`

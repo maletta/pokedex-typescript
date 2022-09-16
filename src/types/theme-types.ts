@@ -1,42 +1,22 @@
-export type ColorName =
-  | "BUG"
-  | "DARK"
-  | "DRAGON"
-  | "ELECTRIC"
-  | "FAIRY"
-  | "FIGHTING"
-  | "FIRE"
-  | "FLYING"
-  | "GHOST"
-  | "GRASS"
-  | "GROUND"
-  | "ICE"
-  | "NORMAL"
-  | "POISON"
-  | "PSYCHIC"
-  | "ROCK"
-  | "STEEL"
-  | "WATER";
-
 export enum PokemonTypes {
-  BUG = "BUG",
-  DARK = "DARK",
-  DRAGON = "DRAGON",
-  ELECTRIC = "ELECTRIC",
-  FAIRY = "FAIRY",
-  FIGHTING = "FIGHTING",
-  FIRE = "FIRE",
-  FLYING = "FLYING",
-  GHOST = "GHOST",
-  GRASS = "GRASS",
-  GROUND = "GROUND",
-  ICE = "ICE",
   NORMAL = "NORMAL",
+  FIGHTING = "FIGHTING",
+  FLYING = "FLYING",
   POISON = "POISON",
-  PSYCHIC = "PSYCHIC",
+  GROUND = "GROUND",
   ROCK = "ROCK",
+  BUG = "BUG",
+  GHOST = "GHOST",
   STEEL = "STEEL",
+  FIRE = "FIRE",
   WATER = "WATER",
+  GRASS = "GRASS",
+  ELECTRIC = "ELECTRIC",
+  PSYCHIC = "PSYCHIC",
+  ICE = "ICE",
+  DRAGON = "DRAGON",
+  DARK = "DARK",
+  FAIRY = "FAIRY",
 }
 type PokemonTypesTypeOf = typeof PokemonTypes; // transforma o enum em tipo
 export type PokemonTypesKeyOf = keyof PokemonTypesTypeOf; // obtem as chaves do tipo em union de strings

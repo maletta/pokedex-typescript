@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ApplicationTitle, FilterTitle } from "components/Titles";
@@ -18,18 +18,33 @@ import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } fro
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter } = useMenuContext();
   const [isLoading, setIsLoading] = useState(true);
+  const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(false);
   const navigate = useNavigate();
 
   function onClickNavigate(pokemonNumber: number) {
     navigate(`/${pokemonNumber}`);
   }
 
+  function verifyScrollToBottom(scrollHeight: number, scrollTop: number, clientHeight: number) {
+    return scrollHeight - scrollTop === clientHeight;
+  }
+
+  function onHomeContainerScroll(e: React.MouseEvent<HTMLDivElement>) {
+    if (verifyScrollToBottom(e.currentTarget.scrollHeight, e.currentTarget.scrollTop, e.currentTarget.clientHeight)) {
+      setIsScrolledToBottom(true);
+    }
+  }
+
+  useEffect(() => {
+    console.log();
+  }, []);
+
   return (
     <>
       <ModalGeneration isOpen={isGeneration} closeModal={() => setIsGeneration(false)} />
       <ModalSort isOpen={isSort} closeModal={() => setIsSort(false)} />
       <ModalFilter isOpen={isFilter} closeModal={() => setIsFilter(false)} />
-      <HomeContainer>
+      <HomeContainer onScroll={onHomeContainerScroll}>
         <MenuFilter>
           <IconButton onClick={() => setIsGeneration(true)}>
             <GenerationSVG />
@@ -54,8 +69,8 @@ const Home: React.FC = () => {
             <PokemonCard name="Bulbasaur" number={1} types={["GRASS", "POISON"]} onClick={() => onClickNavigate(1)} />
           </PokemonCardContainer>
         </Main>
+        <Loading isLoading={isLoading} />
       </HomeContainer>
-      <Loading isLoading={isLoading} />
     </>
   );
 };

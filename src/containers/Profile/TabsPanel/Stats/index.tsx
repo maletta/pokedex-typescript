@@ -24,31 +24,14 @@ interface StatsProps {
 const Stats: React.FC<StatsProps> = ({ isOpen }) => {
   const { colors } = useTheme();
   const mainType = "BUG";
-  const typesSorted: Array<PokemonTypesKeyOf> = [
-    "NORMAL",
-    "FIRE",
-    "WATER",
-    "ELECTRIC",
-    "GRASS",
-    "ICE",
-    "FIGHTING",
-    "POISON",
-    "GROUND",
-    "FLYING",
-    "PSYCHIC",
-    "BUG",
-    "ROCK",
-    "GHOST",
-    "DRAGON",
-    "DARK",
-    "STEEL",
-    "FAIRY",
-  ];
+
   const [effectivenessType, effectivenessValue] = useTypeEffectiveness(["GRASS", "POISON"]);
-  console.log("effectiveness ", effectivenessValue);
+  // console.log("effectiveness ", effectivenessValue);
 
   function getEffectivenessString(percent: number): string {
     switch (percent) {
+      case 1:
+        return "";
       case 1 / 2:
         return `½`;
       case 1 / 4:
