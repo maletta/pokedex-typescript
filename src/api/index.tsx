@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Params } from "react-router-dom";
+import { PokemonTypesKeyOf } from "types/theme-types";
 
 interface IGetPokemonSpecies {
   name: string;
@@ -12,9 +12,9 @@ interface IGetPokemonStats {
   stat: { name: string; url: string };
 }
 
-interface IGetPokemoType {
+interface IGetPokemonType {
   slot: number;
-  type: { name: string; url: string };
+  type: { name: PokemonTypesKeyOf; url: string };
 }
 
 interface IGetPokemon {
@@ -33,7 +33,7 @@ interface IGetPokemon {
   species: IGetPokemonSpecies;
   sprites: { other: { "official-artwork": { front_default: string } } };
   stats: [IGetPokemonStats, IGetPokemonStats, IGetPokemonStats, IGetPokemonStats, IGetPokemonStats, IGetPokemonStats];
-  types: IGetPokemoType[];
+  types: IGetPokemonType[];
   weight: number;
 }
 
@@ -44,7 +44,7 @@ interface IGetPokemonListParams {
 
 interface IGetPokemonList {
   count: number;
-  next: string;
+  next: string | null;
   previous: string | null;
   results: Array<{ name: string; url: string }>;
 }
@@ -57,7 +57,7 @@ function getPokemon(idOrName: string | number) {
   return instance.get<IGetPokemon>(`/pokemon/${idOrName}`);
 }
 
-function getPokemonList(parms: IGetPokemonListParams) {
+function getPokemonList(parms: IGetPokemonListParams = {}) {
   const { limit, offset } = parms;
   return instance.get<IGetPokemonList>(`/pokemon`, {
     params: {
@@ -67,4 +67,4 @@ function getPokemonList(parms: IGetPokemonListParams) {
   });
 }
 
-export { getPokemon, getPokemonList };
+export { IGetPokemon, IGetPokemonList, getPokemon, getPokemonList };

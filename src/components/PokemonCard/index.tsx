@@ -6,13 +6,14 @@ import Badge from "components/Badge";
 import { Container, ContainerBackground, BadgeContainer, PokemonInfo, PokemonImage } from "./styles";
 
 interface IPokemonCard {
+  imageURL: string;
   name: string;
   number: number;
   types: Array<PokemonTypesKeyOf>;
   onClick?: (args: any) => void;
 }
 
-const PokemonCard: React.FC<IPokemonCard> = ({ name, number, types, onClick }) => {
+const PokemonCard: React.FC<IPokemonCard> = ({ imageURL, name, number, types, onClick }) => {
   return (
     <Container onClick={onClick}>
       <ContainerBackground type={types[0]}>
@@ -26,7 +27,7 @@ const PokemonCard: React.FC<IPokemonCard> = ({ name, number, types, onClick }) =
           </BadgeContainer>
         </PokemonInfo>
         <PokemonImage>
-          <img src="assets/pokemon-example.png" alt="pokemon illustrate" />
+          <img src={imageURL} alt="pokemon illustrate" />
         </PokemonImage>
       </ContainerBackground>
     </Container>
