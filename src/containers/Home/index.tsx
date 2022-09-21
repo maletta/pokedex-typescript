@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AxiosPromise, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { ApplicationTitle, FilterTitle } from "components/Titles";
 import { ReactComponent as GenerationSVG } from "assets/icons/menu/generation-icon.svg";
@@ -21,7 +21,7 @@ import { PokemonTypesKeyOf } from "types/theme-types";
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter } = useMenuContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(false);
+  const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(true);
   const [pokemonList, setPokemonList] = useState(Array<IGetPokemon>);
   const [pokemonResultList, setPokemonResultList] = useState<IGetPokemonList>();
   const navigate = useNavigate();
@@ -40,50 +40,62 @@ const Home: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    getPokemonList().then(result => setPokemonResultList(result.data));
-  }, []);
+  function batchPokemonRequest(pokemonList: IGetPokemonList) {
+    const requests: Array<Promise<AxiosResponse<IGetPokemon, any>>> = [];
+    pokemonList.results.forEach(item => {
+      requests.push(getPokemon(item.name));
+    });
+
+    const pokemonArray: Array<IGetPokemon> = [];
+
+    return Promise.all(requests)
+      .then(result => {
+        result.forEach(({ data }) => {
+          pokemonArray.push(data);
+        });
+      })
+      .then(() => pokemonArray);
+  }
 
   useEffect(() => {
-    if (isScrolledToBottom && pokemonResultList?.next) {
-      console.log("setIsloading true");
+    const next = pokemonResultList?.next || "?";
+    const params = new URLSearchParams(next.split("?")[1]);
+    const offset = parseInt(params.get("offset") || "0");
+    const limit = parseInt(params.get("limit") || "20");
+    const source = axios.CancelToken.source();
+
+    if (isScrolledToBottom) {
       setIsLoading(true);
-      const next = pokemonResultList?.next;
-      const params = new URLSearchParams(next.split("?")[1]);
-      const offset = parseInt(params.get("offset") || "20");
-      const limit = parseInt(params.get("limit") || "20");
 
-      getPokemonList({ offset, limit }).then(result => {
-        setPokemonResultList(result.data);
-      });
-    }
-
-    setIsScrolledToBottom(false);
-  }, [isScrolledToBottom]);
-
-  useEffect(() => {
-    if (pokemonResultList?.results) {
-      console.log("");
-      const requests: Array<Promise<AxiosResponse<IGetPokemon, any>>> = [];
-      pokemonResultList.results.forEach(item => {
-        requests.push(getPokemon(item.name));
-      });
-
-      const pokemonArray: Array<IGetPokemon> = [];
-
-      Promise.all(requests)
+      getPokemonList({ offset, limit, token: source.token })
         .then(result => {
-          result.forEach(({ data }) => {
-            pokemonArray.push(data);
-          });
+          const dataPokemonList: IGetPokemonList = result.data;
+          setPokemonResultList(dataPokemonList);
+          return dataPokemonList;
+        })
+        .then(dataPokemonList => {
+          return batchPokemonRequest(dataPokemonList);
+        })
+        .then(pokemonArray => {
+          setPokemonList(prev => prev.concat(pokemonArray));
+          setIsScrolledToBottom(false);
         })
         .finally(() => {
-          setPokemonList(prev => prev.concat(pokemonArray));
-          console.log("setIsLoading false ");
           setIsLoading(false);
+        })
+        .catch(e => {
+          if (axios.isCancel(e)) {
+            console.log(`request cancelled: ${e.message}`);
+          } else {
+            console.log("another error happened in getPokemonList:" + e.message);
+          }
         });
     }
-  }, [pokemonResultList]);
+
+    return () => {
+      source.cancel("Canceling pokemon getPokemonList by useEffect ");
+    };
+  }, [isScrolledToBottom]);
 
   return (
     <>
@@ -113,7 +125,6 @@ const Home: React.FC = () => {
           <PokemonCardContainer>
             {pokemonList.map(pokemon => {
               const types = pokemon.types.map(type => type.type.name.toUpperCase() as PokemonTypesKeyOf);
-              // console.log("types ", types);
               return (
                 <PokemonCard
                   key={pokemon.id}

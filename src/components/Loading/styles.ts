@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const LoadingContainer = styled.div`
   display: block;
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   left: 50%;
 

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { CancelToken } from "axios";
 import { PokemonTypesKeyOf } from "types/theme-types";
 
 interface IGetPokemonSpecies {
@@ -40,6 +40,7 @@ interface IGetPokemon {
 interface IGetPokemonListParams {
   limit?: number;
   offset?: number;
+  token?: CancelToken | undefined;
 }
 
 interface IGetPokemonList {
@@ -49,21 +50,22 @@ interface IGetPokemonList {
   results: Array<{ name: string; url: string }>;
 }
 
-const instance = axios.create({
+const axiosInstance = axios.create({
   baseURL: "https://pokeapi.co/api/v2",
 });
 
 function getPokemon(idOrName: string | number) {
-  return instance.get<IGetPokemon>(`/pokemon/${idOrName}`);
+  return axiosInstance.get<IGetPokemon>(`/pokemon/${idOrName}`);
 }
 
 function getPokemonList(parms: IGetPokemonListParams = {}) {
-  const { limit, offset } = parms;
-  return instance.get<IGetPokemonList>(`/pokemon`, {
+  const { limit, offset, token } = parms;
+  return axiosInstance.get<IGetPokemonList>(`/pokemon`, {
     params: {
       limit: limit || 20,
       offset: offset || 0,
     },
+    cancelToken: token,
   });
 }
 
