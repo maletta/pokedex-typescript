@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const ProfileWrapper = styled.div`
   position: relative;
@@ -52,7 +52,7 @@ const PokemonNameBackground = styled.div`
   z-index: 1;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
@@ -96,11 +96,15 @@ const PokemonInfoScrolled = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+
+  &.scrolled {
+    display: none;
+  }
 `;
 
 const PokemonImage = styled.div`
   /* stored in public folder */
-  background-image: url("assets/patterns/circle-gradient.svg");
+  background-image: url('assets/patterns/circle-gradient.svg');
   background-position-x: right;
   background-position-y: center;
   background-repeat: no-repeat;
@@ -133,7 +137,7 @@ const TabsContainer = styled.div`
   z-index: 1;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 50px;
 
@@ -172,7 +176,7 @@ const Tab = styled.div`
   cursor: pointer;
 
   &.active {
-    background-image: url("assets/patterns/pokeball-gradient-tab.svg");
+    background-image: url('assets/patterns/pokeball-gradient-tab.svg');
     background-size: cover;
   }
 `;
