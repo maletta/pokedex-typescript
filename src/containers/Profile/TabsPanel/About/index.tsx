@@ -1,29 +1,29 @@
-import React, { useState } from "react";
-import { useTheme } from "styled-components";
-import { useTypeWeaknesses } from "hooks/TypeCalculatorHook";
+import React, { useState } from 'react';
+import { useTheme } from 'styled-components';
+import { useTypeWeaknesses } from 'hooks/TypeCalculatorHook';
 
-import { Description, FilterTitle } from "components/Titles";
-import { IconBasePokemonTypes } from "components/IconBase";
-import { PokemonTypesKeyOf } from "types/theme-types";
+import { Description, FilterTitle } from 'components/Titles';
+import { IconBasePokemonTypes } from 'components/IconBase';
+import { PokemonTypesKeyOf } from 'types/theme-types';
 
-import { AboutContainer, GridInfo, GridInfoItem, WeaknessBadge } from "./styles";
+import { AboutContainer, GridInfo, GridInfoItem, WeaknessBadge } from './styles';
 
 interface AboutProps {
   isOpen: boolean;
+  types: PokemonTypesKeyOf[];
 }
 
-const About: React.FC<AboutProps> = ({ isOpen }) => {
+const About: React.FC<AboutProps> = ({ isOpen, types }) => {
   const { colors } = useTheme();
   const pokemonDescription =
     "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.";
-  const types: Array<PokemonTypesKeyOf> = ["GRASS", "POISON"];
   const typeWeaknesses = useTypeWeaknesses(types);
 
   return (
-    <AboutContainer className={isOpen ? "isOpen" : ""}>
+    <AboutContainer className={isOpen ? 'isOpen' : ''}>
       <Description customCss={{ color: colors.default.GREY }}>{pokemonDescription}</Description>
 
-      <FilterTitle customCss={{ marginTop: "30px" }}>Pokédex Data</FilterTitle>
+      <FilterTitle customCss={{ marginTop: '30px' }}>Pokédex Data</FilterTitle>
       <GridInfo>
         <GridInfoItem>Especies</GridInfoItem>
         <GridInfoItem>Seed Pokémon</GridInfoItem>
@@ -47,7 +47,7 @@ const About: React.FC<AboutProps> = ({ isOpen }) => {
         <GridInfoItem className="weaknesses">
           {typeWeaknesses.map(weakness => (
             <WeaknessBadge key={weakness} type={weakness}>
-              <IconBasePokemonTypes type={weakness} variant={"secondary"} size={15} />
+              <IconBasePokemonTypes type={weakness} variant={'secondary'} size={15} />
             </WeaknessBadge>
           ))}
         </GridInfoItem>

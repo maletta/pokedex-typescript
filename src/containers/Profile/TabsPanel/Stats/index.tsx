@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { useTheme } from "styled-components";
-import { useTypeEffectiveness } from "hooks/TypeCalculatorHook";
+import React from 'react';
+import { useTheme } from 'styled-components';
+import { useTypeEffectiveness } from 'hooks/TypeCalculatorHook';
 
-import { Description, FilterTitle } from "components/Titles";
-import { IconBasePokemonTypes } from "components/IconBase";
-import { PokemonTypesKeyOf } from "types/theme-types";
+import { Description, FilterTitle } from 'components/Titles';
+import { IconBasePokemonTypes } from 'components/IconBase';
 
 import {
   StatsContainer,
@@ -15,23 +14,27 @@ import {
   GridEffectiveness,
   GridEffectivenessItem,
   EffectivenessBadge,
-} from "./styles";
+} from './styles';
+import { PokemonTypesKeyOf } from 'types/theme-types';
+import { IGetPokemonStats } from 'api';
+import { sumPokemonStats } from 'util/utilities';
 
 interface StatsProps {
   isOpen: boolean;
+  types: PokemonTypesKeyOf[];
+  pokemonStats: IGetPokemonStats[];
 }
 
-const Stats: React.FC<StatsProps> = ({ isOpen }) => {
+const Stats: React.FC<StatsProps> = ({ isOpen, types, pokemonStats }) => {
   const { colors } = useTheme();
-  const mainType = "BUG";
 
-  const [effectivenessType, effectivenessValue] = useTypeEffectiveness(["GRASS", "POISON"]);
+  const [effectivenessType, effectivenessValue] = useTypeEffectiveness(types);
   // console.log("effectiveness ", effectivenessValue);
 
   function getEffectivenessString(percent: number): string {
     switch (percent) {
       case 1:
-        return "";
+        return '';
       case 1 / 2:
         return `½`;
       case 1 / 4:
@@ -42,60 +45,60 @@ const Stats: React.FC<StatsProps> = ({ isOpen }) => {
   }
 
   return (
-    <StatsContainer className={isOpen ? "isOpen" : ""}>
-      <FilterTitle customCss={{ color: colors.type[mainType] }}>Base Stats</FilterTitle>
+    <StatsContainer className={isOpen ? 'isOpen' : ''}>
+      <FilterTitle customCss={{ color: colors.type[types[0]] }}>Base Stats</FilterTitle>
 
       <GridStats>
-        <GridStatsItem className="title">HP</GridStatsItem>
-        <GridStatsItem className="value">45</GridStatsItem>
+        <GridStatsItem className="title">{pokemonStats[0].stat.name}</GridStatsItem>
+        <GridStatsItem className="value">{pokemonStats[0].base_stat}</GridStatsItem>
         <GridStatsItem className="bar">
-          <Bar percent={50} type={mainType} />
+          <Bar percent={50} type={types[0]} />
         </GridStatsItem>
-        <GridStatsItem className="min">200</GridStatsItem>
-        <GridStatsItem className="max">294</GridStatsItem>
+        <GridStatsItem className="min">X</GridStatsItem>
+        <GridStatsItem className="max">X</GridStatsItem>
 
-        <GridStatsItem className="title">Attack</GridStatsItem>
-        <GridStatsItem className="value">49</GridStatsItem>
+        <GridStatsItem className="title">{pokemonStats[1].stat.name}</GridStatsItem>
+        <GridStatsItem className="value">{pokemonStats[1].base_stat}</GridStatsItem>
         <GridStatsItem className="bar">
-          <Bar percent={60} type={mainType} />
+          <Bar percent={60} type={types[0]} />
         </GridStatsItem>
-        <GridStatsItem className="min">92</GridStatsItem>
-        <GridStatsItem className="max">216</GridStatsItem>
+        <GridStatsItem className="min">X</GridStatsItem>
+        <GridStatsItem className="max">X</GridStatsItem>
 
-        <GridStatsItem className="title">Defense</GridStatsItem>
-        <GridStatsItem className="value">49</GridStatsItem>
+        <GridStatsItem className="title">{pokemonStats[2].stat.name}</GridStatsItem>
+        <GridStatsItem className="value">{pokemonStats[2].base_stat}</GridStatsItem>
         <GridStatsItem className="bar">
-          <Bar percent={60} type={mainType} />
+          <Bar percent={60} type={types[0]} />
         </GridStatsItem>
-        <GridStatsItem className="min">92</GridStatsItem>
-        <GridStatsItem className="max">216</GridStatsItem>
+        <GridStatsItem className="min">X</GridStatsItem>
+        <GridStatsItem className="max">X</GridStatsItem>
 
-        <GridStatsItem className="title">Sp. Atk</GridStatsItem>
-        <GridStatsItem className="value">65</GridStatsItem>
+        <GridStatsItem className="title">{pokemonStats[3].stat.name}</GridStatsItem>
+        <GridStatsItem className="value">{pokemonStats[3].base_stat}</GridStatsItem>
         <GridStatsItem className="bar">
-          <Bar percent={60} type={mainType} />
+          <Bar percent={60} type={types[0]} />
         </GridStatsItem>
-        <GridStatsItem className="min">121</GridStatsItem>
-        <GridStatsItem className="max">251</GridStatsItem>
+        <GridStatsItem className="min">X</GridStatsItem>
+        <GridStatsItem className="max">X</GridStatsItem>
 
-        <GridStatsItem className="title">Sp. Def</GridStatsItem>
-        <GridStatsItem className="value">65</GridStatsItem>
+        <GridStatsItem className="title">{pokemonStats[4].stat.name}</GridStatsItem>
+        <GridStatsItem className="value">{pokemonStats[4].base_stat}</GridStatsItem>
         <GridStatsItem className="bar">
-          <Bar percent={60} type={mainType} />
+          <Bar percent={60} type={types[0]} />
         </GridStatsItem>
-        <GridStatsItem className="min">121</GridStatsItem>
-        <GridStatsItem className="max">251</GridStatsItem>
+        <GridStatsItem className="min">X</GridStatsItem>
+        <GridStatsItem className="max">X</GridStatsItem>
 
-        <GridStatsItem className="title">Speed</GridStatsItem>
-        <GridStatsItem className="value">45</GridStatsItem>
+        <GridStatsItem className="title">{pokemonStats[5].stat.name}</GridStatsItem>
+        <GridStatsItem className="value">{pokemonStats[5].base_stat}</GridStatsItem>
         <GridStatsItem className="bar">
-          <Bar percent={60} type={mainType} />
+          <Bar percent={60} type={types[0]} />
         </GridStatsItem>
-        <GridStatsItem className="min">85</GridStatsItem>
-        <GridStatsItem className="max">207</GridStatsItem>
+        <GridStatsItem className="min">X</GridStatsItem>
+        <GridStatsItem className="max">X</GridStatsItem>
 
         <GridStatsItem className="title">Total</GridStatsItem>
-        <GridStatsItem className="value bold">318</GridStatsItem>
+        <GridStatsItem className="value bold">{sumPokemonStats(pokemonStats)}</GridStatsItem>
         <GridStatsItem className="bar"></GridStatsItem>
         <GridStatsItem className="min bold">Min</GridStatsItem>
         <GridStatsItem className="max bold">Max</GridStatsItem>
@@ -106,8 +109,8 @@ const Stats: React.FC<StatsProps> = ({ isOpen }) => {
         values are based on a hindering nature, 0 EVs, 0 IVs.
       </GridStatsDescription>
 
-      <FilterTitle customCss={{ color: colors.type[mainType] }}>Type Defenses</FilterTitle>
-      <Description customCss={{ color: colors.default.GREY, marginTop: "20px", marginBottom: "20px" }}>
+      <FilterTitle customCss={{ color: colors.type[types[0]] }}>Type Defenses</FilterTitle>
+      <Description customCss={{ color: colors.default.GREY, marginTop: '20px', marginBottom: '20px' }}>
         The effectiveness of each type on Bulbasaur.
       </Description>
 
@@ -115,7 +118,7 @@ const Stats: React.FC<StatsProps> = ({ isOpen }) => {
         {effectivenessType.map((type, index) => (
           <GridEffectivenessItem key={type}>
             <EffectivenessBadge type={type}>
-              <IconBasePokemonTypes type={type} variant={"secondary"} size={15} />
+              <IconBasePokemonTypes type={type} variant={'secondary'} size={15} />
             </EffectivenessBadge>
             <span>{getEffectivenessString(effectivenessValue[index])}</span>
           </GridEffectivenessItem>

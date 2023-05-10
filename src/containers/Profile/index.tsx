@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { PokemonNumber, PokemonName } from 'components/Titles';
 import Badge from 'components/Badge';
 
 import { PokemonTypesKeyOf } from 'types/theme-types';
+import { getPokemon, IGetPokemon } from 'api';
+import { fillPokemonNumber, pokemonTypesRequestAdapter } from 'util/utilities';
 
 import { About, Stats, Evolution } from './TabsPanel';
 import {
@@ -31,12 +33,13 @@ enum TabsENUM {
 }
 
 const Profile: React.FC = () => {
-  const name = 'Bulbasaur';
-  const number = '#001';
-  const types: Array<PokemonTypesKeyOf> = ['GRASS', 'POISON'];
+  // const types: Array<PokemonTypesKeyOf> = ['GRASS', 'POISON'];
   const [scrollY, setScrollY] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<TabsENUM>(TabsENUM.ABOUT);
+  const [pokemon, setPokemon] = useState<IGetPokemon | null>(null);
+  const [types, setTypes] = useState<Array<PokemonTypesKeyOf>>();
   const navigate = useNavigate();
+  const { pokemonId } = useParams();
 
   /** função para add classe scroll */
   const onScrollPage = () => {
@@ -46,41 +49,48 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', onScrollPage);
-
+    getPokemon(String(pokemonId)).then(response => {
+      setPokemon(response.data);
+      const typesAdapted = pokemonTypesRequestAdapter(response.data.types);
+      console.log(typesAdapted);
+      setTypes(typesAdapted);
+    });
     return () => window.removeEventListener('scroll', onScrollPage);
   }, []);
 
-  return (
-    <ProfileWrapper>
-      <Banner className={scrollY ? 'scrolled' : ''}>
+  return pokemon && types ? (
+    <ProfileWrapper type={types[0]}>
+      <Banner className={scrollY ? 'scrolled' : ''} type={pokemon.types[0].type.name.toUpperCase() as PokemonTypesKeyOf}>
         <BackIconSVG className="backIcon" onClick={() => navigate('/')} />
-        <PokemonNameBackground className={scrollY ? 'scrolled' : ''}>{name.toUpperCase()}</PokemonNameBackground>
+        <PokemonNameBackground className={scrollY ? 'scrolled' : ''} type={types[0]}>
+          {pokemon.name.toUpperCase()}
+        </PokemonNameBackground>
         <PokemonInfo className={scrollY ? 'scrolled' : ''}>
           <PokemonImage>
-            <img src="assets/pokemon-example.png" alt="pokemon illustrate" />
+            <img src={pokemon.sprites.other['official-artwork'].front_default} alt="pokemon illustrate" />
           </PokemonImage>
 
           <PokemonDescription>
             <PokemonNumber variant="primary" customCss={{ fontSize: '1.6rem', opacity: 0.6 }}>
-              {number}
+              {fillPokemonNumber(pokemon.id)}
             </PokemonNumber>
-            <PokemonName variant="secondary" customCss={{ fontSize: '3.2rem' }}>
-              {name}
+            <PokemonName variant="secondary" customCss={{ fontSize: '3.2rem', textTransform: 'capitalize' }}>
+              {pokemon.name}
             </PokemonName>
             <BadgeGroup>
-              {types.map(type => (
-                <Badge key={type} type={type} />
+              {types.map(itemType => (
+                <Badge key={itemType} type={itemType} />
               ))}
             </BadgeGroup>
           </PokemonDescription>
         </PokemonInfo>
         <PokemonInfoScrolled className={!scrollY ? 'scrolled' : ''}>
-          <PokemonName variant="secondary" customCss={{ fontSize: '2.6rem' }}>
-            {name}
+          <PokemonName variant="secondary" customCss={{ fontSize: '2.6rem', textTransform: 'capitalize' }}>
+            {pokemon.name}
           </PokemonName>
         </PokemonInfoScrolled>
       </Banner>
-      <TabsContainer className={scrollY ? 'scrolled' : ''}>
+      <TabsContainer className={scrollY ? 'scrolled' : ''} type={types[0]}>
         <TabsGroup>
           <Tab onClick={() => setSelectedTab(TabsENUM.ABOUT)} className={selectedTab === TabsENUM.ABOUT ? 'active' : ''}>
             About
@@ -94,11 +104,13 @@ const Profile: React.FC = () => {
         </TabsGroup>
       </TabsContainer>
       <Content className={scrollY ? 'scrolled' : ''}>
-        <About isOpen={selectedTab === TabsENUM.ABOUT} />
-        <Stats isOpen={selectedTab === TabsENUM.STATS} />
+        <About isOpen={selectedTab === TabsENUM.ABOUT} types={types} />
+        <Stats isOpen={selectedTab === TabsENUM.STATS} types={types} pokemonStats={pokemon.stats} />
         <Evolution isOpen={selectedTab === TabsENUM.EVOLUTION} />
       </Content>
     </ProfileWrapper>
+  ) : (
+    <div>Pokemon Not Found</div>
   );
 };
 

@@ -1,18 +1,23 @@
 import styled from 'styled-components';
+import { PokemonTypesKeyOf } from 'types/theme-types';
 
-const ProfileWrapper = styled.div`
+interface Props {
+  type: PokemonTypesKeyOf;
+}
+
+const ProfileWrapper = styled.div<Props>`
   position: relative;
-  background-color: cadetblue;
+  background-color: ${({ theme, type }) => theme.colors.background[type]};
   min-height: 100%;
 `;
 
-const Banner = styled.div`
+const Banner = styled.div<Props>`
   height: 265px;
   width: 100%;
   position: relative;
   overflow-x: hidden;
 
-  background-color: cadetblue;
+  background-color: ${({ theme, type }) => theme.colors.background[type]};
   z-index: 1;
 
   /* transition: height 0.5s cubic-bezier(0, 1, 0, 1); */
@@ -36,7 +41,7 @@ const Banner = styled.div`
   }
 `;
 
-const PokemonNameBackground = styled.div`
+const PokemonNameBackground = styled.div<Props>`
   position: absolute;
   top: 25px;
   left: -86px;
@@ -47,7 +52,7 @@ const PokemonNameBackground = styled.div`
   /* letter-spacing: 0.5rem; */
 
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-  -webkit-text-fill-color: cadetblue;
+  -webkit-text-fill-color: ${({ theme, type }) => theme.colors.background[type]};
 
   z-index: 1;
 
@@ -57,7 +62,7 @@ const PokemonNameBackground = styled.div`
     width: 100%;
     height: 100%;
 
-    background-image: linear-gradient(0deg, cadetblue 18%, transparent);
+    background-image: linear-gradient(0deg, ${({ theme, type }) => theme.colors.background[type]} 18%, transparent);
 
     z-index: 1;
 
@@ -129,11 +134,11 @@ const BadgeGroup = styled.div`
   gap: 10px;
 `;
 
-const TabsContainer = styled.div`
+const TabsContainer = styled.div<Props>`
   position: relative;
   height: 75px; /** before + TabsGroup height */
 
-  background-color: cadetblue;
+  background-color: ${({ theme, type }) => theme.colors.background[type]};
   z-index: 1;
 
   &::before {

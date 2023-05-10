@@ -1,5 +1,5 @@
-import axios, { CancelToken } from "axios";
-import { PokemonTypesKeyOf } from "types/theme-types";
+import axios, { CancelToken } from 'axios';
+import { PokemonTypesKeyOf } from 'types/theme-types';
 
 interface IGetPokemonSpecies {
   name: string;
@@ -31,7 +31,7 @@ interface IGetPokemon {
   name: string;
   past_types: [];
   species: IGetPokemonSpecies;
-  sprites: { other: { "official-artwork": { front_default: string } } };
+  sprites: { other: { 'official-artwork': { front_default: string } } };
   stats: [IGetPokemonStats, IGetPokemonStats, IGetPokemonStats, IGetPokemonStats, IGetPokemonStats, IGetPokemonStats];
   types: IGetPokemonType[];
   weight: number;
@@ -51,7 +51,7 @@ interface IGetPokemonList {
 }
 
 const axiosInstance = axios.create({
-  baseURL: "https://pokeapi.co/api/v2",
+  baseURL: 'https://pokeapi.co/api/v2',
 });
 
 function getPokemon(idOrName: string | number) {
@@ -69,4 +69,4 @@ function getPokemonList(parms: IGetPokemonListParams = {}) {
   });
 }
 
-export { IGetPokemon, IGetPokemonList, getPokemon, getPokemonList };
+export { IGetPokemon, IGetPokemonList, IGetPokemonType, IGetPokemonStats, getPokemon, getPokemonList };
