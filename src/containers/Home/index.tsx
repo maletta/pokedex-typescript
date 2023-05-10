@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios, { AxiosResponse } from 'axios';
 
-import { ApplicationTitle, FilterTitle } from "components/Titles";
-import { ReactComponent as GenerationSVG } from "assets/icons/menu/generation-icon.svg";
-import { ReactComponent as SortSVG } from "assets/icons/menu/sort-icon.svg";
-import { ReactComponent as FilterSVG } from "assets/icons/menu/filter-icon.svg";
-import TextInput from "components/TextInput";
-import PokemonCard from "components/PokemonCard";
-import ModalGeneration from "components/ModalGeneration";
-import ModalFilter from "components/ModalFilter";
-import ModalSort from "components/ModalSort";
-import Loading from "components/Loading";
-import { useMenuContext } from "hooks/MenuContext";
-import { IGetPokemon, IGetPokemonList, getPokemon, getPokemonList } from "api/";
+import { ApplicationTitle, FilterTitle } from 'components/Titles';
+import { ReactComponent as GenerationSVG } from 'assets/icons/menu/generation-icon.svg';
+import { ReactComponent as SortSVG } from 'assets/icons/menu/sort-icon.svg';
+import { ReactComponent as FilterSVG } from 'assets/icons/menu/filter-icon.svg';
+import TextInput from 'components/TextInput';
+import PokemonCard from 'components/PokemonCard';
+import ModalGeneration from 'components/ModalGeneration';
+import ModalFilter from 'components/ModalFilter';
+import ModalSort from 'components/ModalSort';
+import Loading from 'components/Loading';
+import { useMenuContext } from 'hooks/MenuContext';
+import { IGetPokemon, IGetPokemonList, getPokemon, getPokemonList } from 'api/';
 
-import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from "./styles";
-import { PokemonTypesKeyOf } from "types/theme-types";
+import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from './styles';
+import { PokemonTypesKeyOf } from 'types/theme-types';
 
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter } = useMenuContext();
@@ -58,10 +58,10 @@ const Home: React.FC = () => {
   }
 
   useEffect(() => {
-    const next = pokemonResultList?.next || "?";
-    const params = new URLSearchParams(next.split("?")[1]);
-    const offset = parseInt(params.get("offset") || "0");
-    const limit = parseInt(params.get("limit") || "20");
+    const next = pokemonResultList?.next || '?';
+    const params = new URLSearchParams(next.split('?')[1]);
+    const offset = parseInt(params.get('offset') || '0');
+    const limit = parseInt(params.get('limit') || '20');
     const source = axios.CancelToken.source();
 
     if (isScrolledToBottom) {
@@ -87,13 +87,13 @@ const Home: React.FC = () => {
           if (axios.isCancel(e)) {
             console.log(`request cancelled: ${e.message}`);
           } else {
-            console.log("another error happened in getPokemonList:" + e.message);
+            console.log('another error happened in getPokemonList:' + e.message);
           }
         });
     }
 
     return () => {
-      source.cancel("Canceling pokemon getPokemonList by useEffect ");
+      source.cancel('Canceling pokemon getPokemonList by useEffect ');
     };
   }, [isScrolledToBottom]);
 
@@ -116,11 +116,11 @@ const Home: React.FC = () => {
         </MenuFilter>
         <Main>
           <ApplicationTitle>Pokédex</ApplicationTitle>
-          <FilterTitle customCss={{ color: "var(--text-grey)", marginTop: "10px" }}>
+          <FilterTitle customCss={{ color: 'var(--text-grey)', marginTop: '10px' }}>
             Search for Pokémon by name or using the National Pokédex number.
           </FilterTitle>
 
-          <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: "25px" }} />
+          <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} />
 
           <PokemonCardContainer>
             {pokemonList.map(pokemon => {
@@ -131,8 +131,8 @@ const Home: React.FC = () => {
                   name={pokemon.name.toUpperCase()}
                   number={pokemon.id}
                   types={types}
-                  imageURL={pokemon.sprites.other["official-artwork"].front_default}
-                  onClick={() => onClickNavigate(1)}
+                  imageURL={pokemon.sprites.other['official-artwork'].front_default}
+                  onClick={onClickNavigate}
                 />
               );
             })}

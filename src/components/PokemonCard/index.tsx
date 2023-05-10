@@ -10,12 +10,16 @@ interface IPokemonCard {
   name: string;
   number: number;
   types: Array<PokemonTypesKeyOf>;
-  onClick?: (args: any) => void;
+  onClick: (pokemonNumber: number) => void;
 }
 
 const PokemonCard: React.FC<IPokemonCard> = ({ imageURL, name, number, types, onClick }) => {
   return (
-    <PokemonCardContainer onClick={onClick}>
+    <PokemonCardContainer
+      onClick={() => {
+        onClick(number);
+      }}
+    >
       <ContainerBackground type={types[0]}>
         <PokemonInfo>
           <PokemonNumber customCss={{ opacity: '0.6' }}>#{`${number}`}</PokemonNumber>
