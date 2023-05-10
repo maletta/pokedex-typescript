@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components/macro";
+import styled, { css } from 'styled-components/macro';
 
 interface IContainerProps {
-  variant: "primary" | "secondary";
+  variant: 'primary' | 'secondary';
 }
 
 const Container = styled.div<IContainerProps>`
@@ -11,6 +11,7 @@ const Container = styled.div<IContainerProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  justify-self: center;
   gap: 15px;
 
   width: 160px;
@@ -29,7 +30,7 @@ const Container = styled.div<IContainerProps>`
   transition: background 300ms ease-in-out;
 
   ${({ variant }) => {
-    if (variant === "primary") {
+    if (variant === 'primary') {
       return css`
         background: linear-gradient(100.59deg, #e5e5e5 0%, rgba(245, 245, 245, 0) 100%), #fff;
       `;
@@ -48,7 +49,7 @@ const Container = styled.div<IContainerProps>`
     line-height: 1.9rem;
 
     ${({ variant }) => {
-      if (variant === "primary") {
+      if (variant === 'primary') {
         return css`
           color: var(--text-grey);
         `;

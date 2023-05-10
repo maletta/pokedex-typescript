@@ -1,16 +1,21 @@
-import styled from "styled-components/macro";
-import { PokemonTypesKeyOf } from "types/theme-types";
+import styled from 'styled-components/macro';
+import { PokemonTypesKeyOf } from 'types/theme-types';
+import { device } from 'util/media';
 
 interface IContainerBackground {
   type: PokemonTypesKeyOf;
 }
 
-const Container = styled.div`
+const PokemonCardContainer = styled.div`
   display: flex;
   align-items: flex-end;
-
-  width: 334px;
+  align-self: center;
+  width: 100%;
   height: 130px;
+
+  @media ${device.mobileM} {
+    width: 334px;
+  }
 `;
 
 const ContainerBackground = styled.div<IContainerBackground>`
@@ -23,7 +28,7 @@ const ContainerBackground = styled.div<IContainerBackground>`
 
   border-radius: 10px;
 
-  background-image: url("assets/patterns/6x3-gradient.svg"), url("assets/patterns/pokeball-gradient-pokemon-card.svg");
+  background-image: url('assets/patterns/6x3-gradient.svg'), url('assets/patterns/pokeball-gradient-pokemon-card.svg');
   background-position-x: 90px, right;
   background-position-y: -10px, center;
   background-size: 74px 32px, 145px 145px;
@@ -59,4 +64,4 @@ const PokemonImage = styled.div`
   }
 `;
 
-export { Container, ContainerBackground, BadgeContainer, PokemonInfo, PokemonImage };
+export { PokemonCardContainer, ContainerBackground, BadgeContainer, PokemonInfo, PokemonImage };

@@ -1,9 +1,9 @@
-import React from "react";
-import { PokemonNumber, PokemonType, PokemonName } from "components/Titles";
-import { PokemonTypesKeyOf } from "types/theme-types";
-import Badge from "components/Badge";
+import React from 'react';
+import { PokemonNumber, PokemonType, PokemonName } from 'components/Titles';
+import { PokemonTypesKeyOf } from 'types/theme-types';
+import Badge from 'components/Badge';
 
-import { Container, ContainerBackground, BadgeContainer, PokemonInfo, PokemonImage } from "./styles";
+import { PokemonCardContainer, ContainerBackground, BadgeContainer, PokemonInfo, PokemonImage } from './styles';
 
 interface IPokemonCard {
   imageURL: string;
@@ -15,10 +15,10 @@ interface IPokemonCard {
 
 const PokemonCard: React.FC<IPokemonCard> = ({ imageURL, name, number, types, onClick }) => {
   return (
-    <Container onClick={onClick}>
+    <PokemonCardContainer onClick={onClick}>
       <ContainerBackground type={types[0]}>
         <PokemonInfo>
-          <PokemonNumber customCss={{ opacity: "0.6" }}>#{`${number}`}</PokemonNumber>
+          <PokemonNumber customCss={{ opacity: '0.6' }}>#{`${number}`}</PokemonNumber>
           <PokemonName variant="secondary">{name}</PokemonName>
           <BadgeContainer>
             {types.map(typeItem => (
@@ -30,7 +30,7 @@ const PokemonCard: React.FC<IPokemonCard> = ({ imageURL, name, number, types, on
           <img src={imageURL} alt="pokemon illustrate" />
         </PokemonImage>
       </ContainerBackground>
-    </Container>
+    </PokemonCardContainer>
   );
 };
 
