@@ -20,4 +20,15 @@ function sumPokemonStats(pokemonStats: IGetPokemonStats[]): number {
   }, 0);
 }
 
-export { fillPokemonNumber, pokemonTypesRequestAdapter, sumPokemonStats };
+function getEvolutionChainId(evolutionChainUrl: string): number | null {
+  const stringSplitted = evolutionChainUrl.split('/') as Array<string>;
+  const sliced = stringSplitted.slice(stringSplitted.length - 2, stringSplitted.length - 1);
+  try {
+    const evolutionChainId = parseInt(sliced[0]);
+    return evolutionChainId;
+  } catch (error) {
+    return null;
+  }
+}
+
+export { fillPokemonNumber, pokemonTypesRequestAdapter, sumPokemonStats, getEvolutionChainId };

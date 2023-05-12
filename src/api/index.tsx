@@ -69,4 +69,21 @@ function getPokemonList(parms: IGetPokemonListParams = {}) {
   });
 }
 
-export { IGetPokemon, IGetPokemonList, IGetPokemonType, IGetPokemonStats, getPokemon, getPokemonList };
+function getPokemonSpecies(idOrName: string | number) {
+  return axiosInstance.get(`/pokemon-species${idOrName}`);
+}
+
+function getPokemonEvolutionChain(evChainId: number) {
+  return axiosInstance.get(`/evolution-chain/${evChainId}`);
+}
+
+export {
+  IGetPokemon,
+  IGetPokemonList,
+  IGetPokemonType,
+  IGetPokemonStats,
+  getPokemon,
+  getPokemonList,
+  getPokemonSpecies,
+  getPokemonEvolutionChain,
+};
