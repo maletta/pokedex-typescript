@@ -5,7 +5,7 @@ import { PokemonNumber, PokemonName } from 'components/Titles';
 import Badge from 'components/Badge';
 
 import { PokemonTypesKeyOf } from 'types/theme-types';
-import { getPokemon, IGetPokemon } from 'api';
+import { getPokemon, getPokemonSpecies, IGetPokemon, IGetPokemonSpecies } from 'api';
 import { fillPokemonNumber, pokemonTypesRequestAdapter } from 'util/utilities';
 
 import { About, Stats, Evolution } from './TabsPanel';
@@ -37,6 +37,7 @@ const Profile: React.FC = () => {
   const [scrollY, setScrollY] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<TabsENUM>(TabsENUM.ABOUT);
   const [pokemon, setPokemon] = useState<IGetPokemon | null>(null);
+  const [pokemonSpecies, setPokemonSpecies] = useState<IGetPokemonSpecies | null>(null);
   const [types, setTypes] = useState<Array<PokemonTypesKeyOf>>();
   const navigate = useNavigate();
   const { pokemonId } = useParams();
@@ -49,16 +50,23 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', onScrollPage);
-    getPokemon(String(pokemonId)).then(response => {
-      setPokemon(response.data);
-      const typesAdapted = pokemonTypesRequestAdapter(response.data.types);
-      console.log(typesAdapted);
+    Promise.all([getPokemon(String(pokemonId)), getPokemonSpecies(String(pokemonId))]).then(response => {
+      const getPokResponse = response[0];
+      setPokemon(getPokResponse.data);
+      const typesAdapted = pokemonTypesRequestAdapter(getPokResponse.data.types);
       setTypes(typesAdapted);
-    });
-    return () => window.removeEventListener('scroll', onScrollPage);
-  }, []);
 
-  return pokemon && types ? (
+      setPokemonSpecies(response[1].data);
+    });
+    // getPokemon(String(pokemonId)).then(response => {
+    //   setPokemon(response.data);
+    //   const typesAdapted = pokemonTypesRequestAdapter(response.data.types);
+    //   setTypes(typesAdapted);
+    // });
+    return () => window.removeEventListener('scroll', onScrollPage);
+  }, [pokemonId]);
+
+  return pokemon && types && pokemonSpecies ? (
     <ProfileWrapper type={types[0]}>
       <Banner className={scrollY ? 'scrolled' : ''} type={pokemon.types[0].type.name.toUpperCase() as PokemonTypesKeyOf}>
         <BackIconSVG className="backIcon" onClick={() => navigate('/')} />
@@ -104,9 +112,9 @@ const Profile: React.FC = () => {
         </TabsGroup>
       </TabsContainer>
       <Content className={scrollY ? 'scrolled' : ''}>
-        <About isOpen={selectedTab === TabsENUM.ABOUT} types={types} />
-        <Stats isOpen={selectedTab === TabsENUM.STATS} types={types} pokemonStats={pokemon.stats} />
-        <Evolution isOpen={selectedTab === TabsENUM.EVOLUTION} />
+        <About isOpen={selectedTab === TabsENUM.ABOUT} types={types} pokemonSpecies={pokemonSpecies} />
+        <Stats isOpen={selectedTab === TabsENUM.STATS} types={types} pokemonStats={pokemon.stats} name={pokemon.name} />
+        <Evolution isOpen={selectedTab === TabsENUM.EVOLUTION} type={types[0]} pokemonSpecies={pokemonSpecies} />
       </Content>
     </ProfileWrapper>
   ) : (

@@ -21,11 +21,12 @@ import { sumPokemonStats } from 'util/utilities';
 
 interface StatsProps {
   isOpen: boolean;
-  types: PokemonTypesKeyOf[];
+  name: string;
   pokemonStats: IGetPokemonStats[];
+  types: PokemonTypesKeyOf[];
 }
 
-const Stats: React.FC<StatsProps> = ({ isOpen, types, pokemonStats }) => {
+const Stats: React.FC<StatsProps> = ({ isOpen, name, pokemonStats, types }) => {
   const { colors } = useTheme();
 
   const [effectivenessType, effectivenessValue] = useTypeEffectiveness(types);
@@ -111,7 +112,7 @@ const Stats: React.FC<StatsProps> = ({ isOpen, types, pokemonStats }) => {
 
       <FilterTitle customCss={{ color: colors.type[types[0]] }}>Type Defenses</FilterTitle>
       <Description customCss={{ color: colors.default.GREY, marginTop: '20px', marginBottom: '20px' }}>
-        The effectiveness of each type on Bulbasaur.
+        The effectiveness of each type on {name}.
       </Description>
 
       <GridEffectiveness>

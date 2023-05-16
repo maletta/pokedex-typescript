@@ -50,6 +50,59 @@ interface IGetPokemonList {
   results: Array<{ name: string; url: string }>;
 }
 
+interface IGetFlavorTextEntries {
+  flavor_text: string;
+  language: {
+    name: 'en' | 'es';
+    url: string;
+  };
+  version: {
+    name: string;
+    url: string;
+  };
+}
+
+interface IGetPokemonSpecies {
+  id: number;
+  name: string;
+  egg_groups: [{ name: string; url: string }];
+  growth_rate: { name: string; url: string };
+  evolve_from_species: {
+    name: string;
+    url: string;
+  } | null;
+  evolution_chain: {
+    url: string;
+  };
+
+  flavor_text_entries: Array<IGetFlavorTextEntries>;
+  generation: {
+    name: string;
+    url: string;
+  };
+
+  genera: [
+    {
+      genus: string;
+      language: {
+        name: 'en' | 'es';
+        url: string;
+      };
+    },
+  ];
+}
+
+interface EvolvesTo {
+  evolves_to: [EvolvesTo];
+  evolution_details: [{ min_level: number }];
+  is_baby: boolean;
+  species: { name: string; url: string };
+}
+interface IGetPokemonEvolutionChain {
+  chain: EvolvesTo;
+  id: number;
+}
+
 const axiosInstance = axios.create({
   baseURL: 'https://pokeapi.co/api/v2',
 });
@@ -70,11 +123,11 @@ function getPokemonList(parms: IGetPokemonListParams = {}) {
 }
 
 function getPokemonSpecies(idOrName: string | number) {
-  return axiosInstance.get(`/pokemon-species${idOrName}`);
+  return axiosInstance.get<IGetPokemonSpecies>(`/pokemon-species/${idOrName}`);
 }
 
 function getPokemonEvolutionChain(evChainId: number) {
-  return axiosInstance.get(`/evolution-chain/${evChainId}`);
+  return axiosInstance.get<IGetPokemonEvolutionChain>(`/evolution-chain/${evChainId}`);
 }
 
 export {
@@ -82,6 +135,9 @@ export {
   IGetPokemonList,
   IGetPokemonType,
   IGetPokemonStats,
+  IGetPokemonSpecies,
+  IGetPokemonEvolutionChain,
+  EvolvesTo,
   getPokemon,
   getPokemonList,
   getPokemonSpecies,

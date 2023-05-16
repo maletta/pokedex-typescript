@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTheme } from 'styled-components';
 import { useTypeWeaknesses } from 'hooks/TypeCalculatorHook';
 
@@ -7,26 +7,29 @@ import { IconBasePokemonTypes } from 'components/IconBase';
 import { PokemonTypesKeyOf } from 'types/theme-types';
 
 import { AboutContainer, GridInfo, GridInfoItem, WeaknessBadge } from './styles';
+import { IGetPokemonSpecies } from 'api';
 
 interface AboutProps {
   isOpen: boolean;
   types: PokemonTypesKeyOf[];
+  pokemonSpecies: IGetPokemonSpecies;
 }
 
-const About: React.FC<AboutProps> = ({ isOpen, types }) => {
+const About: React.FC<AboutProps> = ({ isOpen, types, pokemonSpecies }) => {
   const { colors } = useTheme();
-  const pokemonDescription =
-    "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.";
+  const pokemonDescription = pokemonSpecies.flavor_text_entries.filter(item => item.language.name === 'en').pop();
+  // "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.";
+  const pokemonGenera = pokemonSpecies.genera.filter(item => item.language.name === 'en').pop();
   const typeWeaknesses = useTypeWeaknesses(types);
 
   return (
     <AboutContainer className={isOpen ? 'isOpen' : ''}>
-      <Description customCss={{ color: colors.default.GREY }}>{pokemonDescription}</Description>
+      <Description customCss={{ color: colors.default.GREY }}>{pokemonDescription?.flavor_text}</Description>
 
       <FilterTitle customCss={{ marginTop: '30px' }}>Pokédex Data</FilterTitle>
       <GridInfo>
         <GridInfoItem>Especies</GridInfoItem>
-        <GridInfoItem>Seed Pokémon</GridInfoItem>
+        <GridInfoItem>{pokemonGenera?.genus}</GridInfoItem>
 
         <GridInfoItem>Height</GridInfoItem>
         <GridInfoItem>
