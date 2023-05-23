@@ -20,7 +20,7 @@ Para validar alterações no código e validações de acordo com os padrões do
 
 Para corrigir possíveis alterações do padrão do projeto.
 
-# Layouts da aplicação
+## Layouts da aplicação
 
 ![](https://github.com/maletta/pokedex-typescript/blob/main/public/images/screenshot01.png)
 
