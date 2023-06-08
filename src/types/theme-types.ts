@@ -18,8 +18,8 @@ export enum PokemonTypes {
   DARK = 'DARK',
   FAIRY = 'FAIRY',
 }
-type PokemonTypesTypeOf = typeof PokemonTypes; // transforma o enum em tipo
-export type PokemonTypesKeyOf = keyof PokemonTypesTypeOf; // obtem as chaves do tipo em union de strings
+// type PokemonTypesTypeOf = typeof PokemonTypes; // transforma o enum em tipo
+export type PokemonTypesKeyOf = keyof typeof PokemonTypes; // keyof obtem as chaves do tipo em union de strings
 
 // Small, 0.5m (1'08") or smaller ;
 // Normal size, From 1.0m to 1.9m (from 3'03" to 6'03") ;
@@ -29,16 +29,16 @@ export enum PokemonHeight {
   MEDIUM = 'MEDIUM',
   TALL = 'TALL',
 }
-type PokemonHeightTypeOf = typeof PokemonHeight; // transforma o enum em tipo
-export type PokemonHeightKeyOf = keyof PokemonHeightTypeOf; // obtem as chaves do tipo em union de strings
+// type PokemonHeightTypeOf = typeof PokemonHeight; // transforma o enum em tipo 
+export type PokemonHeightKeyOf = keyof typeof PokemonHeight; // keyof obtem as chaves do tipo em union de strings
 
 export enum PokemonWeight {
   LIGHT = 'LIGHT',
   NORMAL = 'NORMAL',
   HEAVY = 'HEAVY',
 }
-type PokemonWeightTypeOf = typeof PokemonWeight; // transforma o enum em tipo
-export type PokemonWeightKeyOf = keyof PokemonWeightTypeOf; // obtem as chaves do tipo em union de strings
+// type PokemonWeightTypeOf = typeof PokemonWeight; // transforma o enum em tipo
+export type PokemonWeightKeyOf = keyof typeof PokemonWeight; // keyof obtem as chaves do tipo em union de strings
 
 enum DefaultColors {
   WHITE = 'WHITE',

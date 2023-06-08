@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import GlobalStyles from "./styles/global";
-import reportWebVitals from "./reportWebVitals";
-import ThemeContext from "hooks/ThemeContext";
-import MenuContext from "hooks/MenuContext";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import GlobalStyles from './styles/global';
+import reportWebVitals from './reportWebVitals';
+import ThemeContext from 'hooks/ThemeContext';
+import MenuContext from 'hooks/MenuContext';
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <GlobalStyles />
