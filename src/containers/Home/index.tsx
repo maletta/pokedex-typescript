@@ -152,9 +152,7 @@ const Home: React.FC = () => {
             Search for Pokémon by name or using the National Pokédex number.
           </FilterTitle>
 
-
-
-          {/* <Autocomplete placeholder='find your pokemon' suggestions={["pokemon1", "pokemon2"]} /> */}
+          <Autocomplete placeholder='find your pokemon' suggestions={["pokemon1", "pokemon2"]} />
 
           {/* <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} /> */}
 
