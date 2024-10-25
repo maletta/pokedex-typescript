@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 
@@ -19,11 +19,10 @@ import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } fro
 import { PokemonTypesKeyOf } from 'types/theme-types';
 
 const Home: React.FC = () => {
-  const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter } = useMenuContext();
+  const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter, pokemonList, setPokemonList, pokemonResultList, setPokemonResultList, pageScrollY, setPageScrollY } = useMenuContext();
   const [isLoading, setIsLoading] = useState(false);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(true);
-  const [pokemonList, setPokemonList] = useState(Array<IGetPokemon>);
-  const [pokemonResultList, setPokemonResultList] = useState<IGetPokemonList>();
+  const divHomeContainer = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   function onClickNavigate(pokemonNumber: number) {
@@ -35,13 +34,16 @@ const Home: React.FC = () => {
   }
 
   function onHomeContainerScroll(e: React.MouseEvent<HTMLDivElement>) {
+    setPageScrollY(e.currentTarget.scrollTop);
     if (verifyScrollToBottom(e.currentTarget.scrollHeight, e.currentTarget.scrollTop, e.currentTarget.clientHeight)) {
       setIsScrolledToBottom(true);
     }
   }
 
+  // transform a array of pokemon id  into a array of pokemon object
+  // requesting a single pokemon at a time
   function batchPokemonRequest(pokemonList: IGetPokemonList) {
-    const requests: Array<Promise<AxiosResponse<IGetPokemon, any>>> = [];
+    const requests: Promise<AxiosResponse<IGetPokemon, any>>[] = [];
     pokemonList.results.forEach(item => {
       requests.push(getPokemon(item.name));
     });
@@ -97,12 +99,21 @@ const Home: React.FC = () => {
     };
   }, [isScrolledToBottom]);
 
+  useEffect(() => {
+    if (divHomeContainer) {
+      divHomeContainer.current?.scrollTo({
+        top: pageScrollY,
+        behavior: "smooth",
+      })
+    }
+  }, []);
+
   return (
     <>
       <ModalGeneration isOpen={isGeneration} closeModal={() => setIsGeneration(false)} />
       <ModalSort isOpen={isSort} closeModal={() => setIsSort(false)} />
       <ModalFilter isOpen={isFilter} closeModal={() => setIsFilter(false)} />
-      <HomeContainer onScroll={onHomeContainerScroll}>
+      <HomeContainer ref={divHomeContainer} onScroll={onHomeContainerScroll}>
         <MenuFilter>
           <IconButton onClick={() => setIsGeneration(true)}>
             <GenerationSVG />
