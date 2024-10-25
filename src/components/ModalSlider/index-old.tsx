@@ -111,14 +111,14 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   return (
     <SliderContainer
       ref={sliderContainer}
-      isOpen={isOpen}
+      // isOpen={isOpen}
+      className={isOpen ? "open" : "closed"}
       onMouseMove={onMoveDrag}
       onTouchMove={onMoveDrag}
     >
       <SliderContent
         ref={sliderContent}
-        isOpen={isOpen}
-      // bottomOffset={bottom}
+      // isOpen={isOpen}
       >
         <Close onClick={() => { closeModal() }}>
           close [x]

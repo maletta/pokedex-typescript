@@ -94,13 +94,17 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   return (
     <SliderContainer
       ref={sliderContainer}
-      isOpen={isOpen}
+      // isOpen={isOpen}
+      className={isOpen ? "open" : "closed"}
       onMouseMove={(e) => requestAnimationFrame(() => onMoveDrag(e))}
       onTouchMove={(e) => requestAnimationFrame(() => onMoveDrag(e))}
     >
-      <SliderContent ref={sliderContent} isOpen={isOpen}>
+      <SliderContent ref={sliderContent}
+        //  isOpen={isOpen}
+        className={isOpen ? "open" : "closed"}
+      >
         <Close onClick={closeModal}>close [x]</Close>
-        <DragBar onMouseDown={onStartDrag} onTouchStart={onStartDrag} />
+        {/* <DragBar onMouseDown={onStartDrag} onTouchStart={onStartDrag} /> */}
         <SliderContentOverFlow>{children}</SliderContentOverFlow>
       </SliderContent>
     </SliderContainer>

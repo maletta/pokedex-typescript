@@ -9,26 +9,52 @@ interface ISliderContent {
   isOpen: boolean;
 }
 
-const SliderContainer = styled.div<ISliderContainer>`
-  ${({ isOpen }) => {
-    if (isOpen)
-      return css`
-        display: flex;
-      `;
-    else
-      return css`
-        display: none;
-      `;
-  }};
-  /* display: block; */
-  position: absolute;
+// const SliderContainer = styled.div<ISliderContainer>`
+//   ${({ isOpen }) => {
+//     if (isOpen)
+//       return css`
+//         display: flex;
+//       `;
+//     else
+//       return css`
+//         display: none;
+//       `;
+//   }};
+//   /* display: block; */
+//   position: absolute;
 
+//   width: 100vw;
+//   height: 100vh;
+
+//   background-color: rgba(23, 23, 27, 0.5);
+
+//   z-index: 100;
+// `;
+
+const SliderContainer = styled.div`
+  position: absolute;
   width: 100vw;
   height: 100vh;
-
   background-color: rgba(23, 23, 27, 0.5);
-
   z-index: 100;
+
+  /* Transição suave para opacidade e visibilidade */
+  transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out;
+
+  /* Inicialmente, o modal está escondido */
+  opacity: 0;
+  visibility: hidden;
+
+  /* Classe que torna o modal visível */
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &.closed {
+    opacity: 0;
+    visibility: hidden;
+  }
 `;
 
 // define styles inline to avoid generate styled component classes
@@ -72,36 +98,38 @@ const SliderContainer = styled.div<ISliderContainer>`
 //   }};
 // `;
 
-const SliderContent = styled.div<ISliderContent>`
+const SliderContent = styled.div`
   display: flex;
   flex-direction: column;
-
   position: absolute;
-
   width: 100vw;
   max-height: calc(100vh - 60px); /** tamanho max - espaço no top */
-
   padding-top: 30px;
-
   background-color: #fff;
-
   border-radius: 30px 30px 0px 0px;
   bottom: 0px;
+  
+  /* Define uma transição suave para o movimento e opacidade */
+  transition: transform 300ms ease-in-out, opacity 200ms ease-in-out;
+  
+  /* Inicialmente, o modal começa abaixo da tela */
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
 
-  transition: transform 300ms ease-in-out;
+  /* Classe que exibe o modal de forma visível */
+  &.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
 
-  ${({ isOpen }) => {
-    if (isOpen)
-      return css`
-        transform: translateY(0%);
-        display: flex;
-      `;
-    else
-      return css`
-        transform: translateY(0%);
-        display: none;
-      `;
-  }};
+  /* Classe que oculta o modal */
+  &.closed {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
 `;
 
 const SliderContent2 = styled.div<{ isOpen: boolean }>`
