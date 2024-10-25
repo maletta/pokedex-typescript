@@ -131,9 +131,9 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <ModalGeneration isOpen={isGeneration} closeModal={() => setIsGeneration(false)} />
+      {/* <ModalGeneration isOpen={isGeneration} closeModal={() => setIsGeneration(false)} />
       <ModalSort isOpen={isSort} closeModal={() => setIsSort(false)} />
-      <ModalFilter isOpen={isFilter} closeModal={() => setIsFilter(false)} />
+      <ModalFilter isOpen={isFilter} closeModal={() => setIsFilter(false)} /> */}
       <HomeContainer ref={divHomeContainer} onScroll={onHomeContainerScroll}>
         <MenuFilter>
           <IconButton onClick={() => setIsGeneration(true)}>
