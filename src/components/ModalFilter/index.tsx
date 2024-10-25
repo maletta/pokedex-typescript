@@ -42,7 +42,9 @@ const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
   return (
     <ModalSlider isOpen={isOpen} closeModal={closeModal}>
       <ModalFilterContainer>
-        <ApplicationTitle>Filters</ApplicationTitle>
+        <Description
+          customCss={{ color: colors.default.BLACK }}
+        > [Feature in progress - Funcionalidade em desenvolvimento]</Description ><ApplicationTitle>Filters</ApplicationTitle>
         <Description customCss={{ color: colors.default.GREY }}>
           Use advanced search to explore Pokémon by type, weakness, height and more!
         </Description>

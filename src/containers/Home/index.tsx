@@ -17,9 +17,21 @@ import { IGetPokemon, IGetPokemonList, getPokemon, getPokemonList } from 'api/';
 
 import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from './styles';
 import { PokemonTypesKeyOf } from 'types/theme-types';
+import { useCSVReader } from 'hooks/useCSVReader';
+import Autocomplete from 'components/AutoComplete';
+
+interface ICSVPokemonArray {
+  id: number;
+  name: string;
+  genre: string | null | undefined;
+  type1: string;
+  type2: string;
+  generation: number;
+}
 
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter, pokemonList, setPokemonList, pokemonResultList, setPokemonResultList, pageScrollY, setPageScrollY } = useMenuContext();
+  const { dataRead, errorRead, readCSV } = useCSVReader<ICSVPokemonArray>();
   const [isLoading, setIsLoading] = useState(false);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(true);
   const divHomeContainer = useRef<HTMLDivElement>(null);
@@ -100,13 +112,22 @@ const Home: React.FC = () => {
   }, [isScrolledToBottom]);
 
   useEffect(() => {
+    console.log("database")
+    console.dir(dataRead)
+  }, [dataRead]);
+
+  useEffect(() => {
     if (divHomeContainer) {
       divHomeContainer.current?.scrollTo({
         top: pageScrollY,
         behavior: "smooth",
       })
     }
+
+    readCSV("mocks/pokemon-database.csv");
+
   }, []);
+
 
   return (
     <>
@@ -127,13 +148,17 @@ const Home: React.FC = () => {
         </MenuFilter>
         <Main>
           <ApplicationTitle>Pokédex</ApplicationTitle>
-          <FilterTitle customCss={{ color: 'var(--text-grey)', marginTop: '10px' }}>
+          <FilterTitle customCss={{ color: 'var(--text-grey)', marginTop: '10px', marginBottom: "25px" }}>
             Search for Pokémon by name or using the National Pokédex number.
           </FilterTitle>
 
-          <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} />
 
-          <PokemonCardContainer>
+
+          {/* <Autocomplete placeholder='find your pokemon' suggestions={["pokemon1", "pokemon2"]} /> */}
+
+          {/* <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} /> */}
+
+          <PokemonCardContainer >
             {pokemonList.map(pokemon => {
               const types = pokemon.types.map(type => type.type.name.toUpperCase() as PokemonTypesKeyOf);
               return (

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-import { SliderContainer, SliderContent, SliderContentOverFlow, DragBar } from "./styles";
+import { SliderContainer, SliderContent, Close, SliderContentOverFlow, DragBar } from "./styles";
 
 interface SliderProps {
   children: React.ReactNode;
@@ -18,15 +18,23 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   const maxOffset = 0;
   const [minOffset, setMinOffset] = useState<number>(0);
 
-  function onDragBarMouseDown(e: React.MouseEvent) {
+  // Função para obter a posição Y correta, independentemente de toque ou mouse
+  const getEventY = (e: React.MouseEvent | React.TouchEvent) => {
+    if ('touches' in e) {
+      return e.touches[0].clientY;
+    }
+    return e.clientY;
+  };
+
+  function onStartDrag(e: React.MouseEvent | React.TouchEvent) {
     setCurrentTopOffset(bottom);
-    setCursorY(e.clientY);
+    setCursorY(getEventY(e));
     setIsGrabbed(true);
   }
 
-  function onSliderContainerMouseMove(e: React.MouseEvent) {
+  function onMoveDrag(e: React.MouseEvent | React.TouchEvent) {
     if (isGrabbed) {
-      const offsetCursor = e.clientY - cursorY;
+      const offsetCursor = getEventY(e) - cursorY;
       const offsetTop = currentTopOffset - offsetCursor;
 
       if (offsetTop > maxOffset) {
@@ -39,10 +47,11 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
     }
   }
 
-  function onMouseUp() {
+  function onEndDrag() {
     setIsGrabbed(false);
     setCurrentTopOffset(bottom);
   }
+
 
   useEffect(() => {
     // if offset is too small, so return to initial offset, and dont close modal
@@ -70,21 +79,40 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   }, [isOpen]);
 
   useEffect(() => {
-    window.addEventListener("mouseup", onMouseUp);
+    // Event listeners para mouse e toque
+    const handleMouseUp = () => onEndDrag();
+    const handleTouchEnd = () => onEndDrag();
+
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("touchend", handleTouchEnd);
+
     if (isOpen) {
       setCurrentTopOffset(0);
       setMinOffset((sliderContainer.current?.getClientRects()[0].height || 0) - 100);
     }
 
     return () => {
-      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [isOpen]);
 
   return (
-    <SliderContainer ref={sliderContainer} isOpen={isOpen} onMouseMove={onSliderContainerMouseMove}>
+    <SliderContainer
+      ref={sliderContainer}
+      isOpen={isOpen}
+      onMouseMove={onMoveDrag}
+      onTouchMove={onMoveDrag}
+
+    >
       <SliderContent ref={sliderContent} isOpen={isOpen} bottomOffset={bottom}>
-        <DragBar onMouseDown={onDragBarMouseDown} />
+        <Close onClick={() => { closeModal() }}>
+          close [x]
+        </Close>
+        <DragBar
+          onMouseDown={onStartDrag}
+          onTouchStart={onStartDrag}
+        />
         <SliderContentOverFlow>{children}</SliderContentOverFlow>
       </SliderContent>
     </SliderContainer>

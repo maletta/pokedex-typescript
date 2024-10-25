@@ -30,7 +30,9 @@ const ModalSort: React.FC<IModalSort> = ({ isOpen, closeModal }) => {
   return (
     <ModalSlider isOpen={isOpen} closeModal={closeModal}>
       <ModalSortContainer>
-        <ApplicationTitle>Sort</ApplicationTitle>
+        <Description
+          customCss={{ color: colors.default.BLACK }}
+        > [Feature in progress - Funcionalidade em desenvolvimento]</Description ><ApplicationTitle>Sort</ApplicationTitle>
         <Description customCss={{ color: colors.default.GREY }}>Sort Pokémons alphabetically or by National Pokédex number!</Description>
 
         <ButtonGroup>

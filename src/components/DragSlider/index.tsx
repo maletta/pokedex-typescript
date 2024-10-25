@@ -21,11 +21,19 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
   const [leftOffset, setLeftOffset] = useState<number>(0);
   const maxLimitLeft = 0;
 
-  function onMouseDown(e: React.MouseEvent) {
+  // Função para obter a posição X correta, dependendo de evento de toque ou mouse
+  const getEventX = (e: React.MouseEvent | React.TouchEvent) => {
+    if ("touches" in e) {
+      return e.touches[0].clientX;
+    }
+    return e.clientX;
+  };
+
+  function onStartDrag(e: React.MouseEvent | React.TouchEvent) {
     if (isVisible) {
       // deltaX é a posição X do cusor na div, subtraindo o X do componente clicado
       // por que o componente clicado pode ter deslocamento X de padding
-      const deltaX = e.clientX - e.currentTarget.getClientRects()[0].x;
+      const deltaX = getEventX(e) - e.currentTarget.getClientRects()[0].x;
 
       setIsGrabbed(true);
       setCursorSpaceX(deltaX);
@@ -33,13 +41,13 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
     }
   }
 
-  function onMouseUp() {
+  function onEndDrag() {
     setIsGrabbed(false);
   }
 
-  function onMouseMove(e: React.MouseEvent) {
+  function onDragMove(e: React.MouseEvent | React.TouchEvent) {
     if (isGrabbed && dragSliderOverflow.current && isVisible) {
-      const deltaX = e.clientX - e.currentTarget.getClientRects()[0].x;
+      const deltaX = getEventX(e) - e.currentTarget.getClientRects()[0].x;
       const deltaClientX = cursorSpaceX - deltaX;
       const offsetLeft = currentLeft - deltaClientX;
 
@@ -76,15 +84,30 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
   }, [dragSliderCotainer.current, isVisible]);
 
   useEffect(() => {
-    if (isVisible) window.addEventListener("mouseup", windowMouseUp);
+    const handleMouseUp = () => windowMouseUp();
+    const handleTouchEnd = () => windowMouseUp();
+
+    if (isVisible) {
+      window.addEventListener("mouseup", handleMouseUp);
+      window.addEventListener("touchend", handleTouchEnd);
+    }
 
     return () => {
-      window.removeEventListener("mouseup", windowMouseUp);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("touchend", handleTouchEnd);
     };
   }, []);
 
   return (
-    <DragSliderContainer ref={dragSliderCotainer} onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove}>
+    <DragSliderContainer
+      ref={dragSliderCotainer}
+      onMouseDown={onStartDrag}
+      onMouseUp={onEndDrag}
+      onMouseMove={onDragMove}
+      onTouchStart={onStartDrag}
+      onTouchEnd={onEndDrag}
+      onTouchMove={onDragMove}
+    >
       <DragSliderOverflow
         ref={dragSliderOverflow}
         gap={itemsGap}
