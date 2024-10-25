@@ -41,7 +41,7 @@ const SliderContent = styled.div.attrs<ISliderContent>(({ bottomOffset }) => {
       transition,
     },
   };
-})<ISliderContent>`
+}) <ISliderContent>`
   display: flex;
   flex-direction: column;
 
@@ -97,4 +97,22 @@ const DragBar = styled.div`
   cursor: grab;
 `;
 
-export { SliderContainer, SliderContent, SliderContentOverFlow, DragBar };
+const Close = styled.button`
+  position: absolute;
+  cursor: pointer;
+  outline: none;
+  background: none;
+  border:none;
+  top: -25px;
+  right: 20px;
+  color: ${({ theme }) => theme.colors.default.WHITE};
+  font-size: 1.6rem;
+  letter-spacing: 0.1323rem;
+
+  &:hover {
+  color: ${({ theme }) => theme.colors.type.DARK};
+
+  }
+`;
+
+export { SliderContainer, SliderContent, Close, SliderContentOverFlow, DragBar };

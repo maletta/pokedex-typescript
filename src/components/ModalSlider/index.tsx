@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-import { SliderContainer, SliderContent, SliderContentOverFlow, DragBar } from "./styles";
+import { SliderContainer, SliderContent, Close, SliderContentOverFlow, DragBar } from "./styles";
 
 interface SliderProps {
   children: React.ReactNode;
@@ -44,6 +44,7 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
     setCurrentTopOffset(bottom);
   }
 
+
   useEffect(() => {
     // if offset is too small, so return to initial offset, and dont close modal
     // else close modal
@@ -82,8 +83,11 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   }, [isOpen]);
 
   return (
-    <SliderContainer ref={sliderContainer} isOpen={isOpen} onMouseMove={onSliderContainerMouseMove}>
+    <SliderContainer ref={sliderContainer} isOpen={isOpen} onMouseMove={onSliderContainerMouseMove}  >
       <SliderContent ref={sliderContent} isOpen={isOpen} bottomOffset={bottom}>
+        <Close onClick={() => { closeModal() }}>
+          close [x]
+        </Close>
         <DragBar onMouseDown={onDragBarMouseDown} />
         <SliderContentOverFlow>{children}</SliderContentOverFlow>
       </SliderContent>

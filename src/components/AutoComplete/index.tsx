@@ -61,6 +61,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         handleFocus={() => setShowSuggestions(filteredSuggestions.length > 0)}
         handleBlur={() => setShowSuggestions(false)}
         handleKeyDown={handleKeyDown}
+        value={inputValue}
       />
       {showSuggestions && (
         <ul
@@ -86,7 +87,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
             filteredSuggestions.map((suggestion, index) => (
               <li
                 key={suggestion}
-                onClick={() => handleSuggestionClick(suggestion)}
+                onMouseDown={(e) => {
+                  console.log("cliclou na sugestão, ", suggestion)
+                  handleSuggestionClick(suggestion)
+                }}
                 onMouseEnter={() => setActiveSuggestionIndex(index)}
                 onMouseLeave={() => setActiveSuggestionIndex(-1)}
                 style={{

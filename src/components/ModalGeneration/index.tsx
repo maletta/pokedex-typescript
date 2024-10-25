@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useTheme } from "styled-components";
 
 import ModalSlider from "components/ModalSlider";
-import { ApplicationTitle, Description } from "components/Titles";
+import { ApplicationTitle, Description, } from "components/Titles";
 import { GenerationCard } from "components/GenerationCard";
 
 import { ModalGenerationContainer, GridGeneration } from "./styles";
+import { PokemonNameStyle } from "components/Titles/styles";
 
 interface IModalGeneration {
   isOpen: boolean;
@@ -20,6 +21,10 @@ const ModalGeneration: React.FC<IModalGeneration> = ({ isOpen, closeModal }) => 
   return (
     <ModalSlider isOpen={isOpen} closeModal={closeModal}>
       <ModalGenerationContainer>
+
+        <Description
+          customCss={{ color: colors.default.BLACK }}
+        > [Feature in progress - Funcionalidade em desenvolvimento]</Description >
         <ApplicationTitle>Generations</ApplicationTitle>
         <Description customCss={{ color: colors.default.GREY }}>Use search for generations to explore your Pokémon!</Description>
 
@@ -34,7 +39,7 @@ const ModalGeneration: React.FC<IModalGeneration> = ({ isOpen, closeModal }) => 
           ))}
         </GridGeneration>
       </ModalGenerationContainer>
-    </ModalSlider>
+    </ModalSlider >
   );
 };
 

@@ -154,7 +154,7 @@ const Home: React.FC = () => {
 
 
 
-          <Autocomplete placeholder='find your pokemon' suggestions={["pokemon1", "pokemon2"]} />
+          {/* <Autocomplete placeholder='find your pokemon' suggestions={["pokemon1", "pokemon2"]} /> */}
 
           {/* <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} /> */}
 

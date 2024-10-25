@@ -8,29 +8,31 @@ import { ReactComponent as SearchSVG } from "assets/icons/menu/search-icon.svg";
 interface Props {
   placeholder: string;
   customCss?: CSSObject;
+  value?: string;
   handleChange?: (value: string) => void;
   handleFocus?: () => void;
   handleBlur?: () => void;
   handleKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
-const TextInput: React.FC<Props> = ({ placeholder, customCss, handleChange, handleFocus, handleBlur, handleKeyDown }) => {
+const TextInput: React.FC<Props> = ({ value, placeholder, customCss, handleChange, handleFocus, handleBlur, handleKeyDown }) => {
   const [focus, setFocus] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string | null>(null);
 
 
   const internalHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
     handleChange && handleChange(e.target.value)
   };
 
   const internalHandleFocus = () => {
-    setFocus(true);
     handleFocus && handleFocus();
+    setFocus(true);
   };
 
   const internalHandleBlur = () => {
-    setFocus(false)
+    // isso causa problemas em dropdown e autocomplete
+    // elemento perde o foco antes de ser clicado com onClick
+    // então usar onMouseDown no LI que executa antes de perder o blur do input 
+    setFocus(false);
     handleBlur && handleBlur();
   }
 
@@ -48,6 +50,7 @@ const TextInput: React.FC<Props> = ({ placeholder, customCss, handleChange, hand
         onBlur={internalHandleBlur}
         onChange={internalHandleChange}
         onKeyDown={internalHandleKeyDown}
+        value={value || ""}
       />
     </Container>
   );
