@@ -1976,6 +1976,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.44.tgz#447e3eecad9d19bd779f4a575f361d34898c0722"
   integrity sha512-gwP6+QDgL5TDBIWh1lbYh3EFPU11pa+8xcamcsA3ROkp3A9X+/3Y5cRgq93VPEEE+CGfxlQnqkg1kkWGBgh3fw==
 
+"@types/papaparse@^5.3.15":
+  version "5.3.15"
+  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.3.15.tgz#7cafa16757a1d121422deefbb10b6310b224ecc4"
+  integrity sha512-JHe6vF6x/8Z85nCX4yFdDslN11d+1pr12E526X8WAfhadOeaOTx5AuIkvDKIBopfvlzpzkdMx4YyvSKCM9oqtw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -6565,6 +6572,11 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
+
+papaparse@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-5.4.1.tgz#f45c0f871853578bd3a30f92d96fdcfb6ebea127"
+  integrity sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==
 
 param-case@^3.0.4:
   version "3.0.4"

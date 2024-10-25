@@ -3,6 +3,7 @@ import styled, { css, CSSObject } from "styled-components/macro";
 interface Props {
   focus?: boolean;
   customCss?: CSSObject;
+
 }
 
 const customCss = css<Props>`
