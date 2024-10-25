@@ -5,7 +5,7 @@ interface ISliderContainer {
 }
 
 interface ISliderContent {
-  bottomOffset: number;
+  // bottomOffset: number;
   isOpen: boolean;
 }
 
@@ -32,16 +32,47 @@ const SliderContainer = styled.div<ISliderContainer>`
 `;
 
 // define styles inline to avoid generate styled component classes
-const SliderContent = styled.div.attrs<ISliderContent>(({ bottomOffset }) => {
-  const transition = bottomOffset === 0 ? "bottom 200ms ease 0s" : "none";
+// const SliderContent = styled.div.attrs<ISliderContent>(({ bottomOffset }) => {
+//   const transition = bottomOffset === 0 ? "bottom 200ms ease 0s" : "none";
 
-  return {
-    style: {
-      bottom: `${bottomOffset}px`,
-      transition,
-    },
-  };
-}) <ISliderContent>`
+//   return {
+//     style: {
+//       bottom: `${bottomOffset}px`,
+//       transition,
+//     },
+//   };
+// }) <ISliderContent>`
+//   display: flex;
+//   flex-direction: column;
+
+//   position: absolute;
+
+//   width: 100vw;
+//   max-height: calc(100vh - 60px); /** tamanho max - espaço no top */
+
+//   padding-top: 30px;
+
+//   background-color: #fff;
+
+//   border-radius: 30px 30px 0px 0px;
+
+//   transition: transform 300ms ease-in-out;
+
+//   ${({ isOpen }) => {
+//     if (isOpen)
+//       return css`
+//         transform: translateY(0%);
+//         display: flex;
+//       `;
+//     else
+//       return css`
+//         transform: translateY(0%);
+//         display: none;
+//       `;
+//   }};
+// `;
+
+const SliderContent = styled.div<ISliderContent>`
   display: flex;
   flex-direction: column;
 
@@ -55,6 +86,7 @@ const SliderContent = styled.div.attrs<ISliderContent>(({ bottomOffset }) => {
   background-color: #fff;
 
   border-radius: 30px 30px 0px 0px;
+  bottom: 0px;
 
   transition: transform 300ms ease-in-out;
 

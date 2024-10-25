@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-
 import { SliderContainer, SliderContent, Close, SliderContentOverFlow, DragBar } from "./styles";
 
 interface SliderProps {
@@ -14,70 +13,64 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   const [isGrabbed, setIsGrabbed] = useState<boolean>(false);
   const currentTopOffset = useRef<number>(0);
   const cursorY = useRef<number>(0);
-  // const bottom = useRef<number>(0);
-  const [bottom, setBottom] = useState<number>(0);
-  const maxOffset = 0;
-  const [minOffset, setMinOffset] = useState<number>(0);
+  const minOffset = useRef<number>(0);
 
   // Função para obter a posição Y correta, independentemente de toque ou mouse
-  const getEventY = (e: React.MouseEvent | React.TouchEvent) => {
-    if ('touches' in e) {
-      return e.touches[0].clientY;
-    }
-    return e.clientY;
-  };
+  const getEventY = (e: React.MouseEvent | React.TouchEvent) =>
+    'touches' in e ? e.touches[0].clientY : e.clientY;
 
-  function onStartDrag(e: React.MouseEvent | React.TouchEvent) {
-    currentTopOffset.current = bottom;
+  const onStartDrag = (e: React.MouseEvent | React.TouchEvent) => {
+    // previnir ação atualizar browser ao rolar
+    e.preventDefault();
+
+    if (sliderContent.current) {
+      currentTopOffset.current = parseInt(sliderContent.current.style.bottom || "0", 10);
+    }
     cursorY.current = getEventY(e);
     setIsGrabbed(true);
-  }
+  };
 
-
-  function onEndDrag() {
+  const onEndDrag = () => {
     setIsGrabbed(false);
-    currentTopOffset.current = bottom;
-  }
+    if (sliderContent.current && isOpen) {
+      const threshold = -(sliderContent.current.clientHeight / 2);
+      const bottomValue = parseInt(sliderContent.current.style.bottom || "0", 10);
+
+      // Lógica para fechar ou reposicionar o modal ao soltar
+      if (bottomValue > threshold) {
+        sliderContent.current.style.bottom = "0px";
+      } else {
+        closeModal();
+        sliderContent.current.style.bottom = "0px";
+      }
+    }
+  };
 
   const onMoveDrag = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    if (isGrabbed) {
+    // previnir ação atualizar browser ao arrastar
+    e.preventDefault();
+
+    if (isGrabbed && sliderContent.current) {
       const offsetCursor = getEventY(e) - cursorY.current;
       const offsetTop = currentTopOffset.current - offsetCursor;
 
-      if (offsetTop > maxOffset) {
-        // bottom.current = 0;
-        setBottom(0)
-      } else if (offsetTop < -minOffset) {
-        // bottom.current = -minOffset;
-        setBottom(-minOffset);
+      // Atualizar diretamente o estilo do elemento, evitando re-renderizações
+      if (offsetTop > 0) {
+        sliderContent.current.style.bottom = "0px";
+      } else if (offsetTop < -minOffset.current) {
+        sliderContent.current.style.bottom = `${-minOffset.current}px`;
       } else {
-        // bottom.current = offsetTop;
-        setBottom(offsetTop)
+        sliderContent.current.style.bottom = `${offsetTop}px`;
       }
     }
   }, [isGrabbed]);
 
-
-
-
   useEffect(() => {
-    // if offset is too small, so return to initial offset, and dont close modal
-    // else close modal
-    if (!isGrabbed && sliderContent.current && isOpen) {
-      const widthToBackToZero = -Math.floor(sliderContent.current?.getClientRects()[0].height / 2);
-      if (bottom > widthToBackToZero) {
-        // bottom.current = 0;
-        setBottom(0)
-      } else {
-        closeModal();
-        currentTopOffset.current = 0;
-        // bottom.current = 0;
-        setBottom(0)
-      }
+    if (isOpen && sliderContainer.current) {
+      minOffset.current = (sliderContainer.current.clientHeight || 0) - 100;
     }
-  }, [isGrabbed, isOpen]);
+  }, [isOpen]);
 
-  // add overflow hidden to body, content behind the slider dont scroll
   useEffect(() => {
     const body = document.querySelector("body");
     if (isOpen && body) {
@@ -85,20 +78,12 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
     } else {
       body?.classList.remove("overflow-hidden");
     }
-  }, [isOpen]);
 
-  useEffect(() => {
-    // Event listeners para mouse e toque
     const handleMouseUp = () => onEndDrag();
     const handleTouchEnd = () => onEndDrag();
 
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("touchend", handleTouchEnd);
-
-    if (isOpen) {
-      currentTopOffset.current = 0;
-      setMinOffset((sliderContainer.current?.getClientRects()[0].height || 0) - 100);
-    }
 
     return () => {
       window.removeEventListener("mouseup", handleMouseUp);
@@ -110,21 +95,12 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
     <SliderContainer
       ref={sliderContainer}
       isOpen={isOpen}
-      onMouseMove={onMoveDrag}
-      onTouchMove={onMoveDrag}
+      onMouseMove={(e) => requestAnimationFrame(() => onMoveDrag(e))}
+      onTouchMove={(e) => requestAnimationFrame(() => onMoveDrag(e))}
     >
-      <SliderContent
-        ref={sliderContent}
-        isOpen={isOpen}
-        bottomOffset={bottom}
-      >
-        <Close onClick={() => { closeModal() }}>
-          close [x]
-        </Close>
-        <DragBar
-          onMouseDown={onStartDrag}
-          onTouchStart={onStartDrag}
-        />
+      <SliderContent ref={sliderContent} isOpen={isOpen}>
+        <Close onClick={closeModal}>close [x]</Close>
+        <DragBar onMouseDown={onStartDrag} onTouchStart={onStartDrag} />
         <SliderContentOverFlow>{children}</SliderContentOverFlow>
       </SliderContent>
     </SliderContainer>

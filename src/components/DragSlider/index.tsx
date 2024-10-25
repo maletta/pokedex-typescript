@@ -31,6 +31,9 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
   };
 
   function onStartDrag(e: React.MouseEvent | React.TouchEvent) {
+    // previnir comportamente de arrastar e voltar página
+    e.preventDefault();
+
     if (isVisible) {
       // deltaX é a posição X do cusor na div, subtraindo o X do componente clicado
       // por que o componente clicado pode ter deslocamento X de padding
@@ -48,6 +51,9 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
   }
 
   function onDragMove(e: React.MouseEvent | React.TouchEvent) {
+    // previnir comportamente de arrastar e voltar página
+    e.preventDefault();
+
     if (isGrabbed && dragSliderOverflow.current && isVisible) {
       const deltaX = getEventX(e) - e.currentTarget.getClientRects()[0].x;
       const deltaClientX = cursorSpaceX - deltaX;
