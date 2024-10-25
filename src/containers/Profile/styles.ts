@@ -5,6 +5,12 @@ interface Props {
   type: PokemonTypesKeyOf;
 }
 
+interface IPokemonNotFound {
+  type: PokemonTypesKeyOf[] | undefined;
+
+}
+
+
 const ProfileWrapper = styled.div<Props>`
   position: relative;
   background-color: ${({ theme, type }) => theme.colors.background[type]};
@@ -201,6 +207,19 @@ const Content = styled.div`
   }
 `;
 
+const PokemonNotFound = styled.div<IPokemonNotFound>`
+  position: relative;
+  width:  320px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-inline: auto;
+`;
+
+
 export {
   ProfileWrapper,
   Banner,
@@ -214,4 +233,5 @@ export {
   TabsGroup,
   Tab,
   Content,
+  PokemonNotFound
 };

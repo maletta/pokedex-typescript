@@ -20,6 +20,7 @@ const HomeContainer = styled.div`
 
   overflow-y: scroll;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 
   @media ${device.mobileM} {
     padding: 40px 20px 30px 20px;
@@ -45,6 +46,7 @@ const Main = styled.main`
   grid-area: MAIN;
 
   padding: 40px 0 0 0;
+  margin-bottom: 50px;// spacing to have initial scrollbar on desk
 
   /* background-color: chocolate; */
 `;

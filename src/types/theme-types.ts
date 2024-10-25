@@ -8,7 +8,7 @@ export enum PokemonTypes {
   BUG = 'BUG',
   GHOST = 'GHOST',
   STEEL = 'STEEL',
-  FIRE = 'FIRE',
+  FIRE = "FIRE",
   WATER = 'WATER',
   GRASS = 'GRASS',
   ELECTRIC = 'ELECTRIC',
