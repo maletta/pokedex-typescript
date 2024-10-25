@@ -56,7 +56,7 @@ const SliderContent = styled.div.attrs<ISliderContent>(({ bottomOffset }) => {
 
   border-radius: 30px 30px 0px 0px;
 
-  transition: transform 300ms;
+  transition: transform 300ms ease-in-out;
 
   ${({ isOpen }) => {
     if (isOpen)
@@ -70,6 +70,27 @@ const SliderContent = styled.div.attrs<ISliderContent>(({ bottomOffset }) => {
         display: none;
       `;
   }};
+`;
+
+const SliderContent2 = styled.div<{ isOpen: boolean }>`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100vw;
+  max-height: calc(100vh - 60px); 
+  padding-top: 30px;
+  background-color: #fff;
+  border-radius: 30px 30px 0px 0px;
+  transition: transform 300ms ease-in-out; /* Adiciona suavidade ao movimento */
+
+  /* Define a transição para os estados de abertura e fechamento */
+  &.open {
+    transform: translateY(0); /* Modal no topo */
+  }
+
+  &.closed {
+    transform: translateY(100%); /* Modal fora da tela */
+  }
 `;
 
 const SliderContentOverFlow = styled.div`
@@ -115,4 +136,4 @@ const Close = styled.button`
   }
 `;
 
-export { SliderContainer, SliderContent, Close, SliderContentOverFlow, DragBar };
+export { SliderContainer, SliderContent, SliderContent2, Close, SliderContentOverFlow, DragBar };

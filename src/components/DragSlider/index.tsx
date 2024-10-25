@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import { DragSliderContainer, DragSliderOverflow } from "./styles";
+import { debounceFunction } from "util/debounce";
 
 interface DragSliderProps {
   children: Array<React.ReactNode>;
@@ -34,6 +35,7 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
       // deltaX é a posição X do cusor na div, subtraindo o X do componente clicado
       // por que o componente clicado pode ter deslocamento X de padding
       const deltaX = getEventX(e) - e.currentTarget.getClientRects()[0].x;
+      console.log("start to drag")
 
       setIsGrabbed(true);
       setCursorSpaceX(deltaX);
@@ -97,6 +99,7 @@ const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVis
       window.removeEventListener("touchend", handleTouchEnd);
     };
   }, []);
+
 
   return (
     <DragSliderContainer
