@@ -35,7 +35,9 @@ const ContainerBackground = styled.div<IContainerBackground>`
   background-repeat: no-repeat;
 
   background-color: ${({ theme, type }) => theme.colors.background[type]};
-  box-shadow: 0px 10px 20px rgba(139, 190, 138, 0.4);
+  /* box-shadow: 0px 10px 20px rgba(139, 190, 138, 0.4); */
+  box-shadow: ${({ theme, type }) => `0px 10px 20px ${theme.colors.background[type]}80`}; // 66 representa 40% de opacidade em hexadecimal
+  
 
   cursor: pointer;
 `;
