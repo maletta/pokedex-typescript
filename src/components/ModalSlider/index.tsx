@@ -39,6 +39,21 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
     }
   }
 
+  function onSliderContainerTouchMove(e: React.Touch) {
+    if (isGrabbed) {
+      const offsetCursor = e.clientY - cursorY;
+      const offsetTop = currentTopOffset - offsetCursor;
+
+      if (offsetTop > maxOffset) {
+        setBottom(0);
+      } else if (offsetTop < -minOffset) {
+        setBottom(-minOffset);
+      } else {
+        setBottom(offsetTop);
+      }
+    }
+  }
+
   function onMouseUp() {
     setIsGrabbed(false);
     setCurrentTopOffset(bottom);
@@ -83,12 +98,19 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   }, [isOpen]);
 
   return (
-    <SliderContainer ref={sliderContainer} isOpen={isOpen} onMouseMove={onSliderContainerMouseMove}  >
+    <SliderContainer
+      ref={sliderContainer}
+      isOpen={isOpen}
+      onMouseMove={onSliderContainerMouseMove}
+
+    >
       <SliderContent ref={sliderContent} isOpen={isOpen} bottomOffset={bottom}>
         <Close onClick={() => { closeModal() }}>
           close [x]
         </Close>
-        <DragBar onMouseDown={onDragBarMouseDown} />
+        <DragBar
+          onMouseDown={onDragBarMouseDown}
+        />
         <SliderContentOverFlow>{children}</SliderContentOverFlow>
       </SliderContent>
     </SliderContainer>
