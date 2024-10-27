@@ -20,7 +20,7 @@ const HomeContainer = styled.div`
 
   overflow-y: scroll;
   overflow-x: hidden;
-  scroll-behavior: smooth;
+  scroll-behavior:initial ;
 
   @media ${device.mobileM} {
     padding: 40px 20px 30px 20px;
