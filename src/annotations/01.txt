@@ -1,0 +1,9 @@
+Create a proxy forward to access localhost wsl applications from cellphone.
+
+netsh interface portproxy add v4tov4 listenport=<APP_PORT> listenaddress=0.0.0.0 connectport=<APP_PORT> connectaddress=<IP_WSL>
+
+The command can be revert by:
+
+netsh interface portproxy delete v4tov4 listenport=<APP_PORT> listenaddress=0.0.0.0
+
+-----------------------------------------------------------------------------------------

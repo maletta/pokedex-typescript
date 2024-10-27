@@ -42,7 +42,8 @@ const Home: React.FC = () => {
   }
 
   function verifyScrollToBottom(scrollHeight: number, scrollTop: number, clientHeight: number) {
-    return scrollHeight - scrollTop === clientHeight;
+    // console.log(`${scrollHeight} - ${scrollTop} = ${scrollHeight - scrollTop} === ${clientHeight}`)
+    return Math.round(scrollHeight - scrollTop) === clientHeight;
   }
 
   function onHomeContainerScroll(e: React.MouseEvent<HTMLDivElement>) {
@@ -120,7 +121,7 @@ const Home: React.FC = () => {
     if (divHomeContainer) {
       divHomeContainer.current?.scrollTo({
         top: pageScrollY,
-        behavior: "smooth",
+        behavior: "auto",
       })
     }
 
