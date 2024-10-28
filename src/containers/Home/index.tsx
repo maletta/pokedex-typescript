@@ -15,7 +15,7 @@ import Loading from 'components/Loading';
 import { useMenuContext } from 'hooks/MenuContext';
 import { IGetPokemon, IGetPokemonList, getPokemon, getPokemonList } from 'api/';
 
-import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer } from './styles';
+import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer, PageHomeOverFlow } from './styles';
 import { PokemonTypesKeyOf } from 'types/theme-types';
 import { useCSVReader } from 'hooks/useCSVReader';
 import Autocomplete from 'components/AutoComplete';
@@ -132,7 +132,10 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <ModalGeneration isOpen={isGeneration} closeModal={() => setIsGeneration(false)} />
+      <ModalGeneration
+        isOpen={isGeneration}
+        closeModal={() => setIsGeneration(false)}
+      />
       <ModalSort isOpen={isSort} closeModal={() => setIsSort(false)} />
       <ModalFilter isOpen={isFilter} closeModal={() => setIsFilter(false)} />
       <HomeContainer ref={divHomeContainer} onScroll={onHomeContainerScroll}>

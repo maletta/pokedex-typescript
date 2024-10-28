@@ -6,4 +6,6 @@ The command can be revert by:
 
 netsh interface portproxy delete v4tov4 listenport=<APP_PORT> listenaddress=0.0.0.0
 
+netsh interface portproxy show all
+netsh interface portproxy show v4tov4
 -----------------------------------------------------------------------------------------
