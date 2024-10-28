@@ -38,22 +38,22 @@ const SliderContent = styled.div`
   border-radius: 30px 30px 0px 0px;
   bottom: 0px;
 
-  /* Define uma transição suave para o movimento e opacidade */
+  /* Define uma transição suave para o movimento */
   transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-  
-  /* Inicialmente, o modal começa abaixo da tela */
+
+  /* Inicialmente, o modal começa acima da tela */
   transform: translateY(100%);
   opacity: 0;
   pointer-events: none;
 
   /* Classe que exibe o modal de forma visível */
   &.open {
-    transform: translateY(0);
+    transform: translateY(0%);
     opacity: 1;
     pointer-events: auto;
   }
 
-  /* Classe que oculta o modal */
+  /* Classe que oculta o modal para baixo */
   &.closing {
     transform: translateY(100%);
     opacity: 0;

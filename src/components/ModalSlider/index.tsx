@@ -11,6 +11,7 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   const sliderContent = useRef<HTMLDivElement>(null);
   const [isGrabbed, setIsGrabbed] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
+  const [isOpening, setIsOpening] = useState(true);
   const currentTopOffset = useRef<number>(0);
   const cursorY = useRef<number>(0);
   const minOffset = useRef<number>(0);
@@ -45,9 +46,17 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
     setIsClosing(true);
     setTimeout(() => {
       setIsClosing(false);
+      setIsOpening(true);
       closeModal();
     }, 300); // Tempo da animação definido no CSS
   };
+
+  const setOpenWithAnimation = () => {
+    setIsOpening(true);
+    setTimeout(() => {
+      setIsOpening(false);
+    }, 100); // Tempo da animação definido no CSS
+  }
 
   const onMoveDrag = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -69,6 +78,7 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
   useEffect(() => {
     if (isOpen && sliderContainer.current) {
       minOffset.current = (sliderContainer.current.clientHeight || 0) - 100;
+      setOpenWithAnimation();
     }
   }, [isOpen]);
 
@@ -101,7 +111,7 @@ const ModalSlider: React.FC<SliderProps> = ({ children, isOpen, closeModal }) =>
     >
       <SliderContent
         ref={sliderContent}
-        className={isOpen && !isClosing ? "open" : isClosing ? "closing" : ""}
+        className={isOpen && !isClosing && !isOpening ? "open" : isClosing ? "closing" : ""}
       >
         <Close onClick={closeWithAnimation}>close [x]</Close>
         <SliderContentOverFlow>{children}</SliderContentOverFlow>
