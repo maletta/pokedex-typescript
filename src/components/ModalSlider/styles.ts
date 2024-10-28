@@ -2,44 +2,28 @@ import styled, { css } from "styled-components/macro";
 
 const SliderContainer = styled.div`
   position: absolute;
-  width: 0;
-  height: 0;
-  
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(23, 23, 27, 0.5);
   z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease-in-out;
+  display: none; /* Oculta completamente quando fechado */
 
-  /* Animações para entrada e saída */
+  /* Classe que exibe o fundo com visibilidade */
   &.open {
-    animation: fadeIn 300ms ease-in-out forwards;
-    width: 100vw;
-    height: 100vh;
+    opacity: 1;
+    pointer-events: auto;
+    display: block; /* Mostra o fundo ao abrir */
   }
 
-  &.closed {
-    animation: fadeOut 3000ms ease-in-out forwards;
-  }
-
-  /* Definição dos keyframes */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      visibility: hidden;
-    }
-    to {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-      visibility: visible;
-    }
-    to {
-      opacity: 0;
-      visibility: hidden;
-    }
+  &.closing {
+    opacity: 0;
+    pointer-events: none;
+    display: block; /* Mantém o fundo durante a animação de fechamento */
   }
 `;
 
@@ -53,9 +37,9 @@ const SliderContent = styled.div`
   background-color: #fff;
   border-radius: 30px 30px 0px 0px;
   bottom: 0px;
-  
+
   /* Define uma transição suave para o movimento e opacidade */
-  transition: transform 300ms ease-in-out, opacity 200ms ease-in-out;
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
   
   /* Inicialmente, o modal começa abaixo da tela */
   transform: translateY(100%);
@@ -70,7 +54,7 @@ const SliderContent = styled.div`
   }
 
   /* Classe que oculta o modal */
-  &.closed {
+  &.closing {
     transform: translateY(100%);
     opacity: 0;
     pointer-events: none;
