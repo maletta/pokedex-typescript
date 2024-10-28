@@ -18,6 +18,9 @@ const GlobalStyles = createGlobalStyle`
     font-size: 16px; 
   }
 
+  body {
+  }
+
   html {
     /* scroll-behavior: smooth; */
 
