@@ -1,6 +1,10 @@
 import styled from 'styled-components/macro';
 import { device } from 'util/media';
 
+const PageHomeOverFlow = styled.div`
+  
+`;
+
 const HomeContainer = styled.div`
   position: relative;
   display: grid;
@@ -81,4 +85,4 @@ const PokemonCardContainer = styled.section`
   margin-top: 30px;
 `;
 
-export { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer };
+export { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer, PageHomeOverFlow };
