@@ -20,7 +20,7 @@ import { PokemonTypesKeyOf } from 'types/theme-types';
 import { useCSVReader } from 'hooks/useCSVReader';
 import Autocomplete from 'components/AutoComplete';
 
-interface ICSVPokemonArray {
+interface ICSVPokemon {
   id: number;
   name: string;
   genre: string | null | undefined;
@@ -31,7 +31,7 @@ interface ICSVPokemonArray {
 
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter, pokemonList, setPokemonList, pokemonResultList, setPokemonResultList, pageScrollY, setPageScrollY } = useMenuContext();
-  const { dataRead, errorRead, readCSV } = useCSVReader<ICSVPokemonArray>();
+  const { dataRead, errorRead, readCSV } = useCSVReader<ICSVPokemon>();
   const [isLoading, setIsLoading] = useState(false);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(true);
   const divHomeContainer = useRef<HTMLDivElement>(null);
@@ -156,7 +156,7 @@ const Home: React.FC = () => {
             Search for Pokémon by name or using the National Pokédex number.
           </FilterTitle>
 
-          <Autocomplete placeholder='find your pokemon' suggestions={["pokemon1", "pokemon2"]} />
+          <Autocomplete placeholder='find your pokemon' suggestions={dataRead?.type === "right" ? dataRead.value : []} />
 
           {/* <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} /> */}
 

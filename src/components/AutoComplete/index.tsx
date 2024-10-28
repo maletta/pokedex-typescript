@@ -2,9 +2,18 @@ import TextInput from "components/TextInput";
 import React, { useState, useEffect } from "react";
 import { CSSObject } from "styled-components/macro";
 
+
+interface ICSVPokemon {
+  id: number;
+  name: string;
+  genre: string | null | undefined;
+  type1: string;
+  type2: string;
+  generation: number;
+}
 interface AutocompleteProps {
   placeholder: string;
-  suggestions: string[];
+  suggestions: ICSVPokemon[];
   customCss?: CSSObject;
 }
 
@@ -14,13 +23,14 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   customCss,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<ICSVPokemon[]>([]);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(-1);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
+
   useEffect(() => {
     const filtered = suggestions.filter(suggestion =>
-      suggestion.toLowerCase().includes(inputValue.toLowerCase())
+      suggestion.name.toLowerCase().includes(inputValue.toLowerCase())
     );
     setFilteredSuggestions(filtered);
     setShowSuggestions(filtered.length > 0 && inputValue.length > 0);
@@ -44,7 +54,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       setActiveSuggestionIndex((prev) => (prev > 0 ? prev - 1 : prev));
     } else if (e.key === "Enter") {
       if (activeSuggestionIndex >= 0) {
-        handleSuggestionClick(filteredSuggestions[activeSuggestionIndex]);
+        handleSuggestionClick(filteredSuggestions[activeSuggestionIndex].name);
       }
     } else if (e.key === "Escape") {
       setShowSuggestions(false);
@@ -86,10 +96,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
           {
             filteredSuggestions.map((suggestion, index) => (
               <li
-                key={suggestion}
+                key={`${suggestion.id}-${suggestion.name}-${suggestion.genre}`}
                 onMouseDown={(e) => {
                   console.log("cliclou na sugestão, ", suggestion)
-                  handleSuggestionClick(suggestion)
+                  handleSuggestionClick(suggestion.name)
                 }}
                 onMouseEnter={() => setActiveSuggestionIndex(index)}
                 onMouseLeave={() => setActiveSuggestionIndex(-1)}
@@ -102,7 +112,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                 role="option"
                 aria-selected={index === activeSuggestionIndex}
               >
-                {suggestion}
+                {suggestion.name}
               </li>
             ))
           }
