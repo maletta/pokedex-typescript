@@ -16,7 +16,6 @@ interface Props {
 }
 
 const TextInput: React.FC<Props> = ({ value, placeholder, customCss, handleChange, handleFocus, handleBlur, handleKeyDown }) => {
-  const [focus, setFocus] = useState<boolean>(false);
 
 
   const internalHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,14 +24,12 @@ const TextInput: React.FC<Props> = ({ value, placeholder, customCss, handleChang
 
   const internalHandleFocus = () => {
     handleFocus && handleFocus();
-    setFocus(true);
   };
 
   const internalHandleBlur = () => {
     // isso causa problemas em dropdown e autocomplete
     // elemento perde o foco antes de ser clicado com onClick
     // então usar onMouseDown no LI que executa antes de perder o blur do input 
-    setFocus(false);
     handleBlur && handleBlur();
   }
 
@@ -42,7 +39,7 @@ const TextInput: React.FC<Props> = ({ value, placeholder, customCss, handleChang
 
 
   return (
-    <Container focus={focus} customCss={customCss}>
+    <Container customCss={customCss}>
       <SearchSVG />
       <Input
         placeholder={placeholder}

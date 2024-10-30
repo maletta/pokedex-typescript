@@ -15,6 +15,7 @@ interface AutocompleteProps {
   placeholder: string;
   suggestions: ICSVPokemon[];
   customCss?: CSSObject;
+  defaultValue: string | null;
   handleChange?: (input: string, suggestions: ICSVPokemon[]) => void
 }
 
@@ -22,15 +23,19 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   placeholder,
   suggestions,
   customCss,
+  defaultValue,
   handleChange
 }) => {
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>(defaultValue || "");
   const [filteredSuggestions, setFilteredSuggestions] = useState<ICSVPokemon[]>([]);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(-1);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
 
   useEffect(() => {
+    console.log("renderizando autocomplete")
+    console.log("default ", defaultValue, inputValue)
+    console.log("filtered ", suggestions.length)
     const filtered = suggestions.filter(suggestion =>
       suggestion.name.toLowerCase().includes(inputValue.toLowerCase())
     );

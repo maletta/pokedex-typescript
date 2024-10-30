@@ -76,26 +76,11 @@ const Home: React.FC = () => {
       }).finally(() => {
         setIsLoading(false)
       })
+    } else {
+      setSuggestionPokemonList([])
     }
   }, 250)
 
-  function onChangeAutoComplete2(input: string, suggestions: ICSVPokemon[]) {
-    return debounceFunction(() => {
-      setSearchParams({ search: input });
-
-      if (suggestions.length > 0 && input.length > 0) {
-        console.log("pesquisar sugestão ", suggestions)
-        setIsLoading(true);
-        setSearchParams({ search: input })
-        const pkList = suggestions.map(pk => pk.name.toLocaleLowerCase());
-        batchPokemonRequest(pkList).then((pks) => {
-          setSuggestionPokemonList(pks)
-        }).finally(() => {
-          setIsLoading(false)
-        })
-      }
-    }, 250)
-  }
 
   // transform a array of pokemon id  into a array of pokemon object
   // requesting a single pokemon at a time
@@ -158,7 +143,6 @@ const Home: React.FC = () => {
   }, [isScrolledToBottom]);
 
   useEffect(() => {
-    console.log("database")
     console.dir(dataRead)
   }, [dataRead]);
 
@@ -204,6 +188,7 @@ const Home: React.FC = () => {
           <Autocomplete
             placeholder='find your pokemon'
             suggestions={dataRead?.type === "right" ? dataRead.value : []} handleChange={onChangeAutoComplete}
+            defaultValue={searchParams.get("search")}
           />
 
           {/* <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} /> */}
