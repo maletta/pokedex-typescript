@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { PokemonNumber, PokemonName } from 'components/Titles';
 import Badge from 'components/Badge';
@@ -44,6 +44,7 @@ const Profile: React.FC = () => {
   const [types, setTypes] = useState<Array<PokemonTypesKeyOf>>();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams()
   const { pokemonId } = useParams();
 
   /** função para add classe scroll */
@@ -51,6 +52,11 @@ const Profile: React.FC = () => {
     if (window.scrollY > 100) setScrollY(true);
     else setScrollY(false);
   };
+
+  const onNavigateBack = () => {
+    const params = searchParams.get("search") ? `?${searchParams.toString()}` : "";
+    navigate(`/${params}`);
+  }
 
   useEffect(() => {
     window.addEventListener('scroll', onScrollPage);
@@ -78,7 +84,7 @@ const Profile: React.FC = () => {
       pokemon && types && pokemonSpecies ? (
         <ProfileWrapper type={types[0]}>
           <Banner className={scrollY ? 'scrolled' : ''} type={pokemon.types[0].type.name.toUpperCase() as PokemonTypesKeyOf}>
-            <BackIconSVG className="backIcon" onClick={() => navigate('/')} />
+            <BackIconSVG className="backIcon" onClick={onNavigateBack} />
             <PokemonNameBackground className={scrollY ? 'scrolled' : ''} type={types[0]}>
               {pokemon.name.toUpperCase()}
             </PokemonNameBackground>

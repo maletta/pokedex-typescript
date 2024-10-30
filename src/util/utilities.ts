@@ -31,4 +31,20 @@ function getEvolutionChainId(evolutionChainUrl: string): number | null {
   }
 }
 
-export { fillPokemonNumber, pokemonTypesRequestAdapter, sumPokemonStats, getEvolutionChainId };
+
+function slugify(text: string): string {
+  return text
+    .toString() // Garante que o input é uma string
+    .normalize('NFD') // Normaliza a string para decompor caracteres acentuados
+    .replace(/[\u0300-\u036f]/g, '') // Remove os acentos
+    .trim() // Remove espaços em branco do início e do final
+    .toLowerCase() // Converte para minúsculas
+    .replace(/\s+/g, '-') // Substitui espaços por hífens
+    // eslint-disable-next-line no-useless-escape
+    .replace(/[^\w\-]+/g, '') // Remove caracteres especiais, exceto hífens e letras/números
+    // eslint-disable-next-line no-useless-escape
+    .replace(/\-\-+/g, '-') // Substitui múltiplos hífens por um único hífen
+    .replace(/^-+|-+$/g, ''); // Remove hífens no início e no final
+}
+
+export { fillPokemonNumber, pokemonTypesRequestAdapter, sumPokemonStats, getEvolutionChainId, slugify };
