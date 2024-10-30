@@ -7,13 +7,23 @@ interface CSVReaderResult<T> {
   meta: Papa.ParseMeta;
 }
 
+interface IUseCSVReaderProps<T> {
+  transform?: (itens: T[]) => T[]
+}
 
+type IUseCSVReader<T, E> = (props: IUseCSVReaderProps<T>) => {
+  dataRead: Result<T[], E> | undefined,
+  errorRead: E | null,
+  readCSV: (filePath: string) => Promise<void>
+}
 
 type Result<T, E> =
   | { type: 'right'; value: T }   // Representa um resultado bem-sucedido
   | { type: 'left'; error: E };    // Representa um erro
 
-export const useCSVReader = <T = any, E extends string = string>() => {
+export const useCSVReader = <T = any, E extends string = string>(
+  props?: IUseCSVReaderProps<T>
+) => {
   const [dataRead, setDataRead] = useState<Result<T[], E>>();
   const [errorRead, setErrorRead] = useState<string | null>(null);
 
@@ -32,7 +42,7 @@ export const useCSVReader = <T = any, E extends string = string>() => {
         header: true,
         skipEmptyLines: true,
         complete: (results) => {
-          setDataRead({ type: "right", value: results.data });
+          setDataRead({ type: "right", value: props?.transform ? props?.transform(results.data) : results.data });
           setErrorRead(null);
         },
         error: (err: Error) => {

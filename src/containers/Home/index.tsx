@@ -19,6 +19,7 @@ import { HomeContainer, MenuFilter, Main, IconButton, PokemonCardContainer, Page
 import { PokemonTypesKeyOf } from 'types/theme-types';
 import { useCSVReader } from 'hooks/useCSVReader';
 import Autocomplete from 'components/AutoComplete';
+import { removeDuplicatePokemonsWithSet } from 'util/csvPokemonsImport';
 
 interface ICSVPokemon {
   id: number;
@@ -31,7 +32,9 @@ interface ICSVPokemon {
 
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter, pokemonList, setPokemonList, pokemonResultList, setPokemonResultList, pageScrollY, setPageScrollY } = useMenuContext();
-  const { dataRead, errorRead, readCSV } = useCSVReader<ICSVPokemon>();
+  const { dataRead, errorRead, readCSV } = useCSVReader<ICSVPokemon>({
+    transform: removeDuplicatePokemonsWithSet
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(true);
   const divHomeContainer = useRef<HTMLDivElement>(null);
