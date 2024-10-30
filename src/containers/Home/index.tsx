@@ -47,7 +47,7 @@ const Home: React.FC = () => {
   const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(!scrollHeightBiggerThanOffsetHeight);
 
   function onClickNavigate(pokemonNumber: number) {
-    const params = searchParams.get("search") ? `?${searchParams.toString()}` : ""
+    const params = searchParams.get("search") ? `?${searchParams.toString()}` : "";
     navigate(`/${pokemonNumber}${params}`);
   }
 
