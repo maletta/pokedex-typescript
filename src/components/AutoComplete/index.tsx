@@ -81,7 +81,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   }, [handleClickOutside]);
 
   return (
-    <div ref={containerRef} style={{ position: "relative", width: "100%" }}>
+    <div ref={containerRef} style={{ position: "sticky", top: "-40px", zIndex: 10, width: "100%" }}>
       <TextInput
         placeholder={placeholder}
         customCss={customCss}
