@@ -1,7 +1,6 @@
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import TextInput from "components/TextInput";
-import React, { useState, useEffect } from "react";
 import { CSSObject } from "styled-components/macro";
-
 
 interface ICSVPokemon {
   id: number;
@@ -11,12 +10,13 @@ interface ICSVPokemon {
   type2: string;
   generation: number;
 }
+
 interface AutocompleteProps {
   placeholder: string;
   suggestions: ICSVPokemon[];
   customCss?: CSSObject;
   defaultValue: string | null;
-  handleChange?: (input: string, suggestions: ICSVPokemon[]) => void
+  handleChange?: (input: string, suggestions: ICSVPokemon[]) => void;
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
@@ -30,20 +30,19 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   const [filteredSuggestions, setFilteredSuggestions] = useState<ICSVPokemon[]>([]);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(-1);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log("renderizando autocomplete")
-    console.log("default ", defaultValue, inputValue)
-    console.log("filtered ", suggestions.length)
-
     const filtered = suggestions.filter(suggestion =>
       suggestion.name.toLowerCase().includes(inputValue.toLowerCase())
-    );
+    ).slice(0, 19);
     setFilteredSuggestions(filtered);
-    setShowSuggestions(filtered.length > 0 && inputValue.length > 0);
-    handleChange && handleChange(inputValue, filtered)
-  }, [inputValue, suggestions]);
+
+    // Só mostrar o dropdown se estiver em foco e houver sugestões
+    setShowSuggestions(isFocused && filtered.length > 0 && inputValue.length > 0);
+    handleChange && handleChange(inputValue, filtered);
+  }, [inputValue, suggestions, isFocused]);
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
@@ -56,29 +55,39 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowDown") {
-      setActiveSuggestionIndex((prev) =>
-        prev < filteredSuggestions.length - 1 ? prev + 1 : prev
-      );
+      setActiveSuggestionIndex((prev) => (prev < filteredSuggestions.length - 1 ? prev + 1 : prev));
     } else if (e.key === "ArrowUp") {
       setActiveSuggestionIndex((prev) => (prev > 0 ? prev - 1 : prev));
-    } else if (e.key === "Enter") {
-      if (activeSuggestionIndex >= 0) {
-        handleSuggestionClick(filteredSuggestions[activeSuggestionIndex].name);
-      }
+    } else if (e.key === "Enter" && activeSuggestionIndex >= 0) {
+      handleSuggestionClick(filteredSuggestions[activeSuggestionIndex].name);
     } else if (e.key === "Escape") {
       setShowSuggestions(false);
     }
   };
 
+  // Função para detectar cliques fora do componente
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      setShowSuggestions(false);
+      setIsFocused(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleClickOutside]);
+
   return (
-    <div style={{ position: "relative", width: "100%" }
-    }>
+    <div ref={containerRef} style={{ position: "relative", width: "100%" }}>
       <TextInput
         placeholder={placeholder}
         customCss={customCss}
         handleChange={handleInputChange}
-        handleFocus={() => setShowSuggestions(filteredSuggestions.length > 0)}
-        handleBlur={() => setShowSuggestions(false)}
+        handleFocus={() => setIsFocused(true)}
+        handleBlur={() => setIsFocused(false)}
         handleKeyDown={handleKeyDown}
         value={inputValue}
       />
@@ -102,33 +111,25 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
             listStyleType: "none",
           }}
         >
-          {
-            filteredSuggestions.map((suggestion, index) => (
-              <li
-                key={`${suggestion.id}-${suggestion.name}-${suggestion.genre}`}
-                onMouseDown={(e) => {
-                  console.log("cliclou na sugestão, ", suggestion)
-                  handleSuggestionClick(suggestion.name)
-                }}
-                onMouseEnter={() => setActiveSuggestionIndex(index)}
-                onMouseLeave={() => setActiveSuggestionIndex(-1)}
-                style={{
-                  padding: "10px",
-                  cursor: "pointer",
-                  backgroundColor:
-                    index === activeSuggestionIndex ? "#e2e2e2" : "#fff",
-                }}
-                role="option"
-                aria-selected={index === activeSuggestionIndex}
-              >
-                {suggestion.name}
-              </li>
-            ))
-          }
-        </ul >
-      )
-      }
-    </div >
+          {filteredSuggestions.map((suggestion, index) => (
+            <li
+              key={`${suggestion.id}-${suggestion.name}-${suggestion.genre}`}
+              onMouseDown={() => handleSuggestionClick(suggestion.name)}
+              onMouseEnter={() => setActiveSuggestionIndex(index)}
+              style={{
+                padding: "10px",
+                cursor: "pointer",
+                backgroundColor: index === activeSuggestionIndex ? "#e2e2e2" : "#fff",
+              }}
+              role="option"
+              aria-selected={index === activeSuggestionIndex}
+            >
+              {suggestion.name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
