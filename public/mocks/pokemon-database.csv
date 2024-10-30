@@ -27,10 +27,10 @@ id,name,genre,type1,type2,generation
 26,Raichu, ,Electric, ,1
 27,Sandshrew, ,Ground, ,1
 28,Sandslash, ,Ground, ,1
-29,Nidoran,Female,Poison, ,1
+29,Nidoran-f,Female,Poison, ,1
 30,Nidorina, ,Poison, ,1
 31,Nidoqueen, ,Poison,Ground,1
-32,Nidoran,Male,Poison, ,1
+32,Nidoran-m,Male,Poison, ,1
 33,Nidorino, ,Poison, ,1
 34,Nidoking, ,Poison,Ground,1
 35,Clefairy, ,Fairy, ,1

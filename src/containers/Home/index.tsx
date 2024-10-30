@@ -56,6 +56,13 @@ const Home: React.FC = () => {
     return Math.round(scrollHeight - scrollTop) === clientHeight;
   }
 
+  function choosePokemonList(): IGetPokemon[] {
+    const haveSuggestionsList = suggestionsPokemonList.length > 0;
+    const haveSearchParams = !!searchParams.get("search");
+    console.log(" choosePokemonList ", haveSuggestionsList, haveSearchParams)
+    return (haveSuggestionsList || haveSearchParams ? suggestionsPokemonList : pokemonList)
+  }
+
   function onHomeContainerScroll(e: React.MouseEvent<HTMLDivElement>) {
     setPageScrollY(e.currentTarget.scrollTop);
     if (verifyScrollToBottom(e.currentTarget.scrollHeight, e.currentTarget.scrollTop, e.currentTarget.clientHeight)) {
@@ -92,10 +99,14 @@ const Home: React.FC = () => {
 
     const pokemonArray: Array<IGetPokemon> = [];
 
-    return Promise.all(requests)
+    return Promise.allSettled(requests)
       .then(result => {
-        result.forEach(({ data }) => {
-          pokemonArray.push(data);
+        result.forEach((result) => {
+          if (result.status === 'fulfilled') {
+            pokemonArray.push(result.value.data);
+          } else {
+            console.error("Erro na requisição ", result.reason)
+          }
         });
       })
       .then(() => pokemonArray);
@@ -194,8 +205,9 @@ const Home: React.FC = () => {
 
           {/* <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} /> */}
 
+
           <PokemonCardContainer >
-            {!isReadLoading && (suggestionsPokemonList.length > 0 ? suggestionsPokemonList : pokemonList).map(pokemon => {
+            {choosePokemonList().map(pokemon => {
               const types = pokemon.types.map(type => type.type.name.toUpperCase() as PokemonTypesKeyOf);
               return (
                 <PokemonCard
@@ -210,7 +222,7 @@ const Home: React.FC = () => {
             })}
           </PokemonCardContainer>
         </Main>
-        <Loading isLoading={isLoading} />
+        <Loading isLoading={isLoading || isReadLoading} />
       </HomeContainer>
     </>
   );
