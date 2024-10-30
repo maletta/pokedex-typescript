@@ -35,7 +35,7 @@ interface ICSVPokemon {
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter, pokemonList, setPokemonList, pokemonResultList, setPokemonResultList, pageScrollY, setPageScrollY } = useMenuContext();
   const [suggestionsPokemonList, setSuggestionPokemonList] = useState<IGetPokemon[]>([])
-  const { dataRead, errorRead, readCSV } = useCSVReader<ICSVPokemon>({
+  const { dataRead, errorRead, readCSV, isReadLoading } = useCSVReader<ICSVPokemon>({
     transform: removeDuplicatePokemonsWithSet
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -158,6 +158,7 @@ const Home: React.FC = () => {
 
   }, []);
 
+  console.log("isReadLoading ", isReadLoading)
 
   return (
     <>
@@ -194,7 +195,7 @@ const Home: React.FC = () => {
           {/* <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} /> */}
 
           <PokemonCardContainer >
-            {(suggestionsPokemonList.length > 0 ? suggestionsPokemonList : pokemonList).map(pokemon => {
+            {!isReadLoading && (suggestionsPokemonList.length > 0 ? suggestionsPokemonList : pokemonList).map(pokemon => {
               const types = pokemon.types.map(type => type.type.name.toUpperCase() as PokemonTypesKeyOf);
               return (
                 <PokemonCard

@@ -36,6 +36,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     console.log("renderizando autocomplete")
     console.log("default ", defaultValue, inputValue)
     console.log("filtered ", suggestions.length)
+
     const filtered = suggestions.filter(suggestion =>
       suggestion.name.toLowerCase().includes(inputValue.toLowerCase())
     );

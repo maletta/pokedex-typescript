@@ -26,6 +26,7 @@ export const useCSVReader = <T = any, E extends string = string>(
 ) => {
   const [dataRead, setDataRead] = useState<Result<T[], E>>();
   const [errorRead, setErrorRead] = useState<string | null>(null);
+  const [isReadLoading, setIsReadLoading] = useState<boolean>(true);
 
   const readCSV = async (filePath: string) => {
     try {
@@ -44,16 +45,19 @@ export const useCSVReader = <T = any, E extends string = string>(
         complete: (results) => {
           setDataRead({ type: "right", value: props?.transform ? props?.transform(results.data) : results.data });
           setErrorRead(null);
+          setIsReadLoading(false);
         },
         error: (err: Error) => {
           console.log("CSVReader Error")
           console.error(err)
           setErrorRead(`Error: ${err.message}`);
           setDataRead({ type: "left", error: err.message as E });
+          setIsReadLoading(false);
         },
-      });
+      })
     } catch (err) {
       setErrorRead(`Error: ${(err as unknown as Error).message}`);
+      setIsReadLoading(false);
     }
   };
 
@@ -61,5 +65,6 @@ export const useCSVReader = <T = any, E extends string = string>(
     dataRead,
     errorRead,
     readCSV,
+    isReadLoading
   };
 };
