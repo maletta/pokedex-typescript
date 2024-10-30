@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 
 import { ApplicationTitle, FilterTitle } from 'components/Titles';
@@ -20,6 +20,8 @@ import { PokemonTypesKeyOf } from 'types/theme-types';
 import { useCSVReader } from 'hooks/useCSVReader';
 import Autocomplete from 'components/AutoComplete';
 import { removeDuplicatePokemonsWithSet } from 'util/csvPokemonsImport';
+import { ok } from 'assert';
+import { debounceFunction } from 'util/debounce';
 
 interface ICSVPokemon {
   id: number;
@@ -32,16 +34,21 @@ interface ICSVPokemon {
 
 const Home: React.FC = () => {
   const { isGeneration, setIsGeneration, isSort, setIsSort, isFilter, setIsFilter, pokemonList, setPokemonList, pokemonResultList, setPokemonResultList, pageScrollY, setPageScrollY } = useMenuContext();
+  const [suggestionsPokemonList, setSuggestionPokemonList] = useState<IGetPokemon[]>([])
   const { dataRead, errorRead, readCSV } = useCSVReader<ICSVPokemon>({
     transform: removeDuplicatePokemonsWithSet
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(true);
   const divHomeContainer = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const scrollHeightBiggerThanOffsetHeight = (divHomeContainer.current?.scrollHeight || 0) > (divHomeContainer.current?.offsetHeight || 0);
+  // avoid request first render. if already have pokemons, so the scrollHeight is bigger than offsetHeight
+  const [isScrolledToBottom, setIsScrolledToBottom] = useState<boolean>(!scrollHeightBiggerThanOffsetHeight);
 
   function onClickNavigate(pokemonNumber: number) {
-    navigate(`/${pokemonNumber}`);
+    const params = searchParams.get("search") ? `?${searchParams.toString()}` : ""
+    navigate(`/${pokemonNumber}${params}`);
   }
 
   function verifyScrollToBottom(scrollHeight: number, scrollTop: number, clientHeight: number) {
@@ -56,12 +63,46 @@ const Home: React.FC = () => {
     }
   }
 
+  const onChangeAutoComplete = debounceFunction((input: string, suggestions: ICSVPokemon[]) => {
+    setSearchParams({ search: input });
+
+    if (suggestions.length > 0 && input.length > 0) {
+      console.log("pesquisar sugestão ", suggestions)
+      setIsLoading(true);
+      setSearchParams({ search: input })
+      const pkList = suggestions.map(pk => pk.name.toLocaleLowerCase());
+      batchPokemonRequest(pkList).then((pks) => {
+        setSuggestionPokemonList(pks)
+      }).finally(() => {
+        setIsLoading(false)
+      })
+    }
+  }, 250)
+
+  function onChangeAutoComplete2(input: string, suggestions: ICSVPokemon[]) {
+    return debounceFunction(() => {
+      setSearchParams({ search: input });
+
+      if (suggestions.length > 0 && input.length > 0) {
+        console.log("pesquisar sugestão ", suggestions)
+        setIsLoading(true);
+        setSearchParams({ search: input })
+        const pkList = suggestions.map(pk => pk.name.toLocaleLowerCase());
+        batchPokemonRequest(pkList).then((pks) => {
+          setSuggestionPokemonList(pks)
+        }).finally(() => {
+          setIsLoading(false)
+        })
+      }
+    }, 250)
+  }
+
   // transform a array of pokemon id  into a array of pokemon object
   // requesting a single pokemon at a time
-  function batchPokemonRequest(pokemonList: IGetPokemonList) {
+  function batchPokemonRequest(pkNameList: string[]) {
     const requests: Promise<AxiosResponse<IGetPokemon, any>>[] = [];
-    pokemonList.results.forEach(item => {
-      requests.push(getPokemon(item.name));
+    pkNameList.forEach(pkName => {
+      requests.push(getPokemon(pkName));
     });
 
     const pokemonArray: Array<IGetPokemon> = [];
@@ -92,7 +133,8 @@ const Home: React.FC = () => {
           return dataPokemonList;
         })
         .then(dataPokemonList => {
-          return batchPokemonRequest(dataPokemonList);
+          const pkNameList: string[] = dataPokemonList.results.map(pk => pk.name)
+          return batchPokemonRequest(pkNameList);
         })
         .then(pokemonArray => {
           setPokemonList(prev => prev.concat(pokemonArray));
@@ -159,12 +201,15 @@ const Home: React.FC = () => {
             Search for Pokémon by name or using the National Pokédex number.
           </FilterTitle>
 
-          <Autocomplete placeholder='find your pokemon' suggestions={dataRead?.type === "right" ? dataRead.value : []} />
+          <Autocomplete
+            placeholder='find your pokemon'
+            suggestions={dataRead?.type === "right" ? dataRead.value : []} handleChange={onChangeAutoComplete}
+          />
 
           {/* <TextInput placeholder="What Pokémon are you looking for?" customCss={{ marginTop: '25px' }} /> */}
 
           <PokemonCardContainer >
-            {pokemonList.map(pokemon => {
+            {(suggestionsPokemonList.length > 0 ? suggestionsPokemonList : pokemonList).map(pokemon => {
               const types = pokemon.types.map(type => type.type.name.toUpperCase() as PokemonTypesKeyOf);
               return (
                 <PokemonCard

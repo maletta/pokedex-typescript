@@ -15,12 +15,14 @@ interface AutocompleteProps {
   placeholder: string;
   suggestions: ICSVPokemon[];
   customCss?: CSSObject;
+  handleChange?: (input: string, suggestions: ICSVPokemon[]) => void
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
   placeholder,
   suggestions,
   customCss,
+  handleChange
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<ICSVPokemon[]>([]);
@@ -34,6 +36,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     );
     setFilteredSuggestions(filtered);
     setShowSuggestions(filtered.length > 0 && inputValue.length > 0);
+    handleChange && handleChange(inputValue, filtered)
   }, [inputValue, suggestions]);
 
   const handleInputChange = (value: string) => {
