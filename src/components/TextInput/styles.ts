@@ -1,9 +1,7 @@
 import styled, { css, CSSObject } from "styled-components/macro";
 
 interface Props {
-  focus?: boolean;
   customCss?: CSSObject;
-
 }
 
 const customCss = css<Props>`
@@ -28,11 +26,9 @@ const Container = styled.div<Props>`
     color: #747476;
   }
 
-  ${({ focus }) =>
-    focus &&
-    css`
-      background-color: #e2e2e2;
-    `}
+  &:focus-within {
+    background-color: #e2e2e2; /* Cor de fundo quando o input está focado */
+  }
 
   ${customCss}
 `;

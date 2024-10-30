@@ -1,5 +1,6 @@
 import axios, { CancelToken } from 'axios';
 import { PokemonTypesKeyOf } from 'types/theme-types';
+import { slugify } from 'util/utilities';
 
 interface IGetPokemonSpecies {
   name: string;
@@ -108,7 +109,7 @@ const axiosInstance = axios.create({
 });
 
 function getPokemon(idOrName: string | number) {
-  return axiosInstance.get<IGetPokemon>(`/pokemon/${idOrName}`);
+  return axiosInstance.get<IGetPokemon>(`/pokemon/${slugify(String(idOrName))}`);
 }
 
 function getPokemonList(parms: IGetPokemonListParams = {}) {
@@ -123,7 +124,7 @@ function getPokemonList(parms: IGetPokemonListParams = {}) {
 }
 
 function getPokemonSpecies(idOrName: string | number) {
-  return axiosInstance.get<IGetPokemonSpecies>(`/pokemon-species/${idOrName}`);
+  return axiosInstance.get<IGetPokemonSpecies>(`/pokemon-species/${slugify(String(idOrName))}`);
 }
 
 function getPokemonEvolutionChain(evChainId: number) {
