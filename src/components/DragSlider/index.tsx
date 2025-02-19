@@ -1,135 +1,97 @@
-import React, { useState, useRef, useEffect } from "react";
-
-import { DragSliderContainer, DragSliderOverflow } from "./styles";
-import { debounceFunction } from "util/debounce";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { DragContainer, SliderContent } from './styles';
 
 interface DragSliderProps {
-  children: Array<React.ReactNode>;
-  totalChildrens: number;
-  isVisible: boolean;
+  children: React.ReactNode[];
+  gap?: number;
+  itemWidth?: number;
+  className?: string;
 }
 
-const DragSlider: React.FC<DragSliderProps> = ({ children, totalChildrens, isVisible }) => {
-  const dragSliderCotainer = useRef<HTMLDivElement>(null);
-  const dragSliderOverflow = useRef<HTMLDivElement>(null);
-  const itemsGap = 22;
-  const itemsWidth = 25;
-  const [currentLeft, setCurrentLeft] = useState<number>(0);
-  const [cursorSpaceX, setCursorSpaceX] = useState<number>(0);
-  const [isGrabbed, setIsGrabbed] = useState<boolean>(false);
-  const [maxLimitRight, setMaxLimitRight] = useState<number>(0);
-  const [leftOffsetWithoutBoundary, setLeftOffsetWithoutBoundary] = useState<number>(0);
-  const [leftOffset, setLeftOffset] = useState<number>(0);
-  const maxLimitLeft = 0;
+const DragSlider: React.FC<DragSliderProps> = ({
+  children,
+  gap = 20,
+  itemWidth = 50,
+  className
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [position, setPosition] = useState(0);
+  const [bounds, setBounds] = useState({ min: 0, max: 0 });
 
-  // Função para obter a posição X correta, dependendo de evento de toque ou mouse
-  const getEventX = (e: React.MouseEvent | React.TouchEvent) => {
-    if ("touches" in e) {
-      return e.touches[0].clientX;
+  // Calcula os limites do slider
+  const calculateBounds = useCallback(() => {
+    if (containerRef.current && contentRef.current) {
+      const containerWidth = containerRef.current.offsetWidth;
+      const contentWidth = contentRef.current.scrollWidth;
+      const maxScroll = Math.max(0, contentWidth - containerWidth);
+      setBounds({ min: 0, max: maxScroll });
     }
-    return e.clientX;
-  };
-
-  function onStartDrag(e: React.MouseEvent | React.TouchEvent) {
-    // previnir comportamente de arrastar e voltar página
-    e.preventDefault();
-
-    if (isVisible) {
-      // deltaX é a posição X do cusor na div, subtraindo o X do componente clicado
-      // por que o componente clicado pode ter deslocamento X de padding
-      const deltaX = getEventX(e) - e.currentTarget.getClientRects()[0].x;
-      console.log("start to drag")
-
-      setIsGrabbed(true);
-      setCursorSpaceX(deltaX);
-      setCurrentLeft(dragSliderOverflow.current?.offsetLeft || 0);
-    }
-  }
-
-  function onEndDrag() {
-    setIsGrabbed(false);
-  }
-
-  function onDragMove(e: React.MouseEvent | React.TouchEvent) {
-    // previnir comportamente de arrastar e voltar página
-    e.preventDefault();
-
-    if (isGrabbed && dragSliderOverflow.current && isVisible) {
-      const deltaX = getEventX(e) - e.currentTarget.getClientRects()[0].x;
-      const deltaClientX = cursorSpaceX - deltaX;
-      const offsetLeft = currentLeft - deltaClientX;
-
-      // dragSliderOverflow.current.style.left = `${offsetLeft}px`;
-
-      setLeftOffset(offsetLeft);
-      setLeftOffsetWithoutBoundary(offsetLeft);
-    }
-  }
-
-  function windowMouseUp() {
-    setIsGrabbed(false);
-  }
-
-  useEffect(() => {
-    // se o deslocamento na esquerda for maior que 0, então deslocamento será 0
-    // se o deslocamento na direita for maior que o tamanho do container dos elementos
-    // então o deslocamento será do tamanho máximo do container com os itens
-    if (leftOffset > maxLimitLeft) {
-      setLeftOffset(0);
-    } else if (leftOffset < -maxLimitRight) {
-      setLeftOffset(-maxLimitRight);
-    }
-  }, [isGrabbed]);
-
-  useEffect(() => {
-    if (dragSliderCotainer.current && isVisible) {
-      const dragSliderWidthDeafult = dragSliderCotainer.current.getClientRects()[0].right;
-      // o tamanho máximo para o deslocamento da direita será
-      // a soma da largura de todos os items + espaço entre os itens + largura de um item + um gap de item
-      const dragSliderWidthCalculed = itemsWidth * totalChildrens + itemsGap * totalChildrens + itemsWidth + itemsGap;
-      setMaxLimitRight(Math.abs(dragSliderWidthCalculed - dragSliderWidthDeafult));
-    }
-  }, [dragSliderCotainer.current, isVisible]);
-
-  useEffect(() => {
-    const handleMouseUp = () => windowMouseUp();
-    const handleTouchEnd = () => windowMouseUp();
-
-    if (isVisible) {
-      window.addEventListener("mouseup", handleMouseUp);
-      window.addEventListener("touchend", handleTouchEnd);
-    }
-
-    return () => {
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
   }, []);
 
+  // Atualiza os limites quando o componente monta ou redimensiona
+  useEffect(() => {
+    calculateBounds();
+    window.addEventListener('resize', calculateBounds);
+    return () => window.removeEventListener('resize', calculateBounds);
+  }, [calculateBounds]);
+
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsDragging(true);
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    setStartX(clientX - position);
+    setScrollLeft(position);
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+
+    // Aplica o "bounce back" se necessário
+    if (position > bounds.min) {
+      setPosition(0);
+    } else if (position < -bounds.max) {
+      setPosition(-bounds.max);
+    }
+  };
+
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const walk = clientX - startX;
+
+    // Permite arrastar além dos limites, mas será corrigido no dragEnd
+    setPosition(walk);
+  };
 
   return (
-    <DragSliderContainer
-      ref={dragSliderCotainer}
-      onMouseDown={onStartDrag}
-      onMouseUp={onEndDrag}
-      onMouseMove={onDragMove}
-      onTouchStart={onStartDrag}
-      onTouchEnd={onEndDrag}
-      onTouchMove={onDragMove}
+    <DragContainer
+      ref={containerRef}
+      className={className}
+      onMouseDown={handleDragStart}
+      onMouseMove={handleDragMove}
+      onMouseUp={handleDragEnd}
+      onMouseLeave={handleDragEnd}
+      onTouchStart={handleDragStart}
+      onTouchMove={handleDragMove}
+      onTouchEnd={handleDragEnd}
     >
-      <DragSliderOverflow
-        ref={dragSliderOverflow}
-        gap={itemsGap}
-        leftOffset={leftOffset}
-        leftOffsetWithoutBoundary={leftOffsetWithoutBoundary}
-        maxLimitLeft={maxLimitLeft}
-        maxLimitRight={maxLimitRight}
-        isGrabbed={isGrabbed}
-        totalChildrens={totalChildrens}
+      <SliderContent
+        ref={contentRef}
+        style={{
+          transform: `translateX(${position}px)`,
+          gap: `${gap}px`,
+          gridTemplateColumns: `repeat(${children.length}, ${itemWidth}px)`
+        }}
+        $isDragging={isDragging}
       >
         {children}
-      </DragSliderOverflow>
-    </DragSliderContainer>
+      </SliderContent>
+    </DragContainer>
   );
 };
 

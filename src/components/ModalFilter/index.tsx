@@ -49,7 +49,7 @@ const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
           Use advanced search to explore Pokémon by type, weakness, height and more!
         </Description>
         <FilterTitle customCss={{ marginTop: "35px" }}>Types</FilterTitle>
-        <DragSlider totalChildrens={types.length} isVisible={isOpen}>
+        <DragSlider >
           {types.map(currentType => (
             <PokemonTypesIcon
               key={currentType}
@@ -60,7 +60,7 @@ const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
           ))}
         </DragSlider>
         <FilterTitle customCss={{ marginTop: "35px" }}>Weaknesses</FilterTitle>
-        <DragSlider totalChildrens={types.length} isVisible={isOpen}>
+        <DragSlider >
           {types.map(currentType => (
             <PokemonTypesIcon
               key={currentType}
@@ -72,7 +72,7 @@ const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
         </DragSlider>
 
         <FilterTitle customCss={{ marginTop: "35px" }}>Heights</FilterTitle>
-        <DragSlider totalChildrens={heights.length} isVisible={isOpen}>
+        <DragSlider>
           {heights.map(currentHeight => (
             <PokemonHeightsIcon
               key={currentHeight}
@@ -84,7 +84,7 @@ const ModalFilter: React.FC<IModalFilter> = ({ isOpen, closeModal }) => {
         </DragSlider>
 
         <FilterTitle customCss={{ marginTop: "35px" }}>Weights</FilterTitle>
-        <DragSlider totalChildrens={weights.length} isVisible={isOpen}>
+        <DragSlider >
           {weights.map(currentWeight => (
             <PokemonWeightsIcon
               key={currentWeight}
