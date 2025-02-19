@@ -84,8 +84,9 @@ const DragSlider: React.FC<DragSliderProps> = ({
         ref={contentRef}
         style={{
           transform: `translateX(${position}px)`,
-          gap: `${gap}px`,
-          gridTemplateColumns: `repeat(${children.length}, ${itemWidth}px)`
+          gap: `${gap * 2}px`,
+          gridTemplateColumns: `repeat(${children.length}, ${itemWidth}px)`,
+          gridTemplateRows: `65px`, // evita que o SlideContent aumente de altura porque o filho pode ter uma altura maior quando selecionado (o ícone aumenta quando está selecionado)
         }}
         $isDragging={isDragging}
       >
